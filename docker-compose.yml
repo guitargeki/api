@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  database:
+    build: ./database
+    volumes:
+      - geki-data:/var/lib/postgresql/data
+  
+  api:
+    build: ./api
+
+  server:
+    build: ./server
+    ports:
+      - "80:80"
+      - "443:443"
+
+volumes:
+  geki-data:
