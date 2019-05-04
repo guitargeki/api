@@ -24,6 +24,8 @@ const getList = {
     },
 
     options: {
+        description: 'Retrieve a list of participants',
+        tags: ['api'],
         validate: {
             query: {
                 limit: queries.limit(),
@@ -51,6 +53,8 @@ const create = {
     },
 
     options: {
+        description: 'Create a new participant',
+        tags: ['api'],
         validate: {
             payload: util.getRequiredSchema(schema)
         }
@@ -74,6 +78,8 @@ const getOne = {
     },
 
     options: {
+        description: 'Retrieve a participant by ID',
+        tags: ['api'],
         validate: {
             params: {
                 id: Joi.number().integer().required()
@@ -104,6 +110,8 @@ const update = {
     },
 
     options: {
+        description: 'Update a participant by ID',
+        tags: ['api'],
         validate: {
             params: {
                 id: Joi.number().integer().required()
