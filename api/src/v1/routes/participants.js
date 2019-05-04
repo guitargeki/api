@@ -63,9 +63,8 @@ const getOne = {
     path: basePath + '/{id}',
 
     handler: async function (request, h) {
-        const data = await model.getOne(request.params.id);
-
         // Return 404 if resource does not exist
+        const data = await model.getOne(request.params.id);
         if (data === undefined) {
             return h.response(codes[404]).code(404);
         }

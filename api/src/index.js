@@ -1,4 +1,5 @@
 const Hapi = require('hapi');
+const logger = require('./logger');
 
 // Set up server configuration
 const init = async () => {
@@ -20,6 +21,10 @@ const init = async () => {
         }
     });
 
+    // Response listener
+    server.events.on('response', logger.response);
+
+    // Start server
     await server.start();
     console.log('Server running on %s', server.info.uri);
 };
