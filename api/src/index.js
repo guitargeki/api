@@ -1,4 +1,7 @@
 const Hapi = require('hapi');
+const Inert = require('inert');
+const Vision = require('vision');
+const HapiSwagger = require('hapi-swagger');
 const logger = require('./logger');
 
 // Set up server configuration
@@ -8,6 +11,22 @@ const init = async () => {
         host: '0.0.0.0'
     });
 
+    const swaggerOptions = {
+        info: {
+            title: 'Test API Documentation',
+            version: '1.0.0',
+        },
+    };
+
+    await server.register([
+        Inert,
+        Vision,
+        {
+            plugin: HapiSwagger,
+            options: swaggerOptions
+        }
+    ]);
+
     // Add routes
     server.route(require('./v1/routes'));
 
@@ -16,7 +35,6 @@ const init = async () => {
         method: '*',
         path: '/{any*}',
         handler: function (request, h) {
-
             return '404 Error! Page Not Found!';
         }
     });

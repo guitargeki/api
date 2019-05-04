@@ -43,6 +43,11 @@ function getUtcTimestamp() {
  * @param {*} request 
  */
 function logResponse(request) {
+    // Don't log documentation requests
+    if (request.path.includes('swagger') || request.path.includes('/documentation')) {
+        return;
+    }
+
     const content =`
 **[${request.info.id}]**
 \`\`\`
