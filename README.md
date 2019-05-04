@@ -1,21 +1,21 @@
-# Compose
+# Back End
 
-`docker-compose.yml` is for building and testing production images.
+The back end uses Docker to create containers for the following services:
 
-`docker-compose.dev.yml` is for building and testing images locally.
+ - Database
+ - API
+ - Server
 
-`docker-compose.prod.yml` is for running the production images on the production server.
+## Database
 
-# Useful Commands
+PostgreSQL
 
-## Access container using shell
+## API
 
-```
-docker exec -it <container name> /bin/sh
-```
 
-## Live logging
 
-```
-docker logs -f <container name>
-```
+## Server
+
+NGINX configured to route requests to the API container.
+
+# Front End
