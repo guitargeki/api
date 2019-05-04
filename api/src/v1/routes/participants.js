@@ -28,7 +28,8 @@ const getList = {
             query: {
                 limit: queries.limit(),
                 offset: queries.offset(),
-                sort: queries.sort(Object.keys(schema))
+                sort: queries.sort(Object.keys(schema)),
+                reverse: queries.reverse()
             }
         }
     }

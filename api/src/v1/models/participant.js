@@ -1,5 +1,4 @@
 const db = require('../database');
-const queries = require('../common/queries');
 
 const tableName = 'participants';
 
@@ -17,32 +16,15 @@ async function getOne(id) {
 /**
  * 
  */
-async function getList({ limit = 10, offset = 0, sort = ['id'], where = {}}) {
-    let orderby = 'ORDER BY\n';
-    for (let i = 0; i < sort.length; i++) {
-        if (queries.isValidSort(sort[i], true)) {
-            orderby += sort[i];
-            orderby += ' ASC';
-        } else if (queries.isValidSort(sort[i], false)) {
-            orderby += sort[i];
-            orderby += ' DESC';
-        } else {
-            continue;
-        }
-
-        if (i !== sort.length - 1) {
-            orderby += ',\n';
-        }
-    }
-
+async function getList({ limit = 10, offset = 0, sort = 'id', reverse = false, where = {}}) {
+    const order = (reverse) ? 'DESC' : 'ASC';
     const params = [limit, offset];
     const sql = `
         SELECT * FROM ${tableName}
-        ${orderby}
+        ORDER BY
+        ${sort} ${order}
         LIMIT $1 OFFSET $2;
     `;
-
-    console.log(sql);
 
     const data = await db.query(sql, params);
     return data.rows;
