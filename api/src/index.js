@@ -1,12 +1,32 @@
-const express = require("express");
-const app = express();
+const Hapi = require('hapi');
 
-const apiV1 = require("./api/v1/v1.js");
-app.use("/v1", apiV1.router);
+// Set up server configuration
+const init = async () => {
+    const server = Hapi.server({
+        port: 3000,
+        host: '0.0.0.0'
+    });
 
-// Handle any invalid routes
-app.get("*", function (request, response) {
-    response.send("It seems like there's nothing here...");
+    // Add routes
+    server.route(require('./v1/routes'));
+
+    // Handle any invalid methods and routes
+    server.route({
+        method: '*',
+        path: '/{any*}',
+        handler: function (request, h) {
+
+            return '404 Error! Page Not Found!';
+        }
+    });
+
+    await server.start();
+    console.log('Server running on %s', server.info.uri);
+};
+
+process.on('unhandledRejection', (err) => {
+    console.log(err);
+    process.exit(1);
 });
 
-app.listen(3000);
+init();

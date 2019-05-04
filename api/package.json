@@ -1,7 +1,7 @@
 {
   "name": "geki-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "API server for guitargeki.com",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,6 +13,9 @@
     "nodemon": "^1.18.10"
   },
   "dependencies": {
-    "express": "^4.16.4"
+    "hapi": "^18.1.0",
+    "joi": "^14.3.1",
+    "node-fetch": "^2.3.0",
+    "pg": "^7.10.0"
   }
 }

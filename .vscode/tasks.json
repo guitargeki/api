@@ -4,14 +4,18 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Docker Compose (Development)",
+            "label": "Docker Compose Up (Development)",
             "type": "shell",
-            "command": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build"
+            "command": "docker-compose -f docker-compose.yml up -d --build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
-            "label": "Docker Compose (Production)",
+            "label": "Docker Compose Down (Development)",
             "type": "shell",
-            "command": "docker-compose -f docker-compose.yml up -d --build"
+            "command": "docker-compose -f docker-compose.yml down"
         }
     ]
 }

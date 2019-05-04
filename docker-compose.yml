@@ -3,17 +3,40 @@ version: '3'
 services:
   database:
     build: ./database
+    env_file:
+      - ./config/database/database.env
     volumes:
       - geki-data:/var/lib/postgresql/data
+      - ./config/database/scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
   
   api:
     build: ./api
+    env_file:
+      - ./config/api/api.env
+    volumes:
+      - ./api:/app
+    command: npx nodemon ./src/index.js -e js,json,yaml --legacy-watch
+    networks:
+      - backend
+      - frontend
 
   server:
     build: ./server
+    volumes:
+      - ./server/conf.d:/etc/nginx/conf.d
     ports:
       - "80:80"
       - "443:443"
+    networks:
+      - frontend
 
 volumes:
   geki-data:
+
+networks:
+  backend:
+  frontend:
