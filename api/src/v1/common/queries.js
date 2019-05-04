@@ -28,6 +28,7 @@ module.exports.sort = function (columnNames = ['id']) {
 
 /**
  * 
+ * @param {number} defaultValue 
  */
 module.exports.reverse = function (defaultValue = false) {
     return Joi.boolean().default(defaultValue);
