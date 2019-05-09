@@ -40,7 +40,7 @@ const init = async () => {
     });
 
     // Response listener
-    // server.events.on('response', logger.response);
+    server.events.on('response', logger.response);
 
     // Start server
     await server.start();
