@@ -26,5 +26,5 @@ INSERT INTO public.matches (title,event_id,match_type_id,match_status_id) VALUES
 ,('Happy Birthday',6,4,4)
 ,('Attack on Titan S3 Part 2 OP - Shoukei to Shikabane no Michi',6,4,2)
 ,('SWEET vs Spicy - Maquia - viator',7,2,4)
-,('March/April 2018 Themed Monthly Competition',5,3,2)
+,('March/April 2019 Themed Monthly Competition',5,3,2)
 ;
