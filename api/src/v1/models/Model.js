@@ -9,6 +9,7 @@ module.exports = class Model {
     constructor(tableName, schema) {
         this.tableName = tableName;
         this.mappings = {};
+        this.mappings.id = 'id';
         this.schema = {};
 
         for (const key in schema) {
@@ -26,12 +27,58 @@ module.exports = class Model {
     }
 
     /**
+     * 
+     * @param {number} defaultValue 
+     */
+    getLimit(defaultValue = 10) {
+        return Joi.number().integer().min(1).max(20).default(defaultValue);
+    }
+
+    /**
+     * 
+     * @param {number} defaultValue 
+     */
+    getOffset(defaultValue = 0) {
+        return Joi.number().integer().min(0).default(defaultValue);
+    }
+
+    /**
+     * 
+     * @param {*} columnNames 
+     */
+    getSort() {
+        const validColumns = [...Object.keys(this.schema)]; // Shallow copy array
+        validColumns.push('id');
+        return Joi.string().valid(validColumns).default('id');
+    }
+
+    /**
+     * 
+     * @param {number} defaultValue 
+     */
+    getReverse(defaultValue = false) {
+        return Joi.boolean().default(defaultValue);
+    }
+
+    /**
      * Returns a new Joi schema with all keys set to required
      * @param {*} schema 
      */
     getRequiredSchema() {
         const newSchema = Joi.object(this.schema);
         return newSchema.requiredKeys(Object.keys(this.schema));
+    }
+
+    /**
+     * 
+     */
+    getIdSchema(required = true) {
+        let schema = Joi.number().integer();
+        if (required) {
+            schema = schema.required();
+        }
+
+        return schema;
     }
 
     /**
@@ -51,6 +98,8 @@ module.exports = class Model {
     async getList({ limit = 10, offset = 0, sort = 'id', reverse = false, where = {} }) {
         const order = (reverse) ? 'DESC' : 'ASC';
         const values = [limit, offset];
+        sort = this.mappings[sort];
+
         const sql = `
             SELECT * FROM ${this.tableName}
             ORDER BY
