@@ -61,15 +61,6 @@ module.exports = class Model {
     }
 
     /**
-     * 
-     */
-    getWhereSchema() {
-        return async function (value) {
-            
-        };
-    }
-
-    /**
      * Returns a new Joi schema with all keys set to required
      * @param {*} schema 
      */

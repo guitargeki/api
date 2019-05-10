@@ -22,4 +22,5 @@ INSERT INTO public.series (title,alternative_title) VALUES
 ,('Original','')
 ,('Miscellaneous','')
 ,('Irozuku Sekai no Ashita kara','')
+,('Black Clover','')
 ;

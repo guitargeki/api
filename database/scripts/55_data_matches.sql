@@ -22,9 +22,9 @@ INSERT INTO public.matches (title,event_id,match_type_id,match_status_id) VALUES
 ,('Pokemon: The Johto Journeys Theme',6,4,4)
 ,('Kaguya-sama: Love Is War ED - Sentimental Crisis',6,4,2)
 ,('A Silent Voice - Lit',6,4,4)
-,('Black Clover OP3 - Black Rover',6,4,2)
+,('Black Clover OP3 - Black Rover',6,4,4)
 ,('Happy Birthday',6,4,4)
-,('Attack on Titan S3 Part 2 OP - Shoukei to Shikabane no Michi',6,4,2)
+,('Attack on Titan S3 Part 2 OP - Shoukei to Shikabane no Michi',6,4,4)
 ,('SWEET vs Spicy - Maquia - viator',7,2,4)
 ,('March/April 2019 Themed Monthly Competition',5,3,2)
 ;
