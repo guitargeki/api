@@ -30,7 +30,7 @@ module.exports = class Model {
      * 
      * @param {number} defaultValue 
      */
-    getLimit(defaultValue = 10) {
+    getLimitSchema(defaultValue = 10) {
         return Joi.number().integer().min(1).max(20).default(defaultValue);
     }
 
@@ -38,7 +38,7 @@ module.exports = class Model {
      * 
      * @param {number} defaultValue 
      */
-    getOffset(defaultValue = 0) {
+    getOffsetSchema(defaultValue = 0) {
         return Joi.number().integer().min(0).default(defaultValue);
     }
 
@@ -46,7 +46,7 @@ module.exports = class Model {
      * 
      * @param {*} columnNames 
      */
-    getSort() {
+    getSortSchema() {
         const validColumns = [...Object.keys(this.schema)]; // Shallow copy array
         validColumns.push('id');
         return Joi.string().valid(validColumns).default('id');
@@ -56,8 +56,17 @@ module.exports = class Model {
      * 
      * @param {number} defaultValue 
      */
-    getReverse(defaultValue = false) {
+    getReverseSchema(defaultValue = false) {
         return Joi.boolean().default(defaultValue);
+    }
+
+    /**
+     * 
+     */
+    getWhereSchema() {
+        return async function (value) {
+            
+        };
     }
 
     /**
@@ -95,13 +104,25 @@ module.exports = class Model {
     /**
      * 
      */
-    async getList({ limit = 10, offset = 0, sort = 'id', reverse = false, where = {} }) {
+    async getList({ limit = 10, offset = 0, sort = 'id', reverse = false, where = [] }) {
         const order = (reverse) ? 'DESC' : 'ASC';
         const values = [limit, offset];
         sort = this.mappings[sort];
 
+        // Create Where clause
+        const whereClauses = [];
+        let valuesIndex = values.length + 1;
+        for (let i = 0; i < where.length; i++) {
+            const column = this.mappings[where[i].column];
+            const clause = `${column} ${where[i].operator} $${valuesIndex}`;
+            values.push(where[i].value);
+            valuesIndex++;
+            whereClauses.push(clause);
+        }
+
         const sql = `
             SELECT * FROM ${this.tableName}
+            WHERE ${whereClauses.toString().replace(/,/g, ' AND ')}
             ORDER BY
             ${sort} ${order}
             LIMIT $1 OFFSET $2;`;
