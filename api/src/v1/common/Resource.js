@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const codes = require('../common/http-codes');
 
 module.exports = class Resource {
@@ -48,11 +49,61 @@ module.exports = class Resource {
             options: {
                 tags: ['api'],
                 validate: {
-                    query: {
-                        limit: model.getLimit(),
-                        offset: model.getOffset(),
-                        sort: model.getSort(),
-                        reverse: model.getReverse()
+                    query: async function (value, options) {
+                        // Always make the where parameter an array
+                        if (value.where) {
+                            if (!Array.isArray(value.where)) {
+                                value.where = [value.where];
+                            }
+                        }
+
+                        const schema = Joi.object().keys({
+                            limit: model.getLimitSchema(),
+                            offset: model.getOffsetSchema(),
+                            sort: model.getSortSchema(),
+                            reverse: model.getReverseSchema(),
+                            where: Joi.array().items(Joi.string())
+                        });
+
+                        try {
+                            let result = Joi.validate(value, schema);
+                            if (result.error) {
+                                throw result.error;
+                            }
+
+                            // Validate each 'where' parameter
+                            const keys = Object.keys(model.schema).toString();
+                            const columns = keys.replace(/,/g, '|');
+                            const regex = `^(${columns}) *(>=|<=|<>|!=|=|>|<) *(.+)$`;
+                            const where = [];
+
+                            for (let i = 0; i < value.where.length; i++) {
+                                const matchResult = value.where[i].match(regex);
+                                if (!matchResult) {
+                                    throw new Error();
+                                }
+
+                                const column = matchResult[1];
+                                const operator = matchResult[2];
+                                const val = matchResult[3];
+
+                                result = Joi.validate(val, model.schema[column]);
+                                if (result.error) {
+                                    throw result.error;
+                                }
+
+                                where.push({
+                                    column,
+                                    operator,
+                                    value: val
+                                });
+                            }
+
+                            value.where = where;
+
+                        } catch (error) {
+                            throw error;
+                        }
                     }
                 }
             }
@@ -81,6 +132,7 @@ module.exports = class Resource {
             }
         };
 
+        // Update
         this.routes.update = {
             method: 'PATCH',
             path: basePath + '/{id}',
