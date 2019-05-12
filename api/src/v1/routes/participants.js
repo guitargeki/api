@@ -1,5 +1,3 @@
-const Joi = require('joi');
-const codes = require('../common/http-codes');
 const Resource = require('../classes/Resource');
 
 // Configure
@@ -20,6 +18,7 @@ const getList = {
                 offset: model.getOffsetSchema(),
                 sort: model.getSortSchema(),
                 reverse: model.getReverseSchema(),
+                where: model.getWhereSchema()
             }
         }
     }
@@ -64,7 +63,7 @@ const update = {
             params: {
                 id: model.getIdSchema()
             },
-            payload: model.schema
+            payload: model.schema.input
         }
     }
 };
