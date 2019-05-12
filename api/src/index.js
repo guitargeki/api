@@ -16,6 +16,8 @@ const init = async () => {
             title: 'Test API Documentation',
             version: '1.0.0',
         },
+
+        basePath: '/v1'
     };
 
     await server.register([

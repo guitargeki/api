@@ -1,15 +1,77 @@
 const Joi = require('joi');
 const codes = require('../common/http-codes');
-const Resource = require('../common/Resource');
+const Resource = require('../classes/Resource');
 
 // Configure
 const model = require('../models/participant');
 const basePath = '/participants';
-const resrc = new Resource(basePath, model);
+const resrc = new Resource(model);
+
+// Get list
+const getList = {
+    method: 'GET',
+    path: basePath,
+    handler: resrc.handlers.getList,
+    options: {
+        tags: ['api'],
+        validate: {
+            query: {
+                limit: model.getLimitSchema(),
+                offset: model.getOffsetSchema(),
+                sort: model.getSortSchema(),
+                reverse: model.getReverseSchema(),
+            }
+        }
+    }
+};
+
+// Create
+const create = {
+    method: 'POST',
+    path: basePath,
+    handler: resrc.handlers.create,
+    options: {
+        tags: ['api'],
+        validate: {
+            payload: model.getRequiredSchema()
+        }
+    }
+};
+
+// Get one
+const getOne = {
+    method: 'GET',
+    path: basePath + '/{id}',
+    handler: resrc.handlers.getOne,
+    options: {
+        tags: ['api'],
+        validate: {
+            params: {
+                id: model.getIdSchema()
+            }
+        }
+    }
+};
+
+// Update
+const update = {
+    method: 'PATCH',
+    path: basePath + '/{id}',
+    handler: resrc.handlers.update,
+    options: {
+        tags: ['api'],
+        validate: {
+            params: {
+                id: model.getIdSchema()
+            },
+            payload: model.schema
+        }
+    }
+};
 
 module.exports = [
-    resrc.routes.getList,
-    resrc.routes.create,
-    resrc.routes.getOne,
-    resrc.routes.update
+    getList,
+    create,
+    getOne,
+    update
 ];
