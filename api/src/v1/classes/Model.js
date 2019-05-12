@@ -1,33 +1,36 @@
 const Joi = require('joi');
 const db = require('../database');
 
+const limitDefault = 10;
+const limitMaxDefault = 20;
+const offsetDefault = 0;
+const reverseDefault = false;
+
 module.exports = class Model {
     /**
      * 
      */
-    constructor(tableName, inputSchema) {
+    constructor(tableName, inputSchema, outputSchema) {
         this.tableName = tableName;
-        this.schema = {};
-
-        for (const key in inputSchema) {
-            // Put validation objects into new object
-            this.schema[key] = inputSchema[key].validate;
-        }
+        this.schema = {
+            input: inputSchema,
+            output: outputSchema
+        };
     }
 
     /**
      * 
      * @param {number} defaultValue 
      */
-    getLimitSchema(defaultValue = 10) {
-        return Joi.number().integer().min(1).max(20).default(defaultValue);
+    getLimitSchema(max = limitMaxDefault, defaultValue = limitDefault) {
+        return Joi.number().integer().min(1).max(max).default(defaultValue);
     }
 
     /**
      * 
      * @param {number} defaultValue 
      */
-    getOffsetSchema(defaultValue = 0) {
+    getOffsetSchema(defaultValue = offsetDefault) {
         return Joi.number().integer().min(0).default(defaultValue);
     }
 
@@ -36,26 +39,86 @@ module.exports = class Model {
      * @param {*} columnNames 
      */
     getSortSchema() {
-        const validColumns = [...Object.keys(this.schema)]; // Shallow copy array
-        validColumns.push('id');
-        return Joi.string().valid(validColumns).default('id');
+        const validColumns = Object.keys(this.schema.output);
+        return Joi.string().valid(validColumns).default(validColumns[0]);
     }
 
     /**
      * 
      * @param {number} defaultValue 
      */
-    getReverseSchema(defaultValue = false) {
+    getReverseSchema(defaultValue = reverseDefault) {
         return Joi.boolean().default(defaultValue);
     }
 
     /**
+     * 
+     */
+    getWhereSchema() {
+        const schema = this.schema.output;
+        let columns = Object.keys(this.schema.output).toString();
+        columns = columns.replace(/,/g, '|');
+        const regex = `^(${columns}) *(>=|<=|<>|!=|=|>|<) *(.+)$`;
+
+        const customJoi = Joi.extend((joi) => ({
+            base: joi.array(),
+            name: 'array',
+            language: {
+                whereQueryCoerce: 'one or more queries are improperly formatted',
+                whereQueryValidate: 'one or more queries have invalid values'
+            },
+
+            coerce: function (value, state, options) {
+                // Always make the where parameter an array
+                if (value) {
+                    if (!Array.isArray(value)) {
+                        value = [value];
+                    }
+                }
+
+                // Split each query into an object with the following keys: column, operator, value
+                const queries = [];
+                for (let i = 0; i < value.length; i++) {
+                    const matchResult = value[i].match(regex);
+                    if (!matchResult) {
+                        return this.createError('array.whereQueryCoerce', {}, state, options);
+                    }
+
+                    queries.push({
+                        column: matchResult[1],
+                        operator: matchResult[2],
+                        value: matchResult[3]
+                    });
+                }
+
+                return queries;
+            },
+
+            rules: [
+                {
+                    name: 'whereQuery',
+                    validate: function (params, value, state, options) {
+                        for (let i = 0; i < value.length; i++) {
+                            const result = Joi.validate(value[i].value, schema[value[i].column]);
+                            if (result.error) {
+                                return this.createError('array.whereQueryValidate', {}, state, options);
+                            }
+                        }
+                        return value;
+                    }
+                }
+            ]
+        }));
+
+        return customJoi.array().whereQuery();
+    }
+
+    /**
      * Returns a new Joi schema with all keys set to required
-     * @param {*} schema 
      */
     getRequiredSchema() {
-        const newSchema = Joi.object(this.schema);
-        return newSchema.requiredKeys(Object.keys(this.schema));
+        const newSchema = Joi.object(this.schema.input);
+        return newSchema.requiredKeys(Object.keys(this.schema.input));
     }
 
     /**
@@ -84,7 +147,7 @@ module.exports = class Model {
     /**
      * 
      */
-    async getList({ limit = 10, offset = 0, sort = 'id', reverse = false, where = [] }) {
+    async getList({ limit = limitDefault, offset = offsetDefault, sort = 'id', reverse = reverseDefault, where = [] }) {
         const order = (reverse) ? 'DESC' : 'ASC';
         const values = [limit, offset];
 
@@ -98,7 +161,9 @@ module.exports = class Model {
             whereClauses.push(clause);
         }
 
+        // Only create the WHERE claus if there are entries
         const whereClaus = (whereClauses.length === 0) ? '' : `WHERE ${whereClauses.toString().replace(/,/g, ' AND ')}`;
+
         const sql = `
             SELECT * FROM ${this.tableName}
             ${whereClaus}
