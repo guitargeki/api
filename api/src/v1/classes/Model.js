@@ -4,25 +4,14 @@ const db = require('../database');
 module.exports = class Model {
     /**
      * 
-     * @param {*} params 
      */
-    constructor(tableName, schema) {
+    constructor(tableName, inputSchema) {
         this.tableName = tableName;
-        this.mappings = {};
-        this.mappings.id = 'id';
         this.schema = {};
 
-        for (const key in schema) {
-            // Put mappings into a new object where the key is the API column name and the value is the database column name
-            if (schema[key].mapping === undefined) {
-                // If 'mapping' key is missing, use parent key as the mapping
-                this.mappings[key] = key;
-            } else {
-                this.mappings[key] = schema[key].mapping;
-            }
-
+        for (const key in inputSchema) {
             // Put validation objects into new object
-            this.schema[key] = schema[key].validate;
+            this.schema[key] = inputSchema[key].validate;
         }
     }
 
@@ -98,22 +87,21 @@ module.exports = class Model {
     async getList({ limit = 10, offset = 0, sort = 'id', reverse = false, where = [] }) {
         const order = (reverse) ? 'DESC' : 'ASC';
         const values = [limit, offset];
-        sort = this.mappings[sort];
 
         // Create Where clause
         const whereClauses = [];
         let valuesIndex = values.length + 1;
         for (let i = 0; i < where.length; i++) {
-            const column = this.mappings[where[i].column];
-            const clause = `${column} ${where[i].operator} $${valuesIndex}`;
+            const clause = `${where[i].column} ${where[i].operator} $${valuesIndex}`;
             values.push(where[i].value);
             valuesIndex++;
             whereClauses.push(clause);
         }
 
+        const whereClaus = (whereClauses.length === 0) ? '' : `WHERE ${whereClauses.toString().replace(/,/g, ' AND ')}`;
         const sql = `
             SELECT * FROM ${this.tableName}
-            WHERE ${whereClauses.toString().replace(/,/g, ' AND ')}
+            ${whereClaus}
             ORDER BY
             ${sort} ${order}
             LIMIT $1 OFFSET $2;`;
@@ -134,12 +122,10 @@ module.exports = class Model {
 
         // 
         for (const key in params) {
-            if (this.mappings[key] !== undefined) {
-                values.push(params[key]);
-                columns.push(this.mappings[key]);
-                replace.push(`$${i}`);
-                i++;
-            }
+            values.push(params[key]);
+            columns.push(key);
+            replace.push(`$${i}`);
+            i++;
         }
 
         const sql = `
@@ -160,13 +146,11 @@ module.exports = class Model {
         const columns = [];
         let i = 2;
 
-        // 
+        // Update only the included columns
         for (const key in params) {
-            if (this.mappings[key] !== undefined) {
-                values.push(params[key]);
-                columns.push(`${this.mappings[key]}=$${i}`);
-                i++;
-            }
+            values.push(params[key]);
+            columns.push(`${key}=$${i}`);
+            i++;
         }
 
         const sql = `

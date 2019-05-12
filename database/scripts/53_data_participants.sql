@@ -1,4 +1,4 @@
-INSERT INTO public.participants (username,avatar_url,is_team,global_elo) VALUES 
+INSERT INTO public.participants (username,avatar_url,is_team,elo) VALUES 
 ('GEKI','',false,-1)
 ,('Admin','',false,-1)
 ,('thaorem','',false,1400)

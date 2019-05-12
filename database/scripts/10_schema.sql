@@ -3,7 +3,7 @@ CREATE TABLE public.participants (
 	username varchar(32) NOT NULL,
 	avatar_url varchar(200) NOT NULL,
 	is_team bool NOT NULL,
-	global_elo real NOT NULL,
+	elo real NOT NULL,
 	CONSTRAINT participants_pk PRIMARY KEY (id)
 );
 
@@ -74,11 +74,11 @@ CREATE TABLE public.ranked_results (
 	id serial NOT NULL,
 	match_id integer NOT NULL,
 	winner_id integer NOT NULL,
-	winner_new_global_elo real NOT NULL,
-	winner_old_global_elo real NOT NULL,
+	winner_new_elo real NOT NULL,
+	winner_old_elo real NOT NULL,
 	loser_id integer NOT NULL,
-	loser_new_global_elo real NOT NULL,
-	loser_old_global_elo real NOT NULL,
+	loser_new_elo real NOT NULL,
+	loser_old_elo real NOT NULL,
 	date_submitted timestamp NOT NULL,
 	CONSTRAINT ranked_results_pk PRIMARY KEY (id),
 	CONSTRAINT ranked_results_match_fk FOREIGN KEY (match_id) REFERENCES public.matches(id),
