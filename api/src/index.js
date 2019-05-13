@@ -2,6 +2,8 @@ const Hapi = require('hapi');
 const Inert = require('inert');
 const Vision = require('vision');
 const HapiSwagger = require('hapi-swagger');
+const jwt = require('hapi-auth-jwt2');
+const jwksRsa = require('jwks-rsa');
 const logger = require('./logger');
 
 // Set up server configuration
@@ -37,6 +39,38 @@ const init = async function () {
             options: swaggerOptions
         }
     ]);
+
+    // Auth
+    await server.register(jwt);
+    server.auth.strategy('jwt', 'jwt', {
+        // Get the complete decoded token, because we need info from the header (the kid)
+        // Omitting this will cause errors when a user sends their token!
+        complete: true,
+
+        key: jwksRsa.hapiJwt2KeyAsync({
+            cache: true,
+            rateLimit: true,
+            jwksRequestsPerMinute: 5,
+            jwksUri: 'https://guitargeki.auth0.com/.well-known/jwks.json'
+        }),
+
+        validate: async function (decoded, request) {
+            return {
+                isValid: true,
+                credentials: {
+                    // Split the scopes string because hapi-auth-jwt2 plugin expects the scope to be an array
+                    scope: decoded.scope.split(' ')
+                }
+            };
+        },
+
+        verifyOptions: {
+            audience: 'http://localhost',
+            issuer: 'https://guitargeki.auth0.com/',
+            algorithms: ['RS256']
+        },
+    });
+    server.auth.default('jwt');
 
     // Add routes
     server.route(require('./v1/resources'));
