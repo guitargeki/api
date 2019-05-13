@@ -1,4 +1,4 @@
-INSERT INTO public.series (title,alternative_title) VALUES 
+INSERT INTO geki_data.series (title,alternative_title) VALUES 
 ('Wotakoi: Love is Hard for Otaku','Wotaku ni Koi wa Muzukashii')
 ,('Re:Zero','')
 ,('Nagi no Asukara','Nagi-Asu: A Lull in the Sea')

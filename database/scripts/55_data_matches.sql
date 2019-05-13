@@ -1,4 +1,4 @@
-INSERT INTO public.matches (title,event_id,match_type_id,match_status_id) VALUES 
+INSERT INTO geki_data.matches (title,event_id,match_type_id,match_status_id) VALUES 
 ('November 2018 Arrangement Competition',1,3,4)
 ,('December 2018 Christmas Edition',2,3,4)
 ,('Nagi no Asukara OP1 - lull ~Soshite Bokura wa~',3,4,4)

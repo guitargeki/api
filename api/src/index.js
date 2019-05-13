@@ -8,7 +8,15 @@ const logger = require('./logger');
 const init = async () => {
     const server = Hapi.server({
         port: 3000,
-        host: '0.0.0.0'
+        host: '0.0.0.0',
+        routes: {
+            validate: {
+                failAction: async (request, h, err) => {
+                    console.error(err);
+                    throw err;
+                }
+            }
+        }
     });
 
     const swaggerOptions = {

@@ -1,4 +1,4 @@
-INSERT INTO public.match_statuses (title) VALUES 
+INSERT INTO geki_data.match_statuses (title) VALUES 
 ('Cancelled')
 ,('In Progress')
 ,('Judging')
