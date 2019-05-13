@@ -1,4 +1,4 @@
-INSERT INTO public.events (title,date_start,date_end) VALUES 
+INSERT INTO geki_data.events (title,date_start,date_end) VALUES 
 ('Arrangement Competition','2018-11-01','2018-11-30')
 ,('Christmas Edition','2018-12-01','2018-12-31')
 ,('Elite Seat Challenges','2019-01-01','2019-01-31')

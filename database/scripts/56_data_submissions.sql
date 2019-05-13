@@ -1,4 +1,4 @@
-INSERT INTO public.submissions (match_id,participant_id,series_id,title,description,submission_url,date_submitted) VALUES 
+INSERT INTO geki_data.submissions (match_id,participant_id,series_id,title,description,submission_url,date_submitted) VALUES 
 (1,3,1,'Fiction','','https://drive.google.com/file/d/1-dYqBOjccdwf-WYz0rGQmdT8vA83hgcd/view?usp=drivesdk','2018-11-11 23:56:15.980')
 ,(1,4,2,'Stay Alive','','https://streamable.com/vq0zg','2018-11-28 19:59:52.355')
 ,(1,6,2,'Stay Alive','','https://youtu.be/MrufRcmbonc','2018-12-01 02:00:13.280')
@@ -51,7 +51,7 @@ INSERT INTO public.submissions (match_id,participant_id,series_id,title,descript
 ,(28,20,17,'Orange','','https://www.youtube.com/watch?v=ql0-KIV4KHg','2019-04-24 19:52:08.335')
 ,(28,8,17,'Kirameki','','https://youtu.be/2O5FGP_sZ1g','2019-05-01 07:10:55.676')
 ;
-INSERT INTO public.submissions (match_id,participant_id,series_id,title,description,submission_url,date_submitted) VALUES 
+INSERT INTO geki_data.submissions (match_id,participant_id,series_id,title,description,submission_url,date_submitted) VALUES 
 (20,8,18,'Gotoubun no Kimochi','','https://youtu.be/8joZEu_m75k','2019-04-27 02:22:38.216')
 ,(20,16,18,'Gotoubun no Kimochi','','https://cdn.discordapp.com/attachments/502704652739936266/571547518878482452/quinsentialofdisapointment.aac','2019-04-27 04:05:47.449')
 ,(23,9,19,'Lit','','https://www.youtube.com/watch?v=JM_aq9_H20w','2019-04-28 22:47:30.692')

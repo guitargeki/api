@@ -8,6 +8,7 @@ const pool = new Pool();
  */
 function query(query, params) {
     return pool.query(query, params).catch(error => {
+        console.log(error);
         throw error;
     });
 }

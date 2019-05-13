@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const db = require('../database');
 
+const dbDataSchema = 'geki_data';
+const dbViewSchema = 'geki_view';
 const limitDefault = 10;
 const limitMaxDefault = 20;
 const offsetDefault = 0;
@@ -74,6 +76,8 @@ module.exports = class Model {
                     if (!Array.isArray(value)) {
                         value = [value];
                     }
+                } else {
+                    value = [];
                 }
 
                 // Split each query into an object with the following keys: column, operator, value
@@ -139,7 +143,7 @@ module.exports = class Model {
      */
     async getOne(id) {
         const values = [id];
-        const sql = `SELECT * FROM ${this.tableName} WHERE id = $1 LIMIT 1;`;
+        const sql = `SELECT * FROM ${dbViewSchema}.${this.tableName} WHERE id = $1 LIMIT 1;`;
         const data = await db.query(sql, values);
         return data.rows[0];
     }
@@ -147,9 +151,13 @@ module.exports = class Model {
     /**
      * 
      */
-    async getList({ limit = limitDefault, offset = offsetDefault, sort = 'id', reverse = reverseDefault, where = [] }) {
-        const order = (reverse) ? 'DESC' : 'ASC';
+    async getList({ limit = limitDefault, offset = offsetDefault, sort = '', reverse = reverseDefault, where = [] }) {
+        let order = '';
         const values = [limit, offset];
+
+        if (sort === '') {
+            order = (reverse) ? 'DESC' : 'ASC';
+        }
 
         // Create Where clause
         const whereClauses = [];
@@ -165,7 +173,7 @@ module.exports = class Model {
         const whereClaus = (whereClauses.length === 0) ? '' : `WHERE ${whereClauses.toString().replace(/,/g, ' AND ')}`;
 
         const sql = `
-            SELECT * FROM ${this.tableName}
+            SELECT * FROM ${dbViewSchema}.${this.tableName}
             ${whereClaus}
             ORDER BY
             ${sort} ${order}
@@ -194,7 +202,7 @@ module.exports = class Model {
         }
 
         const sql = `
-            INSERT INTO ${this.tableName} (${columns})
+            INSERT INTO ${dbDataSchema}.${this.tableName} (${columns})
             VALUES (${replace}) RETURNING id;`;
 
         const data = await db.query(sql, values);
@@ -219,7 +227,7 @@ module.exports = class Model {
         }
 
         const sql = `
-            UPDATE ${this.tableName}
+            UPDATE ${dbDataSchema}.${this.tableName}
             SET ${columns}
             WHERE id=$1;`;
 
