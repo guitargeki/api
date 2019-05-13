@@ -1,0 +1,1 @@
+pg_restore -U postgres -d geki /backups/dump-geki.backup

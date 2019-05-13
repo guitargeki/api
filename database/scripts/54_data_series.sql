@@ -23,4 +23,5 @@ INSERT INTO geki_data.series (title,alternative_title) VALUES
 ,('Miscellaneous','')
 ,('Irozuku Sekai no Ashita kara','')
 ,('Black Clover','')
+,('The Legend of Zelda','')
 ;

@@ -20,4 +20,5 @@ INSERT INTO geki_data.participants (username,avatar_url,is_team,elo) VALUES
 ,('Simooonii','',false,1400)
 ,('Feifei','',false,1400)
 ,('Mardekoya','',false,1400)
+,('Bae-kun','',false,1400)
 ;

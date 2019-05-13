@@ -34,6 +34,16 @@ If you do not want to use the cache at all, you can use the `--no-cache=true` op
 
 Once the cache is invalidated, all subsequent `Dockerfile` commands generate new images and the cache is not used.
 
+# Restoring Database
+
+Follow instructions from [here](https://simkimsia.com/how-to-restore-database-dumps-for-postgres-in-docker-container/).
+
+Use following command to restore:
+
+```
+pg_restore -U postgres -d geki /backups/<backup_name>.backup
+```
+
 # Compose
 
  - When using an `env_file`, variables inside the file will be set as environment variables for that container
