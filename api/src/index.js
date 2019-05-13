@@ -38,7 +38,7 @@ const init = async () => {
     ]);
 
     // Add routes
-    server.route(require('./v1/routes'));
+    server.route(require('./v1/resources'));
 
     // Handle any invalid methods and routes
     server.route({
