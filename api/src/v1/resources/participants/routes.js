@@ -1,3 +1,4 @@
+const auth = require('../../common/auth');
 const Resource = require('../../classes/Resource');
 const model = require('./model');
 const resrc = new Resource(model);
@@ -11,6 +12,7 @@ const getList = {
     path: basePath,
     handler: resrc.handlers.getList,
     options: {
+        auth: false,
         tags: ['api'],
         validate: {
             query: {
@@ -30,10 +32,9 @@ const create = {
     path: basePath,
     handler: resrc.handlers.create,
     options: {
-        // auth: {
-        //     strategy: 'jwt',
-        //     scope: 'modify'
-        // },
+        auth: {
+            scope: auth.scopes.admin
+        },
         tags: ['api'],
         validate: {
             payload: model.getRequiredSchema()
@@ -47,6 +48,7 @@ const getOne = {
     path: basePath + '/{id}',
     handler: resrc.handlers.getOne,
     options: {
+        auth: false,
         tags: ['api'],
         validate: {
             params: {
@@ -62,6 +64,9 @@ const update = {
     path: basePath + '/{id}',
     handler: resrc.handlers.update,
     options: {
+        auth: {
+            scope: auth.scopes.admin
+        },
         tags: ['api'],
         validate: {
             params: {
