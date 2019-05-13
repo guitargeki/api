@@ -41,7 +41,7 @@ Follow instructions from [here](https://simkimsia.com/how-to-restore-database-du
 Use following command to restore:
 
 ```
-pg_restore -U postgres -d geki /backups/<backup_name>.backup
+pg_restore -U postgres -d geki /backups/<backup_name>
 ```
 
 # Compose
