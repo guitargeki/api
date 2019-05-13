@@ -30,6 +30,10 @@ const create = {
     path: basePath,
     handler: resrc.handlers.create,
     options: {
+        // auth: {
+        //     strategy: 'jwt',
+        //     scope: 'modify'
+        // },
         tags: ['api'],
         validate: {
             payload: model.getRequiredSchema()

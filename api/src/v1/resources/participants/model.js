@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const db = require('../../database');
+const commonSchemas = require('../../common/schemas');
 const Model = require('../../classes/Model');
 
 // Configure
@@ -14,6 +15,7 @@ schema.input = {
 };
 
 schema.output = {
+    id: commonSchemas.id,
     ...schema.input,
     wins: Joi.number().integer().min(0),
     losses: Joi.number().integer().min(0)

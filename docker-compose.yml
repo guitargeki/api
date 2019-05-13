@@ -7,7 +7,9 @@ services:
       - ./config/database/database.env
     volumes:
       - geki-data:/var/lib/postgresql/data
-      - ./database/scripts:/docker-entrypoint-initdb.d
+      # - ./database/scripts:/docker-entrypoint-initdb.d
+      - ./database/backups:/backups
+      - ./database/restore:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
     networks:

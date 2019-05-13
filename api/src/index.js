@@ -5,7 +5,7 @@ const HapiSwagger = require('hapi-swagger');
 const logger = require('./logger');
 
 // Set up server configuration
-const init = async () => {
+const init = async function () {
     const server = Hapi.server({
         port: 3000,
         host: '0.0.0.0',
@@ -19,6 +19,7 @@ const init = async () => {
         }
     });
 
+    // Serve Swagger docs at /documentation
     const swaggerOptions = {
         info: {
             title: 'Test API Documentation',

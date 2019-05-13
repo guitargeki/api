@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const db = require('../database');
+const commonSchemas = require('../common/schemas');
 
 const dbDataSchema = 'geki_data';
 const dbViewSchema = 'geki_view';
@@ -129,7 +130,7 @@ module.exports = class Model {
      * 
      */
     getIdSchema(required = true) {
-        let schema = Joi.number().integer();
+        let schema = commonSchemas.id;
         if (required) {
             schema = schema.required();
         }
