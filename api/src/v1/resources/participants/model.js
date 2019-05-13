@@ -1,10 +1,11 @@
 const Joi = require('joi');
-const db = require('../database');
-const Model = require('../classes/Model');
+const db = require('../../database');
+const Model = require('../../classes/Model');
 
 // Configure
 const tableName = 'participants';
 const schema = {};
+
 schema.input = {
     username: Joi.string().regex(/^[a-zA-Z0-9 _-]+$/).min(2).max(32),
     avatar_url: Joi.string().uri().max(200),

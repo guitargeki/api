@@ -1,9 +1,9 @@
-const Resource = require('../classes/Resource');
+const Resource = require('../../classes/Resource');
+const model = require('./model');
+const resrc = new Resource(model);
 
 // Configure
-const model = require('../models/participant');
 const basePath = '/participants';
-const resrc = new Resource(model);
 
 // Get list
 const getList = {
