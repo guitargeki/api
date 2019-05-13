@@ -5,7 +5,7 @@
 -- Dumped from database version 11.2
 -- Dumped by pg_dump version 11.3
 
--- Started on 2019-05-14 05:02:53
+-- Started on 2019-05-14 08:56:56
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -674,6 +674,7 @@ COPY geki_data.matches (id, title, event_id, match_type_id, match_status_id) FRO
 28	March/April 2019 Themed Monthly Competition	5	3	4
 29	The Legend of Zelda: Breath of the Wild - Zora's Domain (Night)	6	4	2
 22	Kaguya-sama: Love Is War ED - Sentimental Crisis	6	4	4
+30	Black Clover ED - Aoi Honoo	6	4	2
 \.
 
 
@@ -867,7 +868,7 @@ SELECT pg_catalog.setval('geki_data.match_types_id_seq', 4, true);
 -- Name: matches_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
 
-SELECT pg_catalog.setval('geki_data.matches_id_seq', 29, true);
+SELECT pg_catalog.setval('geki_data.matches_id_seq', 30, true);
 
 
 --
@@ -1159,7 +1160,7 @@ ALTER TABLE ONLY geki_data.team_members
     ADD CONSTRAINT team_members_participants_fk_1 FOREIGN KEY (team_id) REFERENCES geki_data.participants(id);
 
 
--- Completed on 2019-05-14 05:02:54
+-- Completed on 2019-05-14 08:56:57
 
 --
 -- PostgreSQL database dump complete
