@@ -13,11 +13,11 @@ module.exports = class Model {
     /**
      * 
      */
-    constructor(tableName, inputSchema, outputSchema) {
+    constructor(tableName, schema) {
         this.tableName = tableName;
         this.schema = {
-            input: inputSchema,
-            output: outputSchema
+            input: schema.input,
+            output: schema.output
         };
     }
 

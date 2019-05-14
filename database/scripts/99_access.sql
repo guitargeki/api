@@ -1,5 +1,4 @@
 -- Permissions must be granted AFTER all tables, schemas etc have been created
-CREATE ROLE api NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN PASSWORD 'c76Jkeb&q8Dxw@8wktMKVVp$^m8fboY6KJz!SYPJ^GH5WdWMnBIG@rajhMFKMWy*';
 GRANT CONNECT ON DATABASE geki TO api;
 
 GRANT USAGE ON SCHEMA geki_data TO api;

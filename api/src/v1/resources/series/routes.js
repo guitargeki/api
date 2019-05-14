@@ -4,7 +4,7 @@ const model = require('./model');
 const resrc = new Resource(model);
 
 // Configure
-const resourceName = 'participants';
+const resourceName = 'series';
 const basePath = `/${resourceName}`;
 const tags = ['api', resourceName];
 
