@@ -1,3 +1,4 @@
+const Stream = require('stream');
 const fetch = require('node-fetch');
 const logWebhook = process.env.HOOK_LOG_URL;
 const options = {
@@ -8,60 +9,25 @@ const options = {
     body: ''
 };
 
-const localTimeZone = 'Australia/Sydney';
-const dateLocale = 'en-AU';
-const dateOptions = {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    timeZoneName: 'short',
-    hour12: false
-};
-
-/**
-  * Returns a timestamp in the local timezone
-  */
-function getLocalTimestamp() {
-    dateOptions.timeZone = localTimeZone;
-    return new Date().toLocaleString(dateLocale, dateOptions);
-}
-
-/**
-  * Returns a timestamp in the UTC timezone
-  */
-function getUtcTimestamp() {
-    dateOptions.timeZone = undefined;
-    return new Date().toLocaleString(dateLocale, dateOptions);
-}
-
-/**
- * 
- * @param {*} request 
- */
-function logResponse(request) {
-    // Don't log documentation requests
-    if (request.path.includes('swagger') || request.path.includes('/documentation')) {
-        return;
+module.exports = class LogToWebhookTransform extends Stream.Transform {
+    constructor() {
+        super({ objectMode: true });
     }
 
-    const content =`
-**[${request.info.id}]**
+    _transform(data, enc, next) {
+        const content = `
 \`\`\`
-${getUtcTimestamp()} | ${getLocalTimestamp()}
-
-Route: ${request.method.toUpperCase()} ${request.path}
+${data}
 \`\`\`
-    `;
+        `;
 
-    options.body = JSON.stringify({
-        content: content
-    });
+        options.body = JSON.stringify({
+            content: content
+        });
+    
+        fetch(logWebhook, options);
 
-    fetch(logWebhook, options);
-}
-
-module.exports.response = logResponse;
+        // The first argument passed to next() must be the Error object if the call failed or null if the write succeeded
+        next(null, data);
+    }
+};
