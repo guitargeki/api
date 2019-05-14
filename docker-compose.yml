@@ -19,7 +19,7 @@ services:
       - ./config/api/api.env
     volumes:
       - ./api:/app
-    command: npx nodemon ./src/index.js -e js,json,yaml --legacy-watch
+    command: npm run start-dev
     networks:
       - backend
       - frontend

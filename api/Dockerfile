@@ -20,4 +20,4 @@ COPY . .
 # EXPOSE 3000
 
 # Default command to run if not overridden in docker-compose.yml
-CMD ["node", "./src/index.js"]
+CMD ["npm", "run start"]

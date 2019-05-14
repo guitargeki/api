@@ -4,7 +4,9 @@
   "description": "API server for guitargeki.com",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.js",
+    "start-dev": "npx nodemon ./src/index.js -e js,json,yaml --legacy-watch"
   },
   "author": "",
   "license": "ISC",
