@@ -22,7 +22,7 @@ module.exports = class Resource {
             const id = await model.create(request.payload);
     
             // Set 'Location' header to the URL for the new resource
-            const response = h.response(codes[201]).code(201);
+            const response = h.response().code(201);
             response.header('Location', `${request.path}/${id}`);
             return response;
         };

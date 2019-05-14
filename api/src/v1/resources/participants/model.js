@@ -16,7 +16,9 @@ schema.input = {
 
 schema.output = {
     id: commonSchemas.id,
-    ...schema.input,
+    username: schema.input.username,
+    avatar_url: schema.input.avatar_url,
+    elo: schema.input.elo,
     wins: Joi.number().integer().min(0),
     losses: Joi.number().integer().min(0)
 };

@@ -5,6 +5,7 @@ const resrc = new Resource(model);
 
 // Configure
 const basePath = '/participants';
+const tags = ['api', 'participants'];
 
 // Get list
 const getList = {
@@ -12,8 +13,7 @@ const getList = {
     path: basePath,
     handler: resrc.handlers.getList,
     options: {
-        auth: false,
-        tags: ['api'],
+        tags: tags,
         validate: {
             query: {
                 limit: model.getLimitSchema(),
@@ -33,9 +33,10 @@ const create = {
     handler: resrc.handlers.create,
     options: {
         auth: {
+            strategy: auth.strategy,
             scope: auth.scopes.admin
         },
-        tags: ['api'],
+        tags: tags,
         validate: {
             payload: model.getRequiredSchema()
         }
@@ -48,8 +49,7 @@ const getOne = {
     path: basePath + '/{id}',
     handler: resrc.handlers.getOne,
     options: {
-        auth: false,
-        tags: ['api'],
+        tags: tags,
         validate: {
             params: {
                 id: model.getIdSchema()
@@ -65,9 +65,10 @@ const update = {
     handler: resrc.handlers.update,
     options: {
         auth: {
+            strategy: auth.strategy,
             scope: auth.scopes.admin
         },
-        tags: ['api'],
+        tags: tags,
         validate: {
             params: {
                 id: model.getIdSchema()
