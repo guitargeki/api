@@ -2,26 +2,19 @@ const Hapi = require('hapi');
 const Inert = require('inert');
 const Vision = require('vision');
 const HapiSwagger = require('hapi-swagger');
+const Good = require('@hapi/good');
 const jwt = require('hapi-auth-jwt2');
 const jwksRsa = require('jwks-rsa');
-const logger = require('./logger');
+const Logger = require('./logger');
 
 // Set up server configuration
 const init = async function () {
     const server = Hapi.server({
         port: 3000,
-        host: '0.0.0.0',
-        routes: {
-            validate: {
-                failAction: async (request, h, err) => {
-                    console.error(err);
-                    throw err;
-                }
-            }
-        }
+        host: '0.0.0.0'
     });
 
-    // Auth
+    // Add support for auth using JWTs
     await server.register(jwt);
     server.auth.strategy('jwt', 'jwt', {
         // Get the complete decoded token, because we need info from the header (the kid)
@@ -52,44 +45,42 @@ const init = async function () {
         },
     });
 
-    // Serve Swagger docs at /documentation
-    const swaggerOptions = {
-        info: {
-            title: 'Guitargeki API',
-            version: '1.0.0',
-            description: 'Documentation for the Guitargeki API. To use the POST and PATCH methods, provide a valid access token in the form of \'Bearer TOKEN\'.'
-        },
-
-        basePath: '/v1',
-        grouping: 'tags',
-        documentationPath: '/v1/docs',
-
-        securityDefinitions: {
-            token: {
-                type: 'apiKey',
-                name: 'Authorization',
-                in: 'header'
+    // Register Good plugin for logging
+    await server.register({
+        plugin: Good,
+        options: {
+            ops: {
+                interval: 10000
+            },
+            reporters: {
+                console: [
+                    {
+                        module: '@hapi/good-console',
+                        args: [{
+                            format: '',
+                            color: false
+                        }]
+                    },
+                    new Logger(),
+                    'stdout'
+                ]
             }
-        },
+        }
+    });
 
-        security: [
-            {
-                token: []
-            }
-        ]
-    };
-
+    // Register plugins needed to serve Swagger docs
     await server.register([
         Inert,
-        Vision,
-        {
-            plugin: HapiSwagger,
-            options: swaggerOptions
-        }
+        Vision
     ]);
 
-    // Add routes
-    server.route(require('./v1/resources'));
+    // Add routes and docs for each version
+    const apis = {
+        v1: require('./v1')
+    };
+
+    server.route(apis.v1.routes);
+    await server.register({ plugin: HapiSwagger, options: apis.v1.swagger });
 
     // Handle any invalid methods and routes
     server.route({
@@ -100,16 +91,13 @@ const init = async function () {
         }
     });
 
-    // Response listener
-    server.events.on('response', logger.response);
-
     // Start server
     await server.start();
-    console.log('Server running on %s', server.info.uri);
+    server.log([], `Server running on ${server.info.uri}`);
 };
 
 process.on('unhandledRejection', (err) => {
-    console.log(err);
+    console.error(err);
     process.exit(1);
 });
 
