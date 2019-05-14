@@ -17,6 +17,7 @@
   "dependencies": {
     "@hapi/good": "^8.2.0",
     "@hapi/good-console": "^8.1.0",
+    "@hapi/good-squeeze": "^5.2.0",
     "hapi": "^18.1.0",
     "hapi-auth-jwt2": "^8.6.1",
     "hapi-swagger": "^9.4.2",

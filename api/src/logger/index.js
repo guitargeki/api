@@ -1,31 +1,37 @@
 const Stream = require('stream');
 const fetch = require('node-fetch');
-const logWebhook = process.env.HOOK_LOG_URL;
-const options = {
-    method: 'post',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: ''
-};
 
 module.exports = class LogToWebhookTransform extends Stream.Transform {
-    constructor() {
+    /**
+     * 
+     * @param {string} endpoint 
+     */
+    constructor(endpoint) {
         super({ objectMode: true });
+
+        this.endpoint = endpoint;
     }
 
+    /**
+     * 
+     * @param {*} data 
+     * @param {*} enc 
+     * @param {*} next 
+     */
     _transform(data, enc, next) {
-        const content = `
-\`\`\`
-${data}
-\`\`\`
-        `;
+        const options = {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
 
+        const content = '```\n' + data + '\n```';
         options.body = JSON.stringify({
             content: content
         });
     
-        fetch(logWebhook, options);
+        fetch(this.endpoint, options);
 
         // The first argument passed to next() must be the Error object if the call failed or null if the write succeeded
         next(null, data);

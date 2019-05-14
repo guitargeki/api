@@ -53,7 +53,8 @@ const init = async function () {
                 interval: 10000
             },
             reporters: {
-                console: [
+                // This reporter will log everything to the specified endpoint and to the console
+                log: [
                     {
                         module: '@hapi/good-console',
                         args: [{
@@ -61,8 +62,27 @@ const init = async function () {
                             color: false
                         }]
                     },
-                    new Logger(),
+                    new Logger(process.env.LOG_URL),
                     'stdout'
+                ],
+
+                // This reporter will only log errors to the specified endpoint
+                error: [
+                    {
+                        module: '@hapi/good-squeeze',
+                        name: 'Squeeze',
+                        args: [{
+                            error: '*'
+                        }]
+                    },
+                    {
+                        module: '@hapi/good-console',
+                        args: [{
+                            format: '',
+                            color: false
+                        }]
+                    },
+                    new Logger(process.env.ERROR_URL)
                 ]
             }
         }
