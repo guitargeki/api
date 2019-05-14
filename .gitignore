@@ -1,5 +1,7 @@
-config/
+config/api/api.env
+config/database/database.env
+config/server/server.env
+
 node_modules/
-*.env
 
 **/.eslintrc.json

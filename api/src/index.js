@@ -32,7 +32,7 @@ const init = async function () {
             cache: true,
             rateLimit: true,
             jwksRequestsPerMinute: 5,
-            jwksUri: 'https://guitargeki.auth0.com/.well-known/jwks.json'
+            jwksUri: `https://${process.env.AUTH0_TENANT}/.well-known/jwks.json`
         }),
 
         validate: async function (decoded, request) {
@@ -47,7 +47,7 @@ const init = async function () {
 
         verifyOptions: {
             audience: 'http://localhost',
-            issuer: 'https://guitargeki.auth0.com/',
+            issuer: `https://${process.env.AUTH0_TENANT}/`,
             algorithms: ['RS256']
         },
     });
