@@ -55,7 +55,10 @@ const getOne = {
             params: {
                 id: model.getIdSchema()
             }
-        }
+        },
+        pre: [
+            resrc.pre.checkResourceExists
+        ]
     }
 };
 
@@ -75,7 +78,11 @@ const update = {
                 id: model.getIdSchema()
             },
             payload: model.schema.input
-        }
+        },
+        pre: [
+            resrc.pre.checkResourceExists,
+            resrc.pre.checkForeignKeysExist
+        ]
     }
 };
 

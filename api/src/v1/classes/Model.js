@@ -155,6 +155,23 @@ module.exports = class Model {
     /**
      * 
      * @param {number} id 
+     * @param {string} tableName
+     */
+    async doesResourceExist(id, tableName = this.tableName) {
+        const values = [id];
+        const sql = `SELECT 1 FROM ${dbDataSchema}.${tableName} WHERE id = $1`;
+        const data = await db.query(sql, values);
+
+        if (data.rowCount === 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 
+     * @param {number} id
      */
     async getOne(id) {
         const values = [id];
