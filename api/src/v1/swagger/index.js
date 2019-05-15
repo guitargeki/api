@@ -1,13 +1,16 @@
+const basePath = '/v1';
+
 module.exports = {
     info: {
-        title: 'Guitargeki API',
+        title: 'Guitargeki API V1',
         version: '1.0.0',
         description: 'Documentation for the Guitargeki API. To use the POST and PATCH methods, provide a valid access token in the form of \'Bearer TOKEN\'.'
     },
 
-    basePath: '/v1',
+    basePath: basePath,
+    jsonPath: `${basePath}/swagger.json`,
+    documentationPath: `${basePath}/docs`,
     grouping: 'tags',
-    documentationPath: '/v1/docs',
 
     securityDefinitions: {
         token: {
