@@ -5,7 +5,7 @@ const HapiSwagger = require('hapi-swagger');
 const Good = require('@hapi/good');
 const jwt = require('hapi-auth-jwt2');
 const jwksRsa = require('jwks-rsa');
-const Logger = require('./logger');
+const Logger = require('./lib/logger');
 
 // Set up server configuration
 const init = async function () {
@@ -50,7 +50,7 @@ const init = async function () {
         plugin: Good,
         options: {
             ops: {
-                interval: 10000
+                interval: 30000
             },
             reporters: {
                 // This reporter will log everything to the specified endpoint and to the console

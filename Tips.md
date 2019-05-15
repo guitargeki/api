@@ -36,13 +36,7 @@ Once the cache is invalidated, all subsequent `Dockerfile` commands generate new
 
 # Restoring Database
 
-Follow instructions from [here](https://simkimsia.com/how-to-restore-database-dumps-for-postgres-in-docker-container/).
-
-Use following command to restore:
-
-```
-pg_restore -U postgres -d geki /backups/<backup_name>
-```
+Put the dump file (should be in plain text with .sql extension)  in `database/scripts`. If the database doesn't have any data, the container will run all scripts inside that folder.
 
 # Compose
 
