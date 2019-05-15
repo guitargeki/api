@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const Boom = require('@hapi/boom');
 const codes = require('../common/http-codes');
 
 module.exports = class Resource {
@@ -32,7 +33,8 @@ module.exports = class Resource {
             // Return 404 if resource does not exist
             const data = await model.getOne(request.params.id);
             if (data === undefined) {
-                return h.response(codes[404]).code(404);
+                const error = Boom.notFound(codes[404]);
+                return h.response(error.output.payload).code(error.output.statusCode);
             }
     
             // Return resource if found
@@ -44,7 +46,8 @@ module.exports = class Resource {
             // Return 404 if resource does not exist
             const data = await model.getOne(request.params.id);
             if (data === undefined) {
-                return h.response(codes[404]).code(404);
+                const error = Boom.notFound(codes[404]);
+                return h.response(error.output.payload).code(error.output.statusCode);
             }
     
             await model.update(request.params.id, request.payload);
