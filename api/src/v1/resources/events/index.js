@@ -1,2 +1,2 @@
 module.exports.routes = require('./routes');
-module.exports.schema = require('./model').schema;
+module.exports.model = require('./model');
