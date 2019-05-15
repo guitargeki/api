@@ -20,4 +20,3 @@ schema.output = {
 
 const modelInstance = new Model(tableName, schema);
 module.exports = modelInstance;
-module.exports.schema = schema;
