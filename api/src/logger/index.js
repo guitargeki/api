@@ -19,6 +19,11 @@ module.exports = class LogToWebhookTransform extends Stream.Transform {
      * @param {*} next 
      */
     _transform(data, enc, next) {
+        // If there is no data, don't send anything
+        if (!data) {
+            return next(null, data);
+        }
+
         const options = {
             method: 'post',
             headers: {
@@ -34,6 +39,6 @@ module.exports = class LogToWebhookTransform extends Stream.Transform {
         fetch(this.endpoint, options);
 
         // The first argument passed to next() must be the Error object if the call failed or null if the write succeeded
-        next(null, data);
+        return next(null, data);
     }
 };

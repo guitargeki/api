@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const db = require('../../database');
-const commonSchemas = require('../../common/schemas');
+const commonSchemas = require('../../common/schemas').schemas;
 const Model = require('../../classes/Model');
 
 // Referenced schemas
