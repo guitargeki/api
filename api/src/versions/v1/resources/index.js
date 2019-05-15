@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const swagger = require('../swagger');
 const Resource = require('../common/routes/Resource');
 module.exports = [];
 
@@ -23,9 +22,8 @@ fs.readdirSync(__dirname).forEach(file => {
         routes = resrc.routes;
     }
 
-    // Add version to route
-    routes.forEach(element => {
-        element.path = `${swagger.basePath}${element.path}`;
-        module.exports.push(element);
+    // Export each route
+    routes.forEach(route => {
+        module.exports.push(route);
     });
 });
