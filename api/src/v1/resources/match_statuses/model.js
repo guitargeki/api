@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const db = require('../../database');
-const commonSchemas = require('../../common/schemas').schemas;
-const Model = require('../../classes/Model');
+const commonSchemas = require('../../common/models/schemas').schemas;
+const Model = require('../../common/models/Model');
 
 // Configure
 const tableName = 'match_statuses';
