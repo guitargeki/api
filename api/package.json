@@ -15,6 +15,7 @@
     "nodemon": "^1.18.10"
   },
   "dependencies": {
+    "@hapi/boom": "^7.4.2",
     "@hapi/good": "^8.2.0",
     "@hapi/good-console": "^8.1.0",
     "@hapi/good-squeeze": "^5.2.0",
