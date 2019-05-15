@@ -1,5 +1,7 @@
 const Joi = require('joi');
 
-module.exports = {
+const schemas = {
     id: Joi.number().integer()
 };
+
+module.exports.schemas = schemas;

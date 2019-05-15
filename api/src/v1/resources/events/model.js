@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const db = require('../../database');
-const commonSchemas = require('../../common/schemas');
+const commonSchemas = require('../../common/schemas').schemas;
 const Model = require('../../classes/Model');
 
 // Configure
@@ -9,8 +9,8 @@ const schema = {};
 
 schema.input = {
     title: Joi.string().max(200),
-    date_start: Joi.string().isoDate(),
-    date_end: Joi.string().isoDate()
+    date_start: Joi.date().iso(),
+    date_end: Joi.date().iso()
 };
 
 schema.output = {
