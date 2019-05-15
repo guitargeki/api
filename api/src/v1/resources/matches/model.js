@@ -1,8 +1,8 @@
 const Joi = require('joi');
 const db = require('../../database');
-const commonSchemas = require('../../common/schemas').schemas;
-const customJoi = require('../../common/schemas').customJoi;
-const Model = require('../../classes/Model');
+const commonSchemas = require('../../common/models/schemas').schemas;
+const customJoi = require('../../common/models/schemas').customJoi;
+const Model = require('../../common/models/Model');
 
 // Referenced models
 const eventModel = require('../events').model;

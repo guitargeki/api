@@ -1,6 +1,6 @@
 const Joi = require('joi');
-const db = require('../database');
-const commonSchemas = require('../common/schemas').schemas;
+const db = require('../../database');
+const commonSchemas = require('./schemas').schemas;
 
 const dbDataSchema = process.env.DB_DATA_SCHEMA;
 const dbViewSchema = process.env.DB_VIEW_SCHEMA;

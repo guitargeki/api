@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const swagger = require('../swagger');
+const Resource = require('../common/routes/Resource');
 module.exports = [];
 
 // Add all subroutes
@@ -11,7 +12,16 @@ fs.readdirSync(__dirname).forEach(file => {
     }
 
     let modulePath = `./${file}`;
-    const routes = require(modulePath).routes;
+    const resource = require(modulePath);
+    const model = resource.model;
+    let routes = resource.routes;
+
+    // If routes doesn't exist, instantiate a new Resource class to get the default routes
+    let resrc;
+    if (!routes) {
+        resrc = new Resource(file, model);
+        routes = resrc.routes;
+    }
 
     // Add version to route
     routes.forEach(element => {
