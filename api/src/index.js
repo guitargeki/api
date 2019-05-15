@@ -96,7 +96,7 @@ const init = async function () {
 
     // Add routes and docs for each version
     const apis = {
-        v1: require('./v1')
+        v1: require('./versions/v1')
     };
 
     server.route(apis.v1.routes);
