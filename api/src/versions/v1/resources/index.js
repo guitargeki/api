@@ -23,7 +23,7 @@ fs.readdirSync(__dirname).forEach(file => {
     }
 
     // Export each route
-    routes.forEach(route => {
-        module.exports.push(route);
-    });
+    for (const route in routes) {
+        module.exports.push(routes[route]);
+    }
 });
