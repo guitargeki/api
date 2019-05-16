@@ -18,5 +18,5 @@ schema.output = {
     alternative_title: schema.input.alternative_title
 };
 
-const modelInstance = new Model(tableName, schema);
+const modelInstance = new Model(tableName, tableName, schema);
 module.exports = modelInstance;

@@ -23,5 +23,5 @@ schema.output = {
     losses: Joi.number().integer().min(0)
 };
 
-const modelInstance = new Model(tableName, schema);
+const modelInstance = new Model(tableName, tableName, schema);
 module.exports = modelInstance;

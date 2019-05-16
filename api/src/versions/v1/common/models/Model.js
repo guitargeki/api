@@ -13,8 +13,9 @@ module.exports = class Model {
     /**
      * 
      */
-    constructor(tableName, schema) {
+    constructor(tableName, viewName, schema) {
         this.tableName = tableName;
+        this.viewName = viewName;
         this.schema = {
             input: schema.input,
             output: schema.output
@@ -24,14 +25,14 @@ module.exports = class Model {
     /**
      * 
      */
-    static getDbDataSchemaName () {
+    static getDbDataSchemaName() {
         return dbDataSchema;
     }
 
     /**
      * 
      */
-    static getDbViewSchemaName () {
+    static getDbViewSchemaName() {
         return dbViewSchema;
     }
 
@@ -175,7 +176,7 @@ module.exports = class Model {
      */
     async getOne(id) {
         const values = [id];
-        const sql = `SELECT * FROM ${dbViewSchema}.${this.tableName} WHERE id = $1 LIMIT 1;`;
+        const sql = `SELECT * FROM ${dbViewSchema}.${this.viewName} WHERE id = $1 LIMIT 1;`;
         const data = await db.query(sql, values);
         return data.rows[0];
     }
@@ -205,7 +206,7 @@ module.exports = class Model {
         const whereClaus = (whereClauses.length === 0) ? '' : `WHERE ${whereClauses.toString().replace(/,/g, ' AND ')}`;
 
         const sql = `
-            SELECT * FROM ${dbViewSchema}.${this.tableName}
+            SELECT * FROM ${dbViewSchema}.${this.viewName}
             ${whereClaus}
             ORDER BY
             ${sort} ${order}

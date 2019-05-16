@@ -16,5 +16,5 @@ schema.output = {
     title: schema.input.title
 };
 
-const modelInstance = new Model(tableName, schema);
+const modelInstance = new Model(tableName, tableName, schema);
 module.exports = modelInstance;
