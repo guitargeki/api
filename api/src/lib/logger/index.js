@@ -35,8 +35,11 @@ module.exports = class LogToWebhookTransform extends Stream.Transform {
         options.body = JSON.stringify({
             content: content
         });
-    
-        fetch(this.endpoint, options);
+
+        fetch(this.endpoint, options).catch(error => {
+            // Catch the error so it doesn't crash the server
+            console.log(error);
+        });
 
         // The first argument passed to next() must be the Error object if the call failed or null if the write succeeded
         return next(null, data);
