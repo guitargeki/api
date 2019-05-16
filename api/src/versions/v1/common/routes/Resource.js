@@ -13,10 +13,9 @@ module.exports = class Resource {
         this.model = model;
         this.pre = {};
         this.handlers = {};
-        this.routes = [];
-
-        const basePath = `/${resourceName}`;
-        const tags = ['api', resourceName];
+        this.routes;
+        this.basePath = `/${resourceName}`;
+        this.tags = ['api', resourceName];
 
         // PRE HANDLER - Check if a resource exists. If it doesn't exist, it will return a 404.
         this.pre.checkResourceExists = {
@@ -89,14 +88,13 @@ module.exports = class Resource {
             return h.response().code(204);
         };
 
-        this.routes = [
-            // ROUTE - Get list
-            {
+        this.routes = {
+            getList: {
                 method: 'GET',
-                path: basePath,
+                path: this.basePath,
                 handler: this.handlers.getList,
                 options: {
-                    tags: tags,
+                    tags: this.tags,
                     validate: {
                         query: {
                             limit: model.getLimitSchema(),
@@ -109,17 +107,16 @@ module.exports = class Resource {
                 }
             },
 
-            // ROUTE - Create
-            {
+            create: {
                 method: 'POST',
-                path: basePath,
+                path: this.basePath,
                 handler: this.handlers.create,
                 options: {
                     auth: {
                         strategy: auth.strategy,
                         scope: auth.scopes.admin
                     },
-                    tags: tags,
+                    tags: this.tags,
                     validate: {
                         payload: model.getRequiredSchema()
                     },
@@ -129,13 +126,12 @@ module.exports = class Resource {
                 }
             },
 
-            // ROUTE - Get one
-            {
+            getOne: {
                 method: 'GET',
-                path: basePath + '/{id}',
+                path: this.basePath + '/{id}',
                 handler: this.handlers.getOne,
                 options: {
-                    tags: tags,
+                    tags: this.tags,
                     validate: {
                         params: {
                             id: model.getIdSchema()
@@ -147,17 +143,16 @@ module.exports = class Resource {
                 }
             },
 
-            // ROUTE - Update
-            {
+            update: {
                 method: 'PATCH',
-                path: basePath + '/{id}',
+                path: this.basePath + '/{id}',
                 handler: this.handlers.update,
                 options: {
                     auth: {
                         strategy: auth.strategy,
                         scope: auth.scopes.admin
                     },
-                    tags: tags,
+                    tags: this.tags,
                     validate: {
                         params: {
                             id: model.getIdSchema()
@@ -170,6 +165,6 @@ module.exports = class Resource {
                     ]
                 }
             }
-        ];
+        };
     }
 };
