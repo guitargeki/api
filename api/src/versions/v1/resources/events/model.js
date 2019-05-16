@@ -20,5 +20,5 @@ schema.output = {
     date_end: schema.input.date_end
 };
 
-const modelInstance = new Model(tableName, schema);
+const modelInstance = new Model(tableName, tableName, schema);
 module.exports = modelInstance;
