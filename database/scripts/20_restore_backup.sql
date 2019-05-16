@@ -254,7 +254,7 @@ CREATE TABLE geki_data.ranked_results (
     loser_id integer NOT NULL,
     loser_new_elo real NOT NULL,
     loser_old_elo real NOT NULL,
-    date_submitted timestamp without time zone NOT NULL
+    datetime_submitted timestamp without time zone NOT NULL
 );
 
 
@@ -337,7 +337,7 @@ CREATE TABLE geki_data.submissions (
     title character varying(200) NOT NULL,
     description character varying(2000) NOT NULL,
     submission_url character varying(300) NOT NULL,
-    date_submitted timestamp without time zone NOT NULL
+    datetime_submitted timestamp without time zone NOT NULL
 );
 
 
@@ -518,7 +518,7 @@ SELECT
     NULL::character varying(200) AS title,
     NULL::character varying(2000) AS description,
     NULL::character varying(300) AS submission_url,
-    NULL::timestamp without time zone AS date_submitted;
+    NULL::timestamp without time zone AS datetime_submitted;
 
 
 ALTER TABLE geki_view.submissions OWNER TO postgres;
@@ -721,7 +721,7 @@ COPY geki_data.participants (id, username, avatar_url, is_team, elo) FROM stdin;
 -- Data for Name: ranked_results; Type: TABLE DATA; Schema: geki_data; Owner: postgres
 --
 
-COPY geki_data.ranked_results (id, match_id, winner_id, winner_new_elo, winner_old_elo, loser_id, loser_new_elo, loser_old_elo, date_submitted) FROM stdin;
+COPY geki_data.ranked_results (id, match_id, winner_id, winner_new_elo, winner_old_elo, loser_id, loser_new_elo, loser_old_elo, datetime_submitted) FROM stdin;
 \.
 
 
@@ -766,7 +766,7 @@ COPY geki_data.series (id, title, alternative_title) FROM stdin;
 -- Data for Name: submissions; Type: TABLE DATA; Schema: geki_data; Owner: postgres
 --
 
-COPY geki_data.submissions (id, match_id, participant_id, series_id, title, description, submission_url, date_submitted) FROM stdin;
+COPY geki_data.submissions (id, match_id, participant_id, series_id, title, description, submission_url, datetime_submitted) FROM stdin;
 1	1	3	1	Fiction		https://drive.google.com/file/d/1-dYqBOjccdwf-WYz0rGQmdT8vA83hgcd/view?usp=drivesdk	2018-11-11 23:56:15.98
 2	1	4	2	Stay Alive		https://streamable.com/vq0zg	2018-11-28 19:59:52.355
 3	1	6	2	Stay Alive		https://youtu.be/MrufRcmbonc	2018-12-01 02:00:13.28
@@ -1078,7 +1078,7 @@ CREATE OR REPLACE VIEW geki_view.submissions AS
     submissions.title,
     submissions.description,
     submissions.submission_url,
-    submissions.date_submitted
+    submissions.datetime_submitted
    FROM (((geki_data.submissions
      LEFT JOIN geki_data.matches ON ((submissions.match_id = matches.id)))
      LEFT JOIN geki_data.participants ON ((submissions.participant_id = participants.id)))
