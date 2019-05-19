@@ -11,7 +11,16 @@ const Logger = require('./lib/logger');
 const init = async function () {
     const server = Hapi.server({
         port: 3000,
-        host: '0.0.0.0'
+        host: '0.0.0.0',
+        routes: {
+            validate: {
+                // Provide detailed validation error message
+                failAction: async (request, h, err) => {
+                    console.error(err.message);
+                    throw err;
+                }
+            }
+        }
     });
 
     // Add support for auth using JWTs
