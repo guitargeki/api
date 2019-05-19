@@ -1,4 +1,6 @@
 const k = 48;
+const s = 400;
+const startingElo = 1400;
 
 /**
  * 
@@ -6,8 +8,9 @@ const k = 48;
  * @param {*} playerBElo 
  */
 function getExpectedScore(playerAElo, playerBElo) {
-    const diff = playerAElo - playerBElo;
-    return 1 / (1 + Math.pow(10, diff / 400));
+    const diff = playerBElo - playerAElo;
+    const result = 1 / (1 + Math.pow(10, diff / s));
+    return result;
 }
 
 /**
@@ -23,5 +26,6 @@ function getNewElo(playerAElo, playerBElo, playerAScore) {
 
 module.exports = {
     getExpectedScore,
-    getNewElo
+    getNewElo,
+    startingElo
 };
