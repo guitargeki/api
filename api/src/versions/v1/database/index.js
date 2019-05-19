@@ -13,5 +13,6 @@ function query(query, params) {
 }
 
 module.exports = {
+    pool,
     query
 };

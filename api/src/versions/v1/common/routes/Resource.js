@@ -22,8 +22,7 @@ module.exports = class Resource {
             method: async function (request, h) {
                 const exists = await model.doesResourceExist(request.params.id);
                 if (!exists) {
-                    const error = Boom.notFound(codes[404]);
-                    return h.response(error.output.payload).code(error.output.statusCode).takeover();
+                    throw Boom.notFound(codes[404]);
                 }
 
                 return null;
@@ -44,8 +43,7 @@ module.exports = class Resource {
                         const exists = await model.doesResourceExist(id, tableName);
 
                         if (!exists) {
-                            const error = Boom.badData(`${key} does not point to an existing resource`);
-                            return h.response(error.output.payload).code(error.output.statusCode).takeover();
+                            throw Boom.badData(`${key} does not point to an existing resource`);
                         }
                     }
 

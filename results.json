@@ -1,0 +1,157 @@
+// Winner listed first in comments
+[
+    // Bob vs H Chan - NagiAsu OP
+    {
+        "match_id": 3,
+        "winner_id": 8,
+        "loser_id": 11,
+        "datetime_submitted": "2019-01-06T22:36:28.896Z"
+    },
+    // dundun vs wasuke - Fireworks
+    {
+        "match_id": 4,
+        "winner_id": 10,
+        "loser_id": 9,
+        "datetime_submitted": "2019-01-11T06:02:12.016Z"
+    },
+    // Ramel vs Tommy - Shiki no Uta
+    {
+        "match_id": 5,
+        "winner_id": 7,
+        "loser_id": 12,
+        "datetime_submitted": "2019-01-12T23:39:46.208Z"
+    },
+    // Bob vs Quan - Everyday World
+    {
+        "match_id": 6,
+        "winner_id": 8,
+        "loser_id": 4,
+        "datetime_submitted": "2019-01-15T04:31:04.606Z"
+    },
+    // Bob vs dundun - Butterfly
+    {
+        "match_id": 7,
+        "winner_id": 8,
+        "loser_id": 10,
+        "datetime_submitted": "2019-01-21T08:08:03.992Z"
+    },
+    // Bob vs Kuro - Original Composition
+    {
+        "match_id": 8,
+        "winner_id": 8,
+        "loser_id": 5,
+        "datetime_submitted": "2019-01-30T08:09:45.441Z"
+    },
+    // Bob vs wasuke - Irozuku
+    {
+        "match_id": 9,
+        "winner_id": 8,
+        "loser_id": 9,
+        "datetime_submitted": "2019-02-05T08:16:21.690Z"
+    },
+    // Tommy vs Eren - Euforia
+    {
+        "match_id": 10,
+        "winner_id": 12,
+        "loser_id": 13,
+        "datetime_submitted": "2019-02-07T03:02:07.901Z"
+    },
+    // Bob vs Kuro - Original Composition
+    {
+        "match_id": 11,
+        "winner_id": 8,
+        "loser_id": 5,
+        "datetime_submitted": "2019-02-10T23:35:59.729Z"
+    },
+    // Ramel vs Vee - Nandemonaiya
+    {
+        "match_id": 12,
+        "winner_id": 7,
+        "loser_id": 14,
+        "datetime_submitted": "2019-02-11T11:15:50.032Z"
+    },
+    // Bob vs phan - Original Composition
+    {
+        "match_id": 13,
+        "winner_id": 8,
+        "loser_id": 15,
+        "datetime_submitted": "2019-02-11T17:22:04.825Z"
+    },
+    // Tommy vs Cy - Kimi no Namae
+    {
+        "match_id": 14,
+        "winner_id": 12,
+        "loser_id": 16,
+        "datetime_submitted": "2019-02-15T05:43:48.418Z"
+    },
+    // Bob vs Vee - My Dearest
+    {
+        "match_id": 15,
+        "winner_id": 8,
+        "loser_id": 14,
+        "datetime_submitted": "2019-02-17T19:18:33.791Z"
+    },
+    // Bob vs dundun - Break Up!
+    {
+        "match_id": 16,
+        "winner_id": 8,
+        "loser_id": 10,
+        "datetime_submitted": "2019-02-23T22:23:59.635Z"
+    },
+    // Bob vs Sinh - Kiseki
+    {
+        "match_id": 18,
+        "winner_id": 8,
+        "loser_id": 17,
+        "datetime_submitted": "2019-03-01T10:40:57.906Z"
+    },
+    // little vs Simon - Kawaki wo Ameku
+    {
+        "match_id": 19,
+        "winner_id": 18,
+        "loser_id": 19,
+        "datetime_submitted": "2019-03-27T06:48:42.329Z"
+    },
+    // Tommy vs dundun - Pokemon Johto
+    {
+        "match_id": 21,
+        "winner_id": 12,
+        "loser_id": 10,
+        "datetime_submitted": "2019-04-24T06:31:14.584Z"
+    },
+    // Bob vs Cy - Gotoubun no Kimochi
+    {
+        "match_id": 20,
+        "winner_id": 8,
+        "loser_id": 16,
+        "datetime_submitted": "2019-04-27T05:27:52.107Z"
+    },
+    // Bob vs Mardekoya - Happy Birthday
+    {
+        "match_id": 25,
+        "winner_id": 8,
+        "loser_id": 21,
+        "datetime_submitted": "2019-05-02T02:36:31.361Z"
+    },
+    // dundun vs wasuke - Lit
+    {
+        "match_id": 23,
+        "winner_id": 10,
+        "loser_id": 9,
+        "datetime_submitted": "2019-04-29T04:13:21.579Z"
+    },
+    // dundun vs Bae-kun - Black Rover
+    {
+        "match_id": 24,
+        "winner_id": 9,
+        "loser_id": 22,
+        "datetime_submitted": "2019-05-09T06:17:38.743Z"
+    },
+    // Feifei vs dundun - Shoukei to Shikabane no Michi
+    {
+        "match_id": 26,
+        "winner_id": 20,
+        "loser_id": 10,
+        "datetime_submitted": "2019-05-09T07:05:08.019Z"
+    }
+]
