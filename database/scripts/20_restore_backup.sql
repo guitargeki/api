@@ -5,7 +5,7 @@
 -- Dumped from database version 11.2
 -- Dumped by pg_dump version 11.3
 
--- Started on 2019-05-19 16:59:48
+-- Started on 2019-05-19 17:31:46
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -470,7 +470,7 @@ SELECT
 ALTER TABLE geki_view.matches OWNER TO postgres;
 
 --
--- TOC entry 223 (class 1259 OID 16555)
+-- TOC entry 220 (class 1259 OID 16452)
 -- Name: participants; Type: VIEW; Schema: geki_view; Owner: postgres
 --
 
@@ -488,7 +488,7 @@ SELECT
 ALTER TABLE geki_view.participants OWNER TO postgres;
 
 --
--- TOC entry 220 (class 1259 OID 16456)
+-- TOC entry 221 (class 1259 OID 16456)
 -- Name: ranked_results; Type: VIEW; Schema: geki_view; Owner: postgres
 --
 
@@ -511,7 +511,7 @@ SELECT
 ALTER TABLE geki_view.ranked_results OWNER TO postgres;
 
 --
--- TOC entry 221 (class 1259 OID 16460)
+-- TOC entry 222 (class 1259 OID 16460)
 -- Name: series; Type: VIEW; Schema: geki_view; Owner: postgres
 --
 
@@ -525,7 +525,7 @@ CREATE VIEW geki_view.series AS
 ALTER TABLE geki_view.series OWNER TO postgres;
 
 --
--- TOC entry 222 (class 1259 OID 16464)
+-- TOC entry 223 (class 1259 OID 16464)
 -- Name: submissions; Type: VIEW; Schema: geki_view; Owner: postgres
 --
 
@@ -877,6 +877,7 @@ COPY geki_data.submissions (id, match_id, participant_id, series_id, title, desc
 59	26	10	20	Shoukei to Shikabane no Michi		https://cdn.discordapp.com/attachments/502704652739936266/575933306265272320/Nestor_Shoukei_to_Shikabane_no_michi.mp3	2019-05-09 06:33:20.65
 60	24	9	24	Black Rover	 	https://youtu.be/5kX78miVF_k	2019-05-06 07:03:25.62
 61	30	14	24	Aoi Honoo		https://cdn.discordapp.com/attachments/502704652739936266/579169041764057090/Vee_Black_Clover_ed_1_tv_size_ver_mp3.mp3	2019-05-18 04:50:59.997
+62	30	10	24	Aoi Honoo		https://cdn.discordapp.com/attachments/502704652739936266/579537886467063831/Nestor_Aoi_Honoo.mp3	2019-05-19 05:16:39.427
 \.
 
 
@@ -891,7 +892,7 @@ COPY geki_data.team_members (id, participant_id, team_id) FROM stdin;
 
 
 --
--- TOC entry 3071 (class 0 OID 0)
+-- TOC entry 3072 (class 0 OID 0)
 -- Dependencies: 199
 -- Name: events_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -900,7 +901,7 @@ SELECT pg_catalog.setval('geki_data.events_id_seq', 8, true);
 
 
 --
--- TOC entry 3072 (class 0 OID 0)
+-- TOC entry 3073 (class 0 OID 0)
 -- Dependencies: 201
 -- Name: match_statuses_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -909,7 +910,7 @@ SELECT pg_catalog.setval('geki_data.match_statuses_id_seq', 4, true);
 
 
 --
--- TOC entry 3073 (class 0 OID 0)
+-- TOC entry 3074 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: match_types_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -918,7 +919,7 @@ SELECT pg_catalog.setval('geki_data.match_types_id_seq', 4, true);
 
 
 --
--- TOC entry 3074 (class 0 OID 0)
+-- TOC entry 3075 (class 0 OID 0)
 -- Dependencies: 205
 -- Name: matches_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -927,7 +928,7 @@ SELECT pg_catalog.setval('geki_data.matches_id_seq', 33, true);
 
 
 --
--- TOC entry 3075 (class 0 OID 0)
+-- TOC entry 3076 (class 0 OID 0)
 -- Dependencies: 207
 -- Name: participants_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -936,7 +937,7 @@ SELECT pg_catalog.setval('geki_data.participants_id_seq', 23, true);
 
 
 --
--- TOC entry 3076 (class 0 OID 0)
+-- TOC entry 3077 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: ranked_results_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -945,7 +946,7 @@ SELECT pg_catalog.setval('geki_data.ranked_results_id_seq', 24, true);
 
 
 --
--- TOC entry 3077 (class 0 OID 0)
+-- TOC entry 3078 (class 0 OID 0)
 -- Dependencies: 211
 -- Name: series_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -954,16 +955,16 @@ SELECT pg_catalog.setval('geki_data.series_id_seq', 25, true);
 
 
 --
--- TOC entry 3078 (class 0 OID 0)
+-- TOC entry 3079 (class 0 OID 0)
 -- Dependencies: 213
 -- Name: submissions_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
 
-SELECT pg_catalog.setval('geki_data.submissions_id_seq', 61, true);
+SELECT pg_catalog.setval('geki_data.submissions_id_seq', 62, true);
 
 
 --
--- TOC entry 3079 (class 0 OID 0)
+-- TOC entry 3080 (class 0 OID 0)
 -- Dependencies: 215
 -- Name: team_members_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -1092,56 +1093,7 @@ CREATE OR REPLACE VIEW geki_view.matches AS
 
 
 --
--- TOC entry 3008 (class 2618 OID 16459)
--- Name: ranked_results _RETURN; Type: RULE; Schema: geki_view; Owner: postgres
---
-
-CREATE OR REPLACE VIEW geki_view.ranked_results AS
- SELECT ranked_results.id,
-    ranked_results.match_id,
-    matches.title AS match_title,
-    ranked_results.winner_id,
-    p1.username AS winner,
-    ranked_results.winner_new_elo,
-    ranked_results.winner_old_elo,
-    ranked_results.loser_id,
-    p2.username AS loser,
-    ranked_results.loser_new_elo,
-    ranked_results.loser_old_elo,
-    ranked_results.datetime_submitted
-   FROM (((geki_data.ranked_results
-     LEFT JOIN geki_data.matches ON ((ranked_results.match_id = matches.id)))
-     LEFT JOIN geki_data.participants p1 ON ((ranked_results.winner_id = p1.id)))
-     JOIN geki_data.participants p2 ON ((ranked_results.loser_id = p2.id)))
-  GROUP BY ranked_results.id, matches.id, p1.id, p2.id;
-
-
---
--- TOC entry 3010 (class 2618 OID 16467)
--- Name: submissions _RETURN; Type: RULE; Schema: geki_view; Owner: postgres
---
-
-CREATE OR REPLACE VIEW geki_view.submissions AS
- SELECT submissions.id,
-    submissions.match_id,
-    matches.title AS match_title,
-    submissions.participant_id,
-    participants.username AS participant,
-    submissions.series_id,
-    series.title AS series,
-    submissions.title,
-    submissions.description,
-    submissions.submission_url,
-    submissions.datetime_submitted
-   FROM (((geki_data.submissions
-     LEFT JOIN geki_data.matches ON ((submissions.match_id = matches.id)))
-     LEFT JOIN geki_data.participants ON ((submissions.participant_id = participants.id)))
-     LEFT JOIN geki_data.series ON ((submissions.series_id = series.id)))
-  GROUP BY submissions.id, matches.id, participants.id, series.id;
-
-
---
--- TOC entry 3011 (class 2618 OID 16558)
+-- TOC entry 3008 (class 2618 OID 16455)
 -- Name: participants _RETURN; Type: RULE; Schema: geki_view; Owner: postgres
 --
 
@@ -1168,6 +1120,55 @@ CREATE OR REPLACE VIEW geki_view.participants AS
    FROM (geki_data.participants
      LEFT JOIN geki_data.ranked_results ON (((participants.id = ranked_results.winner_id) OR (participants.id = ranked_results.loser_id))))
   GROUP BY participants.id;
+
+
+--
+-- TOC entry 3009 (class 2618 OID 16459)
+-- Name: ranked_results _RETURN; Type: RULE; Schema: geki_view; Owner: postgres
+--
+
+CREATE OR REPLACE VIEW geki_view.ranked_results AS
+ SELECT ranked_results.id,
+    ranked_results.match_id,
+    matches.title AS match_title,
+    ranked_results.winner_id,
+    p1.username AS winner,
+    ranked_results.winner_new_elo,
+    ranked_results.winner_old_elo,
+    ranked_results.loser_id,
+    p2.username AS loser,
+    ranked_results.loser_new_elo,
+    ranked_results.loser_old_elo,
+    ranked_results.datetime_submitted
+   FROM (((geki_data.ranked_results
+     LEFT JOIN geki_data.matches ON ((ranked_results.match_id = matches.id)))
+     LEFT JOIN geki_data.participants p1 ON ((ranked_results.winner_id = p1.id)))
+     JOIN geki_data.participants p2 ON ((ranked_results.loser_id = p2.id)))
+  GROUP BY ranked_results.id, matches.id, p1.id, p2.id;
+
+
+--
+-- TOC entry 3011 (class 2618 OID 16467)
+-- Name: submissions _RETURN; Type: RULE; Schema: geki_view; Owner: postgres
+--
+
+CREATE OR REPLACE VIEW geki_view.submissions AS
+ SELECT submissions.id,
+    submissions.match_id,
+    matches.title AS match_title,
+    submissions.participant_id,
+    participants.username AS participant,
+    submissions.series_id,
+    series.title AS series,
+    submissions.title,
+    submissions.description,
+    submissions.submission_url,
+    submissions.datetime_submitted
+   FROM (((geki_data.submissions
+     LEFT JOIN geki_data.matches ON ((submissions.match_id = matches.id)))
+     LEFT JOIN geki_data.participants ON ((submissions.participant_id = participants.id)))
+     LEFT JOIN geki_data.series ON ((submissions.series_id = series.id)))
+  GROUP BY submissions.id, matches.id, participants.id, series.id;
 
 
 --
@@ -1488,6 +1489,15 @@ GRANT SELECT ON TABLE geki_view.matches TO api;
 --
 -- TOC entry 3068 (class 0 OID 0)
 -- Dependencies: 220
+-- Name: TABLE participants; Type: ACL; Schema: geki_view; Owner: postgres
+--
+
+GRANT SELECT ON TABLE geki_view.participants TO api;
+
+
+--
+-- TOC entry 3069 (class 0 OID 0)
+-- Dependencies: 221
 -- Name: TABLE ranked_results; Type: ACL; Schema: geki_view; Owner: postgres
 --
 
@@ -1495,8 +1505,8 @@ GRANT SELECT ON TABLE geki_view.ranked_results TO api;
 
 
 --
--- TOC entry 3069 (class 0 OID 0)
--- Dependencies: 221
+-- TOC entry 3070 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: TABLE series; Type: ACL; Schema: geki_view; Owner: postgres
 --
 
@@ -1504,15 +1514,15 @@ GRANT SELECT ON TABLE geki_view.series TO api;
 
 
 --
--- TOC entry 3070 (class 0 OID 0)
--- Dependencies: 222
+-- TOC entry 3071 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: TABLE submissions; Type: ACL; Schema: geki_view; Owner: postgres
 --
 
 GRANT SELECT ON TABLE geki_view.submissions TO api;
 
 
--- Completed on 2019-05-19 16:59:49
+-- Completed on 2019-05-19 17:31:48
 
 --
 -- PostgreSQL database dump complete

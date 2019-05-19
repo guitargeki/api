@@ -9,7 +9,7 @@ const schema = {};
 
 schema.input = {
     title: Joi.string().max(200),
-    alternative_title: Joi.string().max(200)
+    alternative_title: Joi.string().max(200).allow('')
 };
 
 schema.output = {

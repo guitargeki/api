@@ -9,7 +9,7 @@ const schema = {};
 
 schema.input = {
     username: Joi.string().regex(/^[a-zA-Z0-9 _-]+$/).min(2).max(32),
-    avatar_url: Joi.string().uri().max(200),
+    avatar_url: Joi.string().uri().max(200).allow(''),
     is_team: Joi.boolean(),
     elo: Joi.number().min(-1).max(10000)
 };
