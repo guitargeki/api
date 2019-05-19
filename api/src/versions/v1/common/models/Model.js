@@ -16,24 +16,12 @@ module.exports = class Model {
     constructor(tableName, viewName, schema) {
         this.tableName = tableName;
         this.viewName = viewName;
+        this.writeTable = `${dbDataSchema}.${tableName}`;
+        this.readTable = `${dbViewSchema}.${viewName}`;
         this.schema = {
             input: schema.input,
             output: schema.output
         };
-    }
-
-    /**
-     * 
-     */
-    static getDbDataSchemaName() {
-        return dbDataSchema;
-    }
-
-    /**
-     * 
-     */
-    static getDbViewSchemaName() {
-        return dbViewSchema;
     }
 
     /**
@@ -74,7 +62,7 @@ module.exports = class Model {
      */
     getWhereSchema() {
         const schema = this.schema.output;
-        let columns = Object.keys(this.schema.output).toString();
+        let columns = Object.keys(schema).toString();
         columns = columns.replace(/,/g, '|');
         const regex = `^(${columns}) *(>=|<=|<>|!=|=|>|<) *(.+)$`;
 
@@ -176,7 +164,7 @@ module.exports = class Model {
      */
     async getOne(id) {
         const values = [id];
-        const sql = `SELECT * FROM ${dbViewSchema}.${this.viewName} WHERE id = $1 LIMIT 1;`;
+        const sql = `SELECT * FROM ${this.readTable} WHERE id = $1 LIMIT 1;`;
         const data = await db.query(sql, values);
         return data.rows[0];
     }
@@ -185,14 +173,10 @@ module.exports = class Model {
      * 
      */
     async getList({ limit = limitDefault, offset = offsetDefault, sort = '', reverse = reverseDefault, where = [] }) {
-        let order = '';
+        let order = (reverse) ? 'DESC' : 'ASC';
         const values = [limit, offset];
 
-        if (sort === '') {
-            order = (reverse) ? 'DESC' : 'ASC';
-        }
-
-        // Create Where clause
+        // Create WHERE clause
         const whereClauses = [];
         let valuesIndex = values.length + 1;
         for (let i = 0; i < where.length; i++) {
@@ -204,9 +188,8 @@ module.exports = class Model {
 
         // Only create the WHERE claus if there are entries
         const whereClaus = (whereClauses.length === 0) ? '' : `WHERE ${whereClauses.toString().replace(/,/g, ' AND ')}`;
-
         const sql = `
-            SELECT * FROM ${dbViewSchema}.${this.viewName}
+            SELECT * FROM ${this.readTable}
             ${whereClaus}
             ORDER BY
             ${sort} ${order}
@@ -220,7 +203,7 @@ module.exports = class Model {
      * 
      * @param {*} params 
      */
-    async create(params) {
+    async create(params, client = db) {
         const values = [];
         const columns = [];
         const replace = [];
@@ -234,11 +217,11 @@ module.exports = class Model {
             i++;
         }
 
-        const sql = `
-            INSERT INTO ${dbDataSchema}.${this.tableName} (${columns})
+        const sql = ` 
+            INSERT INTO ${this.writeTable} (${columns})
             VALUES (${replace}) RETURNING id;`;
 
-        const data = await db.query(sql, values);
+        const data = await client.query(sql, values);
         return data.rows[0].id;
     }
 
@@ -247,7 +230,7 @@ module.exports = class Model {
      * @param {*} id 
      * @param {*} params 
      */
-    async update(id, params) {
+    async update(id, params, client = db) {
         const values = [id];
         const columns = [];
         let i = 2;
@@ -260,10 +243,10 @@ module.exports = class Model {
         }
 
         const sql = `
-            UPDATE ${dbDataSchema}.${this.tableName}
+            UPDATE ${this.writeTable}
             SET ${columns}
             WHERE id=$1;`;
 
-        await db.query(sql, values);
+        await client.query(sql, values);
     }
 };

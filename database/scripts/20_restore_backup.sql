@@ -5,7 +5,7 @@
 -- Dumped from database version 11.2
 -- Dumped by pg_dump version 11.3
 
--- Started on 2019-05-19 11:33:08
+-- Started on 2019-05-19 15:45:16
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -717,26 +717,26 @@ COPY geki_data.participants (id, username, avatar_url, is_team, elo) FROM stdin;
 1	GEKI		f	-1
 2	Admin		f	-1
 3	thaorem		f	1400
-4	Quan		f	1400
-5	Kurosara		f	1400
 6	Seranot		f	1400
-7	MasagoYaki		f	1400
-8	Bob		f	1400
-9	wasuke		f	1400
-10	dundun		f	1400
-11	H Chang		f	1400
-12	Tommy		f	1400
-13	Eren		f	1400
-14	Vee		f	1400
-15	phan		f	1400
-16	Cy		f	1400
-17	Sinh		f	1400
-18	little		f	1400
-19	Simooonii		f	1400
-20	Feifei		f	1400
-21	Mardekoya		f	1400
-22	Bae-Kun & Egg		f	1400
 23	Jerry	 	f	1400
+11	H Chang		f	1376
+4	Quan		f	1374.34473
+13	Eren		f	1377.65527
+5	Kurosara		f	1336.19226
+7	MasagoYaki		f	1449.65527
+15	phan		f	1365.01697
+14	Vee		f	1336.31873
+17	Sinh		f	1359.8551
+18	little		f	1424
+19	Simooonii		f	1376
+12	Tommy		f	1450.51135
+16	Cy		f	1333.83215
+8	Bob		f	1808.60022
+21	Mardekoya		f	1357.20984
+9	wasuke		f	1338.93176
+22	Bae-Kun & Egg		f	1381.40833
+20	Feifei		f	1427.12793
+10	dundun		f	1327.33215
 \.
 
 
@@ -747,6 +747,28 @@ COPY geki_data.participants (id, username, avatar_url, is_team, elo) FROM stdin;
 --
 
 COPY geki_data.ranked_results (id, match_id, winner_id, winner_new_elo, winner_old_elo, loser_id, loser_new_elo, loser_old_elo, datetime_submitted) FROM stdin;
+1	3	8	1424	1400	11	1376	1400	2019-01-06 22:36:28.896
+2	4	10	1424	1400	9	1376	1400	2019-01-11 06:02:12.016
+3	5	7	1424	1400	12	1376	1400	2019-01-12 23:39:46.208
+4	6	8	1449.65527	1424	4	1374.34473	1400	2019-01-15 04:31:04.606
+5	7	8	1475.42932	1449.66003	10	1398.23071	1424	2019-01-21 08:08:03.992
+6	8	8	1504.56018	1475.43005	5	1370.86987	1400	2019-01-30 08:09:45.441
+7	9	8	1537.05627	1504.56006	9	1343.50366	1376	2019-02-05 08:16:21.69
+8	10	12	1398.34473	1376	13	1377.65527	1400	2019-02-07 03:02:07.901
+9	11	8	1571.73779	1537.06006	5	1336.19226	1370.87	2019-02-10 23:35:59.729
+10	12	7	1449.65527	1424	14	1374.34473	1400	2019-02-11 11:15:50.032
+11	13	8	1606.72314	1571.73999	15	1365.01697	1400	2019-02-11 17:22:04.825
+12	14	12	1422.22534	1398.33997	16	1376.11462	1400	2019-02-15 05:43:48.418
+13	15	8	1644.74121	1606.71997	14	1336.31873	1374.33997	2019-02-17 19:18:33.791
+14	16	8	1683.38892	1644.73999	10	1359.58105	1398.22998	2019-02-23 22:23:59.635
+15	18	8	1723.53479	1683.39001	17	1359.8551	1400	2019-03-01 10:40:57.906
+16	19	18	1424	1400	19	1376	1400	2019-03-27 06:48:42.329
+17	21	12	1450.51135	1422.22998	10	1331.29858	1359.57996	2019-04-24 06:31:14.584
+18	20	8	1765.80786	1723.53003	16	1333.83215	1376.10999	2019-04-27 05:27:52.107
+19	25	8	1808.60022	1765.81006	21	1357.20984	1400	2019-05-02 02:36:31.361
+20	23	10	1354.45764	1331.30005	9	1320.34241	1343.5	2019-04-29 04:13:21.579
+21	24	9	1338.93176	1320.33997	22	1381.40833	1400	2019-05-09 06:17:38.743
+22	26	20	1427.12793	1400	10	1327.33215	1354.45996	2019-05-09 07:05:08.019
 \.
 
 
@@ -917,7 +939,7 @@ SELECT pg_catalog.setval('geki_data.participants_id_seq', 23, true);
 -- Name: ranked_results_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
 
-SELECT pg_catalog.setval('geki_data.ranked_results_id_seq', 1, false);
+SELECT pg_catalog.setval('geki_data.ranked_results_id_seq', 22, true);
 
 
 --
@@ -1488,7 +1510,7 @@ GRANT SELECT ON TABLE geki_view.series TO api;
 GRANT SELECT ON TABLE geki_view.submissions TO api;
 
 
--- Completed on 2019-05-19 11:33:10
+-- Completed on 2019-05-19 15:45:17
 
 --
 -- PostgreSQL database dump complete
