@@ -1,12 +1,12 @@
 const path = require('path');
 const Boom = require('@hapi/boom');
+const auth = require('../../common/routes/auth');
 const Resource = require('../../common/routes/Resource');
 const model = require('./model');
 const resourceName = path.basename(__dirname);
 const resrc = new Resource(resourceName, model);
 
 // Handler to calculate new Elos
-
 resrc.routes.create.handler = async function (request, h) {
     const payload = request.payload;
 
@@ -28,8 +28,25 @@ resrc.routes.create.handler = async function (request, h) {
     }
 };
 
+const recalculateAllElos = {
+    method: 'POST',
+    path: resrc.basePath + '/recalculate',
+    handler: async function (request, h) {
+        await model.recalculateAllElos();
+        return h.response().code(200);
+    },
+    options: {
+        auth: {
+            strategy: auth.strategy,
+            scope: auth.scopes.admin
+        },
+        tags: resrc.tags
+    }
+};
+
 module.exports = [
     resrc.routes.getList,
     resrc.routes.create,
-    resrc.routes.getOne
+    resrc.routes.getOne,
+    recalculateAllElos
 ];

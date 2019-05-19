@@ -36,6 +36,44 @@ const modelInstance = new Model(tableName, tableName, schema);
 
 /**
  * 
+ * @param {*} winner_id 
+ * @param {*} loser_id 
+ * @param {*} client 
+ */
+async function updateElo(winner_id, loser_id, client) {
+    // Get winner's current Elo
+    const sql = `
+        SELECT elo
+        FROM ${participantModel.writeTable}
+        WHERE id = $1
+        LIMIT 1;`;
+    let values = [winner_id];
+    let results = await client.query(sql, values);
+    const winnerOldElo = results.rows[0].elo;
+
+    // Get loser's current Elo
+    values = [loser_id];
+    results = await client.query(sql, values);
+    const loserOldElo = results.rows[0].elo;
+
+    // Calculate new Elos
+    const winnerNewElo = elo.getNewElo(winnerOldElo, loserOldElo, 1);
+    const loserNewElo = elo.getNewElo(loserOldElo, winnerOldElo, 0);
+
+    // Update Elos
+    await participantModel.update(winner_id, { elo: winnerNewElo }, client);
+    await participantModel.update(loser_id, { elo: loserNewElo }, client);
+
+    return {
+        winnerNewElo,
+        winnerOldElo,
+        loserNewElo,
+        loserOldElo
+    };
+}
+
+/**
+ * 
  */
 modelInstance.submitResult = async function ({ match_id, winner_id, loser_id, datetime_submitted }) {
     // Get a single client from the pool since all statements within a transaction must come from the same client.
@@ -51,52 +89,83 @@ modelInstance.submitResult = async function ({ match_id, winner_id, loser_id, da
         sql = `LOCK TABLE ${modelInstance.writeTable} IN EXCLUSIVE MODE;`;
         await client.query(sql);
 
-        // Get winner's current Elo
-        sql = `
-            SELECT elo
-            FROM ${participantModel.writeTable}
-            WHERE id = $1
-            LIMIT 1;`;
-        let values = [winner_id];
-        let results = await client.query(sql, values);
-        const winnerOldElo = results.rows[0].elo;
+        // Update Elos and return old and new Elos
+        const elos = await updateElo(winner_id, loser_id, client);
 
-        // Get loser's current Elo
-        values = [loser_id];
-        results = await client.query(sql, values);
-        const loserOldElo = results.rows[0].elo;
-
-        // Calculate new Elos
-        const winnerNewElo = elo.getNewElo(winnerOldElo, loserOldElo, 1);
-        const loserNewElo = elo.getNewElo(loserOldElo, winnerOldElo, 0);
-        
         // Insert ranked result
         const data = {
             match_id,
             winner_id,
-            winner_new_elo: winnerNewElo,
-            winner_old_elo: winnerOldElo,
+            winner_new_elo: elos.winnerNewElo,
+            winner_old_elo: elos.winnerOldElo,
             loser_id,
-            loser_new_elo: loserNewElo,
-            loser_old_elo: loserOldElo,
+            loser_new_elo: elos.loserNewElo,
+            loser_old_elo: elos.loserOldElo,
             datetime_submitted
         };
         const rankedResultId = await modelInstance.create(data, client);
 
-        // Update Elos
-        await participantModel.update(winner_id, { elo: winnerNewElo });
-        await participantModel.update(loser_id, { elo: loserNewElo });
-
         await client.query('COMMIT;');
-
-        results = await modelInstance.getOne(rankedResultId);
+        const results = await modelInstance.getOne(rankedResultId);
         return results;
+
     } catch (error) {
         await client.query('ROLLBACK;');
         throw error;
     } finally {
         // Put client back into the connection pool. Must be done otherwise, connections will leak
         // and the pool will eventually be empty.
+        client.release();
+    }
+};
+
+modelInstance.recalculateAllElos = async function () {
+    const client = await db.pool.connect();
+
+    try {
+        let results;
+        let sql = 'BEGIN;';
+        await client.query(sql);
+
+        // Lock the table from all writes. Reads still work.
+        sql = `LOCK TABLE ${modelInstance.writeTable} IN EXCLUSIVE MODE;`;
+        await client.query(sql);
+
+        // Reset all Elos to starting Elo
+        sql = `
+            UPDATE ${participantModel.writeTable}
+            SET elo = ${elo.startingElo}
+            WHERE elo > 0;`;
+        await client.query(sql);
+
+        // Get all results ordered by datetime submitted
+        sql = `
+            SELECT * FROM ${modelInstance.writeTable}
+            ORDER BY datetime_submitted ASC;`;
+        results = await client.query(sql);
+        results = results.rows;
+
+        // Recalculate all results
+        for (const result of results) {
+            // Update and return Elos
+            const elos = await updateElo(result.winner_id, result.loser_id, client);
+            const data = {
+                winner_new_elo: elos.winnerNewElo,
+                winner_old_elo: elos.winnerOldElo,
+                loser_new_elo: elos.loserNewElo,
+                loser_old_elo: elos.loserOldElo
+            };
+
+            // Update ranked result row
+            await modelInstance.update(result.id, data, client);
+        }
+
+        await client.query('COMMIT;');
+        
+    } catch (error) {
+        await client.query('ROLLBACK;');
+        throw error;
+    } finally {
         client.release();
     }
 };
