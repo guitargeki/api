@@ -1,0 +1,8 @@
+#!/bin/sh
+## Make sure the file has LF line endings!
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    CREATE ROLE $NEW_USER_NAME NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN PASSWORD '$NEW_USER_PASSWORD';
+    GRANT CONNECT ON DATABASE geki TO api;
+EOSQL
