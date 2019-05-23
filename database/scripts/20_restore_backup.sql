@@ -5,7 +5,7 @@
 -- Dumped from database version 11.2
 -- Dumped by pg_dump version 11.3
 
--- Started on 2019-05-19 21:52:47
+-- Started on 2019-05-23 10:57:42
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -698,12 +698,14 @@ COPY geki_data.matches (id, title, event_id, match_type_id, match_status_id) FRO
 26	Attack on Titan S3 Part 2 OP - Shoukei to Shikabane no Michi	6	4	4
 27	SWEET vs Spicy - Maquia - viator	7	2	4
 22	Kaguya-sama: Love Is War ED - Sentimental Crisis	6	4	4
-30	Black Clover ED - Aoi Honoo	6	4	2
 31	Re:Zero OST - Wish of the Stars	6	4	2
 32	Highschool of the Dead OP - Highschool of the Dead	6	4	2
-29	Doki Doki Literature Club - Your Reality	6	4	2
 28	March/April 2019 Monthly	5	3	4
 33	May/June 2019 Monthly	8	3	2
+29	Doki Doki Literature Club - Your Reality	6	4	4
+30	Black Clover ED - Aoi Honoo	6	4	4
+34	Soul Eater OP2 - Paper Moon	6	4	2
+35	Final Fantasy XIII - A Brief Respite	6	4	2
 \.
 
 
@@ -731,12 +733,12 @@ COPY geki_data.participants (id, username, avatar_url, is_team, elo) FROM stdin;
 16	Cy		f	1364.66687
 21	Mardekoya		f	1387.92065
 9	wasuke		f	1364.30627
-22	Bae-Kun & Egg		f	1371.62366
 20	Feifei		f	1423.26941
 8	Bob		f	1614.11011
 18	little		f	1411.28992
-10	dundun		f	1389.99597
 14	Vee		f	1340.0741
+10	dundun		f	1412.73157
+22	Bae-Kun & Egg		f	1348.88843
 \.
 
 
@@ -771,6 +773,7 @@ COPY geki_data.ranked_results (id, match_id, winner_id, winner_new_elo, winner_o
 22	26	20	1423.26941	1400	10	1366.15063	1389.42004	2019-05-09 07:05:08.019
 23	22	8	1614.11011	1601.40002	18	1411.28992	1424	2019-05-11 23:41:37.784
 24	30	10	1389.99597	1366.15002	14	1340.0741	1363.92004	2019-05-19 06:51:25.688
+25	29	10	1412.73157	1390	22	1348.88843	1371.62	2019-05-22 05:44:34.846
 \.
 
 
@@ -806,6 +809,9 @@ COPY geki_data.series (id, title, alternative_title) FROM stdin;
 23	Irozuku Sekai no Ashita kara	
 24	Black Clover	
 25	The Legend of Zelda	
+26	Doki Doki Literature Club!	
+27	Soul Eater	
+28	Final Fantasy XIII	
 \.
 
 
@@ -878,6 +884,8 @@ COPY geki_data.submissions (id, match_id, participant_id, series_id, title, desc
 60	24	9	24	Black Rover	 	https://youtu.be/5kX78miVF_k	2019-05-06 07:03:25.62
 61	30	14	24	Aoi Honoo		https://cdn.discordapp.com/attachments/502704652739936266/579169041764057090/Vee_Black_Clover_ed_1_tv_size_ver_mp3.mp3	2019-05-18 04:50:59.997
 62	30	10	24	Aoi Honoo		https://cdn.discordapp.com/attachments/502704652739936266/579537886467063831/Nestor_Aoi_Honoo.mp3	2019-05-19 05:16:39.427
+63	29	22	26	Your Reality		https://cdn.discordapp.com/attachments/502704652739936266/579823272791900170/Egg_Your_Reality.mp3	2019-05-20 00:10:40.829
+64	29	10	26	Your Reality		https://cdn.discordapp.com/attachments/502704652739936266/580624193255899146/Nestor_Your_Reality.mp3	2019-05-22 05:13:15.271
 \.
 
 
@@ -924,7 +932,7 @@ SELECT pg_catalog.setval('geki_data.match_types_id_seq', 4, true);
 -- Name: matches_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
 
-SELECT pg_catalog.setval('geki_data.matches_id_seq', 33, true);
+SELECT pg_catalog.setval('geki_data.matches_id_seq', 35, true);
 
 
 --
@@ -942,7 +950,7 @@ SELECT pg_catalog.setval('geki_data.participants_id_seq', 23, true);
 -- Name: ranked_results_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
 
-SELECT pg_catalog.setval('geki_data.ranked_results_id_seq', 24, true);
+SELECT pg_catalog.setval('geki_data.ranked_results_id_seq', 25, true);
 
 
 --
@@ -951,7 +959,7 @@ SELECT pg_catalog.setval('geki_data.ranked_results_id_seq', 24, true);
 -- Name: series_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
 
-SELECT pg_catalog.setval('geki_data.series_id_seq', 25, true);
+SELECT pg_catalog.setval('geki_data.series_id_seq', 28, true);
 
 
 --
@@ -960,7 +968,7 @@ SELECT pg_catalog.setval('geki_data.series_id_seq', 25, true);
 -- Name: submissions_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
 
-SELECT pg_catalog.setval('geki_data.submissions_id_seq', 62, true);
+SELECT pg_catalog.setval('geki_data.submissions_id_seq', 64, true);
 
 
 --
@@ -1522,7 +1530,7 @@ GRANT SELECT ON TABLE geki_view.series TO api;
 GRANT SELECT ON TABLE geki_view.submissions TO api;
 
 
--- Completed on 2019-05-19 21:52:49
+-- Completed on 2019-05-23 10:57:43
 
 --
 -- PostgreSQL database dump complete

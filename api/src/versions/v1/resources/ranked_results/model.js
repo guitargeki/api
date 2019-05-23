@@ -85,7 +85,7 @@ modelInstance.submitResult = async function ({ match_id, winner_id, loser_id, da
         let sql = 'BEGIN;';
         await client.query(sql);
 
-        // Lock the table from all writes. Reads still work.
+        // Lock the results table from all writes. Reads still work.
         sql = `LOCK TABLE ${modelInstance.writeTable} IN EXCLUSIVE MODE;`;
         await client.query(sql);
 
@@ -104,6 +104,12 @@ modelInstance.submitResult = async function ({ match_id, winner_id, loser_id, da
             datetime_submitted
         };
         const rankedResultId = await modelInstance.create(data, client);
+
+        // Mark match as Completed
+        sql = `
+            UPDATE ${matchModel.writeTable}
+            SET match_status_id=4
+            WHERE id=${match_id};`;
 
         await client.query('COMMIT;');
         const results = await modelInstance.getOne(rankedResultId);
@@ -127,7 +133,7 @@ modelInstance.recalculateAllElos = async function () {
         let sql = 'BEGIN;';
         await client.query(sql);
 
-        // Lock the table from all writes. Reads still work.
+        // Lock the results table from all writes. Reads still work.
         sql = `LOCK TABLE ${modelInstance.writeTable} IN EXCLUSIVE MODE;`;
         await client.query(sql);
 
