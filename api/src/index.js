@@ -6,6 +6,7 @@ const Good = require('@hapi/good');
 const jwt = require('hapi-auth-jwt2');
 const jwksRsa = require('jwks-rsa');
 const Logger = require('./lib/logger');
+const rateLimiter = require('hapi-rate-limit');
 
 // Set up server configuration
 const init = async function () {
@@ -16,10 +17,26 @@ const init = async function () {
             validate: {
                 // Provide detailed validation error message
                 failAction: async (request, h, err) => {
-                    console.error(err.message);
+                    const validation = err.output.payload.validation;
+                    err.output.payload.message = `Invalid value for '${validation.keys}' parameter`;
+                    delete err.output.payload.validation;
                     throw err;
                 }
             }
+        }
+    });
+
+    // Rate limiting
+    await server.register({
+        plugin: rateLimiter,
+        options: {
+            userLimit: 50,
+            userCache: {
+                segment: 'hapi-rate-limit-user',
+                expiresIn: 60000 // One minute
+            },
+            pathLimit: false,
+            trustProxy: true
         }
     });
 
