@@ -6,7 +6,7 @@ const model = require('./model');
 const resourceName = path.basename(__dirname);
 const resrc = new Resource(resourceName, model);
 
-// Handler to calculate new Elos
+// Handler to calculate new Elos for a single ranked result
 resrc.routes.create.handler = async function (request, h) {
     const payload = request.payload;
 
@@ -16,7 +16,7 @@ resrc.routes.create.handler = async function (request, h) {
     }
 
     try {
-        // Update Elos for both participants
+        // Update Elos for both participants. Will also mark the match as Completed.
         const rankedResult = await model.submitResult(payload);
 
         // Set 'Location' header to the URL for the new resource
@@ -28,6 +28,7 @@ resrc.routes.create.handler = async function (request, h) {
     }
 };
 
+// Route to recalculate all Elos
 const recalculateAllElos = {
     method: 'POST',
     path: resrc.basePath + '/recalculate',

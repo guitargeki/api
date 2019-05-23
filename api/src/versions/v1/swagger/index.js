@@ -2,7 +2,7 @@ const basePath = '/v1';
 
 module.exports = {
     info: {
-        title: 'Guitargeki API V1',
+        title: 'Guitargeki API V1 Documentation',
         version: '1.0.0',
         description: 'Documentation for the Guitargeki API. To use the POST and PATCH methods, provide a valid access token in the form of \'Bearer TOKEN\'.'
     },
