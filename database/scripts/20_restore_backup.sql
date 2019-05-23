@@ -5,7 +5,7 @@
 -- Dumped from database version 11.2
 -- Dumped by pg_dump version 11.3
 
--- Started on 2019-05-23 10:57:42
+-- Started on 2019-05-23 21:17:20
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -718,27 +718,27 @@ COPY geki_data.matches (id, title, event_id, match_type_id, match_status_id) FRO
 COPY geki_data.participants (id, username, avatar_url, is_team, elo) FROM stdin;
 1	GEKI		f	-1
 2	Admin		f	-1
-3	thaorem		f	1400
-6	Seranot		f	1400
-23	Jerry	 	f	1400
-11	H Chang		f	1376
-4	Quan		f	1377.65527
-13	Eren		f	1374.34473
-5	Kurosara		f	1364.90527
-7	MasagoYaki		f	1446.34473
-15	phan		f	1383.99927
-17	Sinh		f	1386.58167
-19	Simooonii		f	1376
-12	Tommy		f	1446.91296
-16	Cy		f	1364.66687
-21	Mardekoya		f	1387.92065
-9	wasuke		f	1364.30627
-20	Feifei		f	1423.26941
-8	Bob		f	1614.11011
-18	little		f	1411.28992
-14	Vee		f	1340.0741
-10	dundun		f	1412.73157
-22	Bae-Kun & Egg		f	1348.88843
+3	thaorem	https://cdn.discordapp.com/avatars/384316954887847936/5bc13fcec380bebc34e80dd97bc50b2b.png?size=256	f	1400
+4	Quan	https://cdn.discordapp.com/avatars/158450586986086400/0b79fa14eee8ea266a4cf72e6bbb00bd?size=256	f	1377.65527
+5	Kurosara	https://cdn.discordapp.com/avatars/177118256514072577/a15bc41d398819fb9f5295ec3f011f36.png?size=256	f	1364.90527
+6	Seranot	https://cdn.discordapp.com/avatars/283030789241831425/abc234596ca57c83512060a8fd316284.png?size=256	f	1400
+7	MasagoYaki	https://cdn.discordapp.com/avatars/153599670365585408/af8da5dd64099b60841fc26ca93a7908.png?size=256	f	1446.34473
+8	Bob	https://cdn.discordapp.com/avatars/248153993526771713/41a2ca56725f721244a088c2a25d2dab.png?size=256	f	1614.11011
+9	wasuke	https://cdn.discordapp.com/avatars/143987639802920960/a7bea703f5a11b4c79043da99dbfdce6.png?size=256	f	1364.30627
+10	dundun	https://cdn.discordapp.com/avatars/404710474534486017/bd83cbd61982b56ea9dc0e1b23ca9e3b.png?size=256	f	1412.73157
+11	H Chang	https://cdn.discordapp.com/avatars/403129046499852289/ca94cb8e4466e3ad25caa5424ce69b08?size=256	f	1376
+12	Tommy	https://cdn.discordapp.com/avatars/197926100687519746/7109555d8eaae148475b006c13667cd2.png?size=256	f	1446.91296
+13	Eren	https://cdn.discordapp.com/avatars/294581570499772417/4dc8d5c3483cb059ed4740e2dc908de3.png?size=256	f	1374.34473
+14	Vee	https://cdn.discordapp.com/avatars/430935776973291521/9f9fe6dfad20500a3669bf3b1b64b17d.png?size=256	f	1340.0741
+15	phan	https://cdn.discordapp.com/avatars/178330278014484480/9c7a6ef292cbe7bb65cf1dc9288efb25?size=256	f	1383.99927
+16	Cy	https://cdn.discordapp.com/avatars/354316246759636992/9fe94c6474f6892e40f8f1ab0b889f50?size=256	f	1364.66687
+17	Sinh	https://cdn.discordapp.com/avatars/406047779438460929/8c94c961e9cc13559df0df977baaed37.png?size=256	f	1386.58167
+18	little	https://cdn.discordapp.com/avatars/420913787797766146/a30f14868ef727423cacc6658f20d07b.png?size=256	f	1411.28992
+19	Simooonii	https://cdn.discordapp.com/avatars/107263078776705024/19bbfb780e00b713f7c8b73713d017fe.png?size=256	f	1376
+20	Feifei	https://cdn.discordapp.com/avatars/518933721152487424/b559a6079aeb6378a6abf2dc46cd0786.png?size=256	f	1423.26941
+21	Mardekoya	https://cdn.discordapp.com/avatars/472787793920393216/3a19ccc4e09316f6de89090ddb39e463.png?size=256	f	1387.92065
+22	Bae-Kun & Egg	https://cdn.discordapp.com/avatars/322490963211845632/459f6982f1b65b912003a38abac4c3be.png?size=256	f	1348.88843
+23	Jerry	https://cdn.discordapp.com/avatars/396543088069443584/9f9157a585c89d0ee57275a5fa036d95.png?size=256	f	1400
 \.
 
 
@@ -1530,7 +1530,7 @@ GRANT SELECT ON TABLE geki_view.series TO api;
 GRANT SELECT ON TABLE geki_view.submissions TO api;
 
 
--- Completed on 2019-05-23 10:57:43
+-- Completed on 2019-05-23 21:17:21
 
 --
 -- PostgreSQL database dump complete
