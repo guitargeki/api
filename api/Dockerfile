@@ -14,7 +14,7 @@ RUN npm install --production
 
 # Bundle app source. This should be done as late as possible as it will invalidate
 # the cache.
-COPY . .
+COPY src/ src/
 
 # # Not needed because it's on the same network as other containers
 # EXPOSE 3000
