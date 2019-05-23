@@ -5,6 +5,9 @@ services:
     build: ./database
     env_file:
       - ./config/database/database.env
+    environment:
+      - NEW_USER_NAME=${DB_API_USERNAME}
+      - NEW_USER_PASSWORD=${DB_API_PASSWORD}
     volumes:
       - geki-data:/var/lib/postgresql/data
       - ./database/scripts:/docker-entrypoint-initdb.d
@@ -17,6 +20,9 @@ services:
     build: ./api
     env_file:
       - ./config/api/api.env
+    environment:
+      - PGUSER=${DB_API_USERNAME}
+      - PGPASSWORD=${DB_API_PASSWORD}
     volumes:
       - ./api:/app
     command: npm run start-dev
