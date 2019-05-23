@@ -35,10 +35,10 @@ schema.output = {
 const modelInstance = new Model(tableName, tableName, schema);
 
 /**
- * 
+ * Update Elos for both participants and returns an object containing new and old Elos.
  * @param {*} winner_id 
  * @param {*} loser_id 
- * @param {*} client 
+ * @param {*} client - Client to use when executing queries.
  */
 async function updateElo(winner_id, loser_id, client) {
     // Get winner's current Elo
@@ -73,7 +73,7 @@ async function updateElo(winner_id, loser_id, client) {
 }
 
 /**
- * 
+ * Updates Elos for both participants, creates a new ranked result and marks the match as Completed.
  */
 modelInstance.submitResult = async function ({ match_id, winner_id, loser_id, datetime_submitted }) {
     // Get a single client from the pool since all statements within a transaction must come from the same client.
@@ -125,6 +125,9 @@ modelInstance.submitResult = async function ({ match_id, winner_id, loser_id, da
     }
 };
 
+/**
+ * Recalculate all Elos. Useful for seeing effects of different K values.
+ */
 modelInstance.recalculateAllElos = async function () {
     const client = await db.pool.connect();
 

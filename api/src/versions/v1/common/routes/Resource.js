@@ -2,11 +2,11 @@ const Boom = require('@hapi/boom');
 const codes = require('./http-codes');
 const auth = require('./auth');
 
-module.exports = class Resource {
+class Resource {
     /**
      * 
-     * @param {*} resourceName 
-     * @param {*} model 
+     * @param {*} resourceName - The name to use as the endpoint.
+     * @param {*} model - The Model object to use.
      */
     constructor(resourceName, model) {
         this.resourceName = resourceName;
@@ -34,16 +34,16 @@ module.exports = class Resource {
         // PRE HANDLER - Check if all foreign keys point to an existing record. Return 422 if any keys point to a non-existing record.
         this.pre.checkForeignKeysExist = {
             method: async function (request, h) {
+                // 
                 const foreignKeys = request.payload.foreignKeys;
                 if (foreignKeys) {
                     for (let i = 0; i < foreignKeys.length; i++) {
                         const id = foreignKeys[i].value;
                         const tableName = foreignKeys[i].table;
-                        const key = foreignKeys[i].key;
                         const exists = await model.doesResourceExist(id, tableName);
 
                         if (!exists) {
-                            throw Boom.badData(`${key} does not point to an existing resource`);
+                            throw Boom.badData(`${foreignKeys[i].key} does not point to an existing resource`);
                         }
                     }
 
@@ -165,4 +165,6 @@ module.exports = class Resource {
             }
         };
     }
-};
+}
+
+module.exports = Resource;

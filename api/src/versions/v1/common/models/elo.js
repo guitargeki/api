@@ -1,11 +1,12 @@
+// Elo settings
 const k = 48;
 const s = 400;
 const startingElo = 1400;
 
 /**
- * 
- * @param {*} playerAElo 
- * @param {*} playerBElo 
+ * Calculate the expected score for player A.
+ * @param {number} playerAElo 
+ * @param {number} playerBElo 
  */
 function getExpectedScore(playerAElo, playerBElo) {
     const diff = playerBElo - playerAElo;
@@ -14,10 +15,10 @@ function getExpectedScore(playerAElo, playerBElo) {
 }
 
 /**
- * 
- * @param {*} playerAElo 
- * @param {*} playerBElo 
- * @param {*} playerAScore 
+ * Calculate the new Elo rating for player A.
+ * @param {number} playerAElo 
+ * @param {number} playerBElo 
+ * @param {number} playerAScore - The outcome for the match. 1 if player A won. 0 if player B won. 0.5 if it is a draw.
  */
 function getNewElo(playerAElo, playerBElo, playerAScore) {
     const expectedScore = getExpectedScore(playerAElo, playerBElo);
