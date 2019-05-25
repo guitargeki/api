@@ -23,11 +23,11 @@ schema.output = {
     match_id: commonSchemas.id,
     match_title: matchModel.schema.input.title,
     winner_id: commonSchemas.id,
-    winner: participantModel.schema.input.username,
+    winner_username: participantModel.schema.input.username,
     winner_new_elo: participantModel.schema.input.elo,
     winner_old_elo: participantModel.schema.input.elo,
     loser_id: commonSchemas.id,
-    loser: participantModel.schema.input.username,
+    loser_username: participantModel.schema.input.username,
     loser_new_elo: participantModel.schema.input.elo,
     loser_old_elo: participantModel.schema.input.elo,
     datetime_submitted: schema.input.datetime_submitted

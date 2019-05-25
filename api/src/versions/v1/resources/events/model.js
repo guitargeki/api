@@ -15,7 +15,7 @@ schema.input = {
 
 schema.output = {
     id: commonSchemas.id,
-    num_matches: Joi.number().integer(),
+    matches: Joi.number().integer(),
     date_start: schema.input.date_start,
     date_end: schema.input.date_end
 };

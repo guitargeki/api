@@ -28,9 +28,10 @@ schema.output = {
     match_id: commonSchemas.id,
     match_title: matchModel.schema.input.title,
     participant_id: commonSchemas.id,
-    participant: participantModel.schema.input.username,
+    participant_username: participantModel.schema.input.username,
     series_id: commonSchemas.id,
-    series: seriesModel.schema.input.title,
+    series_title: seriesModel.schema.input.title,
+    title: schema.input.title,
     description: schema.input.description,
     submission_url: schema.input.submission_url,
     datetime_submitted: schema.input.datetime_submitted

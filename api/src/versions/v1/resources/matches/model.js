@@ -27,9 +27,9 @@ schema.output = {
     event_id: commonSchemas.id,
     event_title: eventModel.schema.input.title,
     match_type_id: commonSchemas.id,
-    match_type: matchTypeModel.schema.input.title,
+    match_type_title: matchTypeModel.schema.input.title,
     match_status_id: commonSchemas.id,
-    match_status: matchStatusModel.schema.input.title,
+    match_status_title: matchStatusModel.schema.input.title,
 };
 
 const modelInstance = new Model(tableName, tableName, schema);
