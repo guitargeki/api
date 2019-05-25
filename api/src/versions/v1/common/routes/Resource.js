@@ -135,6 +135,9 @@ class Resource {
                             id: model.getIdSchema()
                         }
                     },
+                    response: {
+                        schema: model.schema.output
+                    },
                     pre: [
                         this.pre.checkResourceExists
                     ]

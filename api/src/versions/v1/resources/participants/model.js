@@ -19,6 +19,7 @@ schema.output = {
     username: schema.input.username,
     avatar_url: schema.input.avatar_url,
     elo: schema.input.elo,
+    ranked_battles: Joi.number().integer().min(0),
     wins: Joi.number().integer().min(0),
     losses: Joi.number().integer().min(0)
 };

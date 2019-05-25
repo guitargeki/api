@@ -134,7 +134,7 @@ class Model {
     }
 
     /**
-     * Returns a new Joi schema with all keys set to required.
+     * Returns a new Joi schema with all keys set to required. This returns the **input** schema.
      */
     getRequiredSchema() {
         const newSchema = Joi.object(this.schema.input);
