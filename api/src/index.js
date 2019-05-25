@@ -26,16 +26,18 @@ const init = async function () {
         }
     });
 
-    // Rate limiting
+    // Set up rate limiting (per path per user).
+    // Rates can be overridden in each routes config.
     await server.register({
         plugin: rateLimiter,
         options: {
-            userLimit: 50,
-            userCache: {
-                segment: 'hapi-rate-limit-user',
+            userLimit: false,
+            pathLimit: false,
+            userPathLimit: 15,
+            userPathCache: {
+                segment: 'hapi-rate-limit-userPath',
                 expiresIn: 60000 // One minute
             },
-            pathLimit: false,
             trustProxy: true
         }
     });
