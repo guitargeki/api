@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  database:
+  
+  api:
+    volumes:
+      - ./api:/app
+    command: npm run start-dev
+
+  server:
+    volumes:
+      - ./server/conf.d:/etc/nginx/conf.d
