@@ -3,11 +3,12 @@ version: '3'
 services:
   database:
     build: ./database
-    env_file:
-      - ./config/database/database.env
     environment:
-      - NEW_USER_NAME=${DB_API_USERNAME}
-      - NEW_USER_PASSWORD=${DB_API_PASSWORD}
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - DB_USER_API_NAME
+      - DB_USER_API_PASSWORD
     volumes:
       - geki-data:/var/lib/postgresql/data
       - ./database/scripts:/docker-entrypoint-initdb.d
@@ -18,11 +19,17 @@ services:
   
   api:
     build: ./api
-    env_file:
-      - ./config/api/api.env
     environment:
-      - PGUSER=${DB_API_USERNAME}
-      - PGPASSWORD=${DB_API_PASSWORD}
+      - PGHOST
+      - PGPORT
+      - PGDATABASE=${POSTGRES_DB}
+      - PGUSER=${DB_USER_API_NAME}
+      - PGPASSWORD=${DB_USER_API_PASSWORD}
+      - DB_DATA_SCHEMA
+      - DB_VIEW_SCHEMA
+      - API_LOG_URL
+      - API_ERROR_URL
+      - API_AUTH_HOST
     volumes:
       - ./api:/app
     command: npm run start-dev

@@ -53,7 +53,7 @@ const init = async function () {
             cache: true,
             rateLimit: true,
             jwksRequestsPerMinute: 5,
-            jwksUri: `https://${process.env.AUTH0_TENANT}/.well-known/jwks.json`
+            jwksUri: `https://${process.env.API_AUTH_HOST}/.well-known/jwks.json`
         }),
 
         validate: async function (decoded, request) {
@@ -68,7 +68,7 @@ const init = async function () {
 
         verifyOptions: {
             audience: 'http://localhost',
-            issuer: `https://${process.env.AUTH0_TENANT}/`,
+            issuer: `https://${process.env.API_AUTH_HOST}/`,
             algorithms: ['RS256']
         },
     });
@@ -90,7 +90,7 @@ const init = async function () {
                             color: false
                         }]
                     },
-                    new Logger(process.env.LOG_URL),
+                    new Logger(process.env.API_LOG_URL),
                     'stdout'
                 ],
 
@@ -110,7 +110,7 @@ const init = async function () {
                             color: false
                         }]
                     },
-                    new Logger(process.env.ERROR_URL)
+                    new Logger(process.env.API_ERROR_URL)
                 ]
             }
         }
