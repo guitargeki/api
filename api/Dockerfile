@@ -20,4 +20,4 @@ COPY src/ src/
 # EXPOSE 3000
 
 # Default command to run if not overridden in docker-compose.yml
-CMD ["npm", "run start"]
+CMD ["npm", "run", "start"]

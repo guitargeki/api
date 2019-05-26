@@ -11,7 +11,6 @@ services:
       - DB_USER_API_PASSWORD
     volumes:
       - geki-data:/var/lib/postgresql/data
-      - ./database/scripts:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
     networks:
@@ -30,17 +29,12 @@ services:
       - API_LOG_URL
       - API_ERROR_URL
       - API_AUTH_HOST
-    volumes:
-      - ./api:/app
-    command: npm run start-dev
     networks:
       - backend
       - frontend
 
   server:
     build: ./server
-    volumes:
-      - ./server/conf.d:/etc/nginx/conf.d
     ports:
       - "80:80"
       - "443:443"
