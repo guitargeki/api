@@ -110,6 +110,7 @@ modelInstance.submitResult = async function ({ match_id, winner_id, loser_id, da
             UPDATE ${matchModel.writeTable}
             SET match_status_id=4
             WHERE id=${match_id};`;
+        await client.query(sql);
 
         await client.query('COMMIT;');
         const results = await modelInstance.getOne(rankedResultId);
@@ -167,10 +168,17 @@ modelInstance.recalculateAllElos = async function () {
 
             // Update ranked result row
             await modelInstance.update(result.id, data, client);
+
+            // Mark match as Completed
+            sql = `
+                UPDATE ${matchModel.writeTable}
+                SET match_status_id=4
+                WHERE id=${result.match_id};`;
+            await client.query(sql);
         }
 
         await client.query('COMMIT;');
-        
+
     } catch (error) {
         await client.query('ROLLBACK;');
         throw error;
