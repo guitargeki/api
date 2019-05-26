@@ -5,7 +5,7 @@
 -- Dumped from database version 11.2
 -- Dumped by pg_dump version 11.3
 
--- Started on 2019-05-25 15:10:45
+-- Started on 2019-05-26 16:14:50
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -408,7 +408,7 @@ ALTER SEQUENCE geki_data.team_members_id_seq OWNED BY geki_data.team_members.id;
 
 
 --
--- TOC entry 220 (class 1259 OID 24750)
+-- TOC entry 216 (class 1259 OID 16436)
 -- Name: events; Type: VIEW; Schema: geki_view; Owner: postgres
 --
 
@@ -424,7 +424,7 @@ SELECT
 ALTER TABLE geki_view.events OWNER TO postgres;
 
 --
--- TOC entry 216 (class 1259 OID 16440)
+-- TOC entry 217 (class 1259 OID 16440)
 -- Name: match_statuses; Type: VIEW; Schema: geki_view; Owner: postgres
 --
 
@@ -437,7 +437,7 @@ CREATE VIEW geki_view.match_statuses AS
 ALTER TABLE geki_view.match_statuses OWNER TO postgres;
 
 --
--- TOC entry 217 (class 1259 OID 16444)
+-- TOC entry 218 (class 1259 OID 16444)
 -- Name: match_types; Type: VIEW; Schema: geki_view; Owner: postgres
 --
 
@@ -450,7 +450,7 @@ CREATE VIEW geki_view.match_types AS
 ALTER TABLE geki_view.match_types OWNER TO postgres;
 
 --
--- TOC entry 221 (class 1259 OID 24754)
+-- TOC entry 219 (class 1259 OID 16448)
 -- Name: matches; Type: VIEW; Schema: geki_view; Owner: postgres
 --
 
@@ -470,7 +470,7 @@ SELECT
 ALTER TABLE geki_view.matches OWNER TO postgres;
 
 --
--- TOC entry 218 (class 1259 OID 16452)
+-- TOC entry 220 (class 1259 OID 16452)
 -- Name: participants; Type: VIEW; Schema: geki_view; Owner: postgres
 --
 
@@ -488,7 +488,7 @@ SELECT
 ALTER TABLE geki_view.participants OWNER TO postgres;
 
 --
--- TOC entry 222 (class 1259 OID 24759)
+-- TOC entry 221 (class 1259 OID 16456)
 -- Name: ranked_results; Type: VIEW; Schema: geki_view; Owner: postgres
 --
 
@@ -511,7 +511,7 @@ SELECT
 ALTER TABLE geki_view.ranked_results OWNER TO postgres;
 
 --
--- TOC entry 219 (class 1259 OID 16460)
+-- TOC entry 222 (class 1259 OID 16460)
 -- Name: series; Type: VIEW; Schema: geki_view; Owner: postgres
 --
 
@@ -525,7 +525,7 @@ CREATE VIEW geki_view.series AS
 ALTER TABLE geki_view.series OWNER TO postgres;
 
 --
--- TOC entry 223 (class 1259 OID 24764)
+-- TOC entry 223 (class 1259 OID 16464)
 -- Name: submissions; Type: VIEW; Schema: geki_view; Owner: postgres
 --
 
@@ -673,6 +673,13 @@ COPY geki_data.match_types (id, title) FROM stdin;
 COPY geki_data.matches (id, title, event_id, match_type_id, match_status_id) FROM stdin;
 1	November 2018 Arrangement Competition	1	3	4
 2	December 2018 Christmas Edition	2	3	4
+17	Fullmetal Alchemist: Brotherhood OP3 - Golden Time Lover	4	2	4
+27	SWEET vs Spicy - Maquia - viator	7	2	4
+32	Highschool of the Dead OP - Highschool of the Dead	6	4	2
+28	March/April 2019 Monthly	5	3	4
+33	May/June 2019 Monthly	8	3	2
+35	The Legend of Zelda: The Minish Cap - Minish Village	6	4	2
+36	Seishun Buta Yarou OP - Kimi no Sei	6	4	2
 3	Nagi no Asukara OP1 - lull ~Soshite Bokura wa~	3	4	4
 4	Fireworks - Uchiage Hanabi	3	4	4
 5	Samurai Champloo ED - Shiki no Uta	3	4	4
@@ -687,25 +694,19 @@ COPY geki_data.matches (id, title, event_id, match_type_id, match_status_id) FRO
 14	The Rising of the Shield Hero ED - Kimi no Namae	4	4	4
 15	Guilty Crown OP - My Dearest	4	4	4
 16	Digimon Adventure 2 - Break Up!	4	4	4
-17	Fullmetal Alchemist: Brotherhood OP3 - Golden Time Lover	4	2	4
 18	GReeeeN - Kiseki	4	4	4
 19	Domestic na Kanojo OP - Kawaki wo Ameku	6	4	4
-20	Gotoubun no Hanayome OP - Gotoubun no Kimochi	6	4	4
 21	Pokemon: The Johto Journeys Theme	6	4	4
+20	Gotoubun no Hanayome OP - Gotoubun no Kimochi	6	4	4
 23	A Silent Voice - Lit	6	4	4
-24	Black Clover OP3 - Black Rover	6	4	4
 25	Happy Birthday	6	4	4
+24	Black Clover OP3 - Black Rover	6	4	4
 26	Attack on Titan S3 Part 2 OP - Shoukei to Shikabane no Michi	6	4	4
-27	SWEET vs Spicy - Maquia - viator	7	2	4
 22	Kaguya-sama: Love Is War ED - Sentimental Crisis	6	4	4
-31	Re:Zero OST - Wish of the Stars	6	4	2
-32	Highschool of the Dead OP - Highschool of the Dead	6	4	2
-28	March/April 2019 Monthly	5	3	4
-33	May/June 2019 Monthly	8	3	2
-29	Doki Doki Literature Club - Your Reality	6	4	4
 30	Black Clover ED - Aoi Honoo	6	4	4
-34	Soul Eater OP2 - Paper Moon	6	4	2
-35	The Legend of Zelda: The Minish Cap - Minish Village	6	4	2
+29	Doki Doki Literature Club - Your Reality	6	4	4
+34	Soul Eater OP2 - Paper Moon	6	4	4
+31	Re:Zero OST - Wish of the Stars	6	4	4
 \.
 
 
@@ -719,26 +720,28 @@ COPY geki_data.participants (id, username, avatar_url, is_team, elo) FROM stdin;
 1	GEKI		f	-1
 2	Admin		f	-1
 3	thaorem	https://cdn.discordapp.com/avatars/384316954887847936/5bc13fcec380bebc34e80dd97bc50b2b.png?size=256	f	1400
-4	Quan	https://cdn.discordapp.com/avatars/158450586986086400/0b79fa14eee8ea266a4cf72e6bbb00bd?size=256	f	1377.65527
-5	Kurosara	https://cdn.discordapp.com/avatars/177118256514072577/a15bc41d398819fb9f5295ec3f011f36.png?size=256	f	1364.90527
 6	Seranot	https://cdn.discordapp.com/avatars/283030789241831425/abc234596ca57c83512060a8fd316284.png?size=256	f	1400
-7	MasagoYaki	https://cdn.discordapp.com/avatars/153599670365585408/af8da5dd64099b60841fc26ca93a7908.png?size=256	f	1446.34473
-8	Bob	https://cdn.discordapp.com/avatars/248153993526771713/41a2ca56725f721244a088c2a25d2dab.png?size=256	f	1614.11011
-9	wasuke	https://cdn.discordapp.com/avatars/143987639802920960/a7bea703f5a11b4c79043da99dbfdce6.png?size=256	f	1364.30627
-10	dundun	https://cdn.discordapp.com/avatars/404710474534486017/bd83cbd61982b56ea9dc0e1b23ca9e3b.png?size=256	f	1412.73157
 11	H Chang	https://cdn.discordapp.com/avatars/403129046499852289/ca94cb8e4466e3ad25caa5424ce69b08?size=256	f	1376
-12	Tommy	https://cdn.discordapp.com/avatars/197926100687519746/7109555d8eaae148475b006c13667cd2.png?size=256	f	1446.91296
-13	Eren	https://cdn.discordapp.com/avatars/294581570499772417/4dc8d5c3483cb059ed4740e2dc908de3.png?size=256	f	1374.34473
-14	Vee	https://cdn.discordapp.com/avatars/430935776973291521/9f9fe6dfad20500a3669bf3b1b64b17d.png?size=256	f	1340.0741
+4	Quan	https://cdn.discordapp.com/avatars/158450586986086400/0b79fa14eee8ea266a4cf72e6bbb00bd?size=256	f	1377.65527
 15	phan	https://cdn.discordapp.com/avatars/178330278014484480/9c7a6ef292cbe7bb65cf1dc9288efb25?size=256	f	1383.99927
-16	Cy	https://cdn.discordapp.com/avatars/354316246759636992/9fe94c6474f6892e40f8f1ab0b889f50?size=256	f	1364.66687
 17	Sinh	https://cdn.discordapp.com/avatars/406047779438460929/8c94c961e9cc13559df0df977baaed37.png?size=256	f	1386.58167
-18	little	https://cdn.discordapp.com/avatars/420913787797766146/a30f14868ef727423cacc6658f20d07b.png?size=256	f	1411.28992
 19	Simooonii	https://cdn.discordapp.com/avatars/107263078776705024/19bbfb780e00b713f7c8b73713d017fe.png?size=256	f	1376
-20	Feifei	https://cdn.discordapp.com/avatars/518933721152487424/b559a6079aeb6378a6abf2dc46cd0786.png?size=256	f	1423.26941
+12	Tommy	https://cdn.discordapp.com/avatars/197926100687519746/7109555d8eaae148475b006c13667cd2.png?size=256	f	1446.91296
+16	Cy	https://cdn.discordapp.com/avatars/354316246759636992/9fe94c6474f6892e40f8f1ab0b889f50?size=256	f	1364.66687
 21	Mardekoya	https://cdn.discordapp.com/avatars/472787793920393216/3a19ccc4e09316f6de89090ddb39e463.png?size=256	f	1387.92065
+9	wasuke	https://cdn.discordapp.com/avatars/143987639802920960/a7bea703f5a11b4c79043da99dbfdce6.png?size=256	f	1364.30627
+20	Feifei	https://cdn.discordapp.com/avatars/518933721152487424/b559a6079aeb6378a6abf2dc46cd0786.png?size=256	f	1423.26941
+18	little	https://cdn.discordapp.com/avatars/420913787797766146/a30f14868ef727423cacc6658f20d07b.png?size=256	f	1411.28992
+14	Vee	https://cdn.discordapp.com/avatars/430935776973291521/9f9fe6dfad20500a3669bf3b1b64b17d.png?size=256	f	1340.0741
+10	dundun	https://cdn.discordapp.com/avatars/404710474534486017/bd83cbd61982b56ea9dc0e1b23ca9e3b.png?size=256	f	1412.73157
 22	Bae-Kun & Egg	https://cdn.discordapp.com/avatars/322490963211845632/459f6982f1b65b912003a38abac4c3be.png?size=256	f	1348.88843
-23	Jerry	https://cdn.discordapp.com/avatars/396543088069443584/9f9157a585c89d0ee57275a5fa036d95.png?size=256	f	1400
+8	Bob	https://cdn.discordapp.com/avatars/248153993526771713/41a2ca56725f721244a088c2a25d2dab.png?size=256	f	1624.94556
+24	Feathers	https://cdn.discordapp.com/avatars/133656786606620672/e18a8f6ae5aeb90edd5423f9973c082c.png?size=256	f	1389.16443
+25	Adimant	https://cdn.discordapp.com/avatars/150464087812210688/e50fec9587820f75c64d3984deb241a4.png?size=256	f	1424
+23	Jerry	https://cdn.discordapp.com/avatars/396543088069443584/9f9157a585c89d0ee57275a5fa036d95.png?size=256	f	1376
+13	Eren	https://cdn.discordapp.com/avatars/294581570499772417/4dc8d5c3483cb059ed4740e2dc908de3.png?size=256	f	1374.34473
+5	Kurosara	https://cdn.discordapp.com/avatars/177118256514072577/a15bc41d398819fb9f5295ec3f011f36.png?size=256	f	1364.90527
+7	MasagoYaki	https://cdn.discordapp.com/avatars/153599670365585408/af8da5dd64099b60841fc26ca93a7908.png?size=256	f	1446.34473
 \.
 
 
@@ -774,6 +777,8 @@ COPY geki_data.ranked_results (id, match_id, winner_id, winner_new_elo, winner_o
 23	22	8	1614.11011	1601.40002	18	1411.28992	1424	2019-05-11 23:41:37.784
 24	30	10	1389.99597	1366.15002	14	1340.0741	1363.92004	2019-05-19 06:51:25.688
 25	29	10	1412.73157	1390	22	1348.88843	1371.62	2019-05-22 05:44:34.846
+26	34	8	1624.94556	1614.10999	24	1389.16443	1400	2019-05-25 19:48:14.672
+27	31	25	1424	1400	23	1376	1400	2019-05-25 21:45:20.097
 \.
 
 
@@ -889,6 +894,8 @@ COPY geki_data.submissions (id, match_id, participant_id, series_id, title, desc
 63	29	22	26	Your Reality		https://cdn.discordapp.com/attachments/502704652739936266/579823272791900170/Egg_Your_Reality.mp3	2019-05-20 00:10:40.829
 64	29	10	26	Your Reality		https://cdn.discordapp.com/attachments/502704652739936266/580624193255899146/Nestor_Your_Reality.mp3	2019-05-22 05:13:15.271
 65	33	20	29	Kataomoi		https://www.youtube.com/watch?v=YdhPG6AwMwE	2019-05-23 07:27:17.874
+66	34	8	27	Paper Moon		https://cdn.discordapp.com/attachments/502704652739936266/581744503170531348/Bob_Paper_Moon_Soul_Eater_OP2.mp3	2019-05-25 07:24:58.008
+67	34	24	27	Paper Moon		https://cdn.discordapp.com/attachments/502704652739936266/581873361882185738/feathers_soul_eater_op_2_papermoon.mp3	2019-05-25 15:57:00.325
 \.
 
 
@@ -903,7 +910,7 @@ COPY geki_data.team_members (id, participant_id, team_id) FROM stdin;
 
 
 --
--- TOC entry 3068 (class 0 OID 0)
+-- TOC entry 3072 (class 0 OID 0)
 -- Dependencies: 199
 -- Name: events_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -912,7 +919,7 @@ SELECT pg_catalog.setval('geki_data.events_id_seq', 8, true);
 
 
 --
--- TOC entry 3069 (class 0 OID 0)
+-- TOC entry 3073 (class 0 OID 0)
 -- Dependencies: 201
 -- Name: match_statuses_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -921,7 +928,7 @@ SELECT pg_catalog.setval('geki_data.match_statuses_id_seq', 4, true);
 
 
 --
--- TOC entry 3070 (class 0 OID 0)
+-- TOC entry 3074 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: match_types_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -930,34 +937,34 @@ SELECT pg_catalog.setval('geki_data.match_types_id_seq', 4, true);
 
 
 --
--- TOC entry 3071 (class 0 OID 0)
+-- TOC entry 3075 (class 0 OID 0)
 -- Dependencies: 205
 -- Name: matches_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
 
-SELECT pg_catalog.setval('geki_data.matches_id_seq', 35, true);
+SELECT pg_catalog.setval('geki_data.matches_id_seq', 36, true);
 
 
 --
--- TOC entry 3072 (class 0 OID 0)
+-- TOC entry 3076 (class 0 OID 0)
 -- Dependencies: 207
 -- Name: participants_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
 
-SELECT pg_catalog.setval('geki_data.participants_id_seq', 23, true);
+SELECT pg_catalog.setval('geki_data.participants_id_seq', 25, true);
 
 
 --
--- TOC entry 3073 (class 0 OID 0)
+-- TOC entry 3077 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: ranked_results_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
 
-SELECT pg_catalog.setval('geki_data.ranked_results_id_seq', 25, true);
+SELECT pg_catalog.setval('geki_data.ranked_results_id_seq', 27, true);
 
 
 --
--- TOC entry 3074 (class 0 OID 0)
+-- TOC entry 3078 (class 0 OID 0)
 -- Dependencies: 211
 -- Name: series_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -966,16 +973,16 @@ SELECT pg_catalog.setval('geki_data.series_id_seq', 30, true);
 
 
 --
--- TOC entry 3075 (class 0 OID 0)
+-- TOC entry 3079 (class 0 OID 0)
 -- Dependencies: 213
 -- Name: submissions_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
 
-SELECT pg_catalog.setval('geki_data.submissions_id_seq', 65, true);
+SELECT pg_catalog.setval('geki_data.submissions_id_seq', 67, true);
 
 
 --
--- TOC entry 3076 (class 0 OID 0)
+-- TOC entry 3080 (class 0 OID 0)
 -- Dependencies: 215
 -- Name: team_members_id_seq; Type: SEQUENCE SET; Schema: geki_data; Owner: postgres
 --
@@ -1065,7 +1072,46 @@ ALTER TABLE ONLY geki_data.team_members
 
 
 --
--- TOC entry 3006 (class 2618 OID 16455)
+-- TOC entry 3004 (class 2618 OID 16439)
+-- Name: events _RETURN; Type: RULE; Schema: geki_view; Owner: postgres
+--
+
+CREATE OR REPLACE VIEW geki_view.events AS
+ SELECT events.id,
+    events.title,
+    count(matches.event_id) AS matches,
+    events.date_start,
+    events.date_end
+   FROM (geki_data.events
+     LEFT JOIN geki_data.matches ON ((events.id = matches.event_id)))
+  GROUP BY events.id;
+
+
+--
+-- TOC entry 3007 (class 2618 OID 16451)
+-- Name: matches _RETURN; Type: RULE; Schema: geki_view; Owner: postgres
+--
+
+CREATE OR REPLACE VIEW geki_view.matches AS
+ SELECT matches.id,
+    matches.title,
+    count(submissions.match_id) AS num_submissions,
+    matches.event_id,
+    events.title AS event_title,
+    matches.match_type_id,
+    match_types.title AS match_type_title,
+    matches.match_status_id,
+    match_statuses.title AS match_status_title
+   FROM ((((geki_data.matches
+     LEFT JOIN geki_data.submissions ON ((matches.id = submissions.match_id)))
+     LEFT JOIN geki_data.events ON ((matches.event_id = events.id)))
+     LEFT JOIN geki_data.match_types ON ((matches.match_type_id = match_types.id)))
+     LEFT JOIN geki_data.match_statuses ON ((matches.match_status_id = match_statuses.id)))
+  GROUP BY matches.id, events.id, match_types.id, match_statuses.id;
+
+
+--
+-- TOC entry 3008 (class 2618 OID 16455)
 -- Name: participants _RETURN; Type: RULE; Schema: geki_view; Owner: postgres
 --
 
@@ -1095,46 +1141,7 @@ CREATE OR REPLACE VIEW geki_view.participants AS
 
 
 --
--- TOC entry 3008 (class 2618 OID 24753)
--- Name: events _RETURN; Type: RULE; Schema: geki_view; Owner: postgres
---
-
-CREATE OR REPLACE VIEW geki_view.events AS
- SELECT events.id,
-    events.title,
-    count(matches.event_id) AS matches,
-    events.date_start,
-    events.date_end
-   FROM (geki_data.events
-     LEFT JOIN geki_data.matches ON ((events.id = matches.event_id)))
-  GROUP BY events.id;
-
-
---
--- TOC entry 3009 (class 2618 OID 24757)
--- Name: matches _RETURN; Type: RULE; Schema: geki_view; Owner: postgres
---
-
-CREATE OR REPLACE VIEW geki_view.matches AS
- SELECT matches.id,
-    matches.title,
-    count(submissions.match_id) AS num_submissions,
-    matches.event_id,
-    events.title AS event_title,
-    matches.match_type_id,
-    match_types.title AS match_type_title,
-    matches.match_status_id,
-    match_statuses.title AS match_status_title
-   FROM ((((geki_data.matches
-     LEFT JOIN geki_data.submissions ON ((matches.id = submissions.match_id)))
-     LEFT JOIN geki_data.events ON ((matches.event_id = events.id)))
-     LEFT JOIN geki_data.match_types ON ((matches.match_type_id = match_types.id)))
-     LEFT JOIN geki_data.match_statuses ON ((matches.match_status_id = match_statuses.id)))
-  GROUP BY matches.id, events.id, match_types.id, match_statuses.id;
-
-
---
--- TOC entry 3010 (class 2618 OID 24762)
+-- TOC entry 3009 (class 2618 OID 16459)
 -- Name: ranked_results _RETURN; Type: RULE; Schema: geki_view; Owner: postgres
 --
 
@@ -1159,7 +1166,7 @@ CREATE OR REPLACE VIEW geki_view.ranked_results AS
 
 
 --
--- TOC entry 3011 (class 2618 OID 24767)
+-- TOC entry 3011 (class 2618 OID 16467)
 -- Name: submissions _RETURN; Type: RULE; Schema: geki_view; Owner: postgres
 --
 
@@ -1464,6 +1471,15 @@ GRANT SELECT,USAGE ON SEQUENCE geki_data.team_members_id_seq TO api;
 --
 -- TOC entry 3064 (class 0 OID 0)
 -- Dependencies: 216
+-- Name: TABLE events; Type: ACL; Schema: geki_view; Owner: postgres
+--
+
+GRANT SELECT ON TABLE geki_view.events TO api;
+
+
+--
+-- TOC entry 3065 (class 0 OID 0)
+-- Dependencies: 217
 -- Name: TABLE match_statuses; Type: ACL; Schema: geki_view; Owner: postgres
 --
 
@@ -1471,8 +1487,8 @@ GRANT SELECT ON TABLE geki_view.match_statuses TO api;
 
 
 --
--- TOC entry 3065 (class 0 OID 0)
--- Dependencies: 217
+-- TOC entry 3066 (class 0 OID 0)
+-- Dependencies: 218
 -- Name: TABLE match_types; Type: ACL; Schema: geki_view; Owner: postgres
 --
 
@@ -1480,8 +1496,17 @@ GRANT SELECT ON TABLE geki_view.match_types TO api;
 
 
 --
--- TOC entry 3066 (class 0 OID 0)
--- Dependencies: 218
+-- TOC entry 3067 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: TABLE matches; Type: ACL; Schema: geki_view; Owner: postgres
+--
+
+GRANT SELECT ON TABLE geki_view.matches TO api;
+
+
+--
+-- TOC entry 3068 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: TABLE participants; Type: ACL; Schema: geki_view; Owner: postgres
 --
 
@@ -1489,15 +1514,33 @@ GRANT SELECT ON TABLE geki_view.participants TO api;
 
 
 --
--- TOC entry 3067 (class 0 OID 0)
--- Dependencies: 219
+-- TOC entry 3069 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: TABLE ranked_results; Type: ACL; Schema: geki_view; Owner: postgres
+--
+
+GRANT SELECT ON TABLE geki_view.ranked_results TO api;
+
+
+--
+-- TOC entry 3070 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: TABLE series; Type: ACL; Schema: geki_view; Owner: postgres
 --
 
 GRANT SELECT ON TABLE geki_view.series TO api;
 
 
--- Completed on 2019-05-25 15:10:47
+--
+-- TOC entry 3071 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: TABLE submissions; Type: ACL; Schema: geki_view; Owner: postgres
+--
+
+GRANT SELECT ON TABLE geki_view.submissions TO api;
+
+
+-- Completed on 2019-05-26 16:14:52
 
 --
 -- PostgreSQL database dump complete
