@@ -14,4 +14,5 @@ services:
 
   server:
     volumes:
-      - ./server/conf.d:/etc/nginx/conf.d
+      - ./server/dev/api.conf:/etc/nginx/conf.d/api.conf
+      - ./server/dev/ssl:/etc/ssl
