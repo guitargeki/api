@@ -155,6 +155,20 @@ class Model {
     }
 
     /**
+     * Returns the Joi schema for a single object returned from the database
+     */
+    getOutputSchema() {
+        return this.schema.output;
+    }
+
+    /**
+     * Returns the Joi schema for a list of objects returned from the database
+     */
+    getOutputArraySchema() {
+        return Joi.array().items(Joi.object(this.schema.output));
+    }
+
+    /**
      * Checks whether a row exists in the database.
      * @param {number} id - The ID of the row to check.
      * @param {string} tableName - The name of the table to check. This should be the table used for writes (not a view).
