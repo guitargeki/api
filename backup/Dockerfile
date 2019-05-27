@@ -2,8 +2,9 @@ FROM postgres:11.2-alpine
 
 # Install Git so we can push database backups to a repo
 RUN apk add --no-cache git
-RUN git config --global user.email "dummy@email.com"
-RUN git config --global user.name "Geki Database"
+ARG ADMIN_EMAIL
+RUN git config --global user.email "$ADMIN_EMAIL"
+RUN git config --global user.name "Guitargeki"
 
 # Copy crontab file (used to schedule backups)
 COPY crontabs /etc/crontabs/root
