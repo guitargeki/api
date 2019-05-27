@@ -7,8 +7,8 @@ deploy_test:
   stage: deploy
   script:
     - gpg --batch --output .env --passphrase $ENV_DECRYPT_PASSWORD --decrypt .env.gpg
-    - docker-compose -f docker-compose.yml down
+    - docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
     - docker system prune -f
-    - docker-compose -f docker-compose.yml up -d --build --no-cache
+    - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build --no-cache
   only:
     - test
