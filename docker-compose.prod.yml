@@ -5,6 +5,7 @@ services:
     build:
       context: ./backup
       args:
+        - ADMIN_EMAIL=${ADMIN_EMAIL}
         - BACKUP_REPO=${DB_BACKUP_URL}
     environment:
       - PGHOST
