@@ -19,6 +19,7 @@ services:
   api:
     build: ./api
     environment:
+      - NODE_ENV=production
       - PGHOST
       - PGPORT
       - PGDATABASE=${POSTGRES_DB}
@@ -26,9 +27,9 @@ services:
       - PGPASSWORD=${DB_USER_API_PASSWORD}
       - DB_DATA_SCHEMA
       - DB_VIEW_SCHEMA
+      - API_AUTH_HOST
       - API_LOG_URL
       - API_ERROR_URL
-      - API_AUTH_HOST
     networks:
       - backend
       - frontend

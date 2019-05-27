@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  backup:
+    build:
+      context: ./backup
+      args:
+        - BACKUP_REPO=${DB_BACKUP_URL}
+    environment:
+      - PGHOST
+      - PGPORT
+      - PGDATABASE=${POSTGRES_DB}
+      - PGUSER=${POSTGRES_USER}
+      - PGPASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - backend

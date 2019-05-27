@@ -2,12 +2,19 @@ version: '3'
 
 services:
   database:
-  
+    volumes:
+      - ./database/dev/scripts:/docker-entrypoint-initdb.d
+
   api:
+    environment:
+      - NODE_ENV=development
+      - API_LOG_URL=${API_LOG_URL_DEV}
+      - API_ERROR_URL=${API_ERROR_URL_DEV}
     volumes:
       - ./api:/app
     command: npm run start-dev
 
   server:
     volumes:
-      - ./server/conf.d:/etc/nginx/conf.d
+      - ./server/dev/api.conf:/etc/nginx/conf.d/api.conf
+      - ./server/dev/ssl:/etc/ssl
