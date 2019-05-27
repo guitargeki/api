@@ -16,6 +16,20 @@
             "label": "Docker Compose Down (Development)",
             "type": "shell",
             "command": "docker-compose -f docker-compose.yml down"
+        },
+        {
+            "label": "Docker Compose Up (Production)",
+            "type": "shell",
+            "command": "docker-compose -f docker-compose.yml up -d --build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Docker Compose Down (Production)",
+            "type": "shell",
+            "command": "docker-compose -f docker-compose.yml down"
         }
     ]
 }
