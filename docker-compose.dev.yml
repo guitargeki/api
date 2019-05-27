@@ -4,6 +4,10 @@ services:
   database:
   
   api:
+    environment:
+      - NODE_ENV=development
+      - API_LOG_URL=${API_LOG_URL_DEV}
+      - API_ERROR_URL=${API_ERROR_URL_DEV}
     volumes:
       - ./api:/app
     command: npm run start-dev
