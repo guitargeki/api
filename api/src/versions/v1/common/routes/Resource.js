@@ -101,6 +101,9 @@ class Resource {
                             reverse: model.getReverseSchema(),
                             where: model.getWhereSchema()
                         }
+                    },
+                    response: {
+                        schema: model.getOutputArraySchema()
                     }
                 }
             },
@@ -136,7 +139,7 @@ class Resource {
                         }
                     },
                     response: {
-                        schema: model.schema.output
+                        schema: model.getOutputSchema()
                     },
                     pre: [
                         this.pre.checkResourceExists
