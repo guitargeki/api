@@ -39,7 +39,7 @@ const recalculateAllElos = {
     options: {
         auth: {
             strategy: auth.strategy,
-            scope: auth.scopes.admin
+            scope: auth.scopes.update
         },
         tags: resrc.tags
     }
