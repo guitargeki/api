@@ -9,6 +9,7 @@ module.exports = {
 
     basePath: basePath,
     jsonPath: `${basePath}/swagger.json`,
+    swaggerUIPath: `${basePath}/swaggerui/`,
     documentationPath: `${basePath}/docs`,
     grouping: 'tags',
 

@@ -1,4 +1,4 @@
-const ConfigLoader = require('./lib/ConfigLoader');
+const ConfigLoader = require('./common/ConfigLoader');
 const globals = new ConfigLoader();
 const Hapi = require('hapi');
 const Inert = require('inert');
@@ -7,8 +7,10 @@ const HapiSwagger = require('hapi-swagger');
 const Good = require('@hapi/good');
 const jwt = require('hapi-auth-jwt2');
 const jwksRsa = require('jwks-rsa');
-const Logger = require('./lib/logger');
+const Logger = require('./common/logger');
 const rateLimiter = require('hapi-rate-limit');
+const swaggerOptions = require('./swagger');
+const routes = require('./resources');
 
 // Set up server configuration
 const startServer = async function () {
@@ -123,14 +125,15 @@ const startServer = async function () {
         Inert,
         Vision
     ]);
+    
+    // Serve routes and Swagger docs
+    routes.forEach(route => {
+        // Add base path to each route
+        route.path = `${swaggerOptions.basePath}${route.path}`;
+        server.route(route);
+    });
 
-    // Add routes and docs for each version
-    const apis = {
-        v1: require('./versions/v1')
-    };
-
-    server.route(apis.v1.routes);
-    await server.register({ plugin: HapiSwagger, options: apis.v1.swagger });
+    await server.register({ plugin: HapiSwagger, options: swaggerOptions });
 
     // Handle any invalid methods and routes
     server.route({
