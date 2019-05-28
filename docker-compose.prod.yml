@@ -15,3 +15,7 @@ services:
       - PGPASSWORD=${POSTGRES_PASSWORD}
     networks:
       - backend
+  
+  api-v1:
+    environment:
+      - NODE_ENV=production

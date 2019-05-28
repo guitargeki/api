@@ -16,10 +16,9 @@ services:
     networks:
       - backend
   
-  api:
-    build: ./api
+  api-v1:
+    build: ./api-v1
     environment:
-      - NODE_ENV=production
       - PGHOST
       - PGPORT
       - PGDATABASE=${POSTGRES_DB}
