@@ -1,8 +1,8 @@
 module.exports.strategy = 'jwt';
 
 module.exports.scopes = {
-    admin: [
-        'create',
-        'update'
-    ]
+    create: 'create',
+    read: 'read',
+    update: 'update',
+    delete: 'delete'
 };
