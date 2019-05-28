@@ -1,3 +1,5 @@
+const ConfigLoader = require('./lib/ConfigLoader');
+const globals = new ConfigLoader();
 const Hapi = require('hapi');
 const Inert = require('inert');
 const Vision = require('vision');
@@ -9,7 +11,7 @@ const Logger = require('./lib/logger');
 const rateLimiter = require('hapi-rate-limit');
 
 // Set up server configuration
-const init = async function () {
+const startServer = async function () {
     const server = Hapi.server({
         port: 3000,
         host: '0.0.0.0',
@@ -148,5 +150,11 @@ process.on('unhandledRejection', (err) => {
     console.error(err);
     process.exit(1);
 });
+
+async function init() {
+    // Load config variables here. This must happen BEFORE starting the server.
+
+    startServer();
+}
 
 init();
