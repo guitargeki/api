@@ -7,9 +7,9 @@ services:
       args:
         - ADMIN_EMAIL=${ADMIN_EMAIL}
         - BACKUP_REPO=${DB_BACKUP_URL}
-    depends_on:
-      - config
+    image: geki_backup:latest
     environment:
+      - APP_ENV=production
       - PGHOST
       - PGPORT
       - PGDATABASE=${POSTGRES_DB}
@@ -18,6 +18,18 @@ services:
     networks:
       - backend
   
+  server:
+    environment:
+      - APP_ENV=production
+
+  database:
+    environment:
+      - APP_ENV=production
+
   api-v1:
+    environment:
+      - APP_ENV=production
+
+  config:
     environment:
       - APP_ENV=production

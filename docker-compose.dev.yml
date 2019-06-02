@@ -1,10 +1,12 @@
 version: '3'
 
 services:
-  config:
+  server:
+    environment:
+      - APP_ENV=development
     volumes:
-      - ./config/:/app
-    command: npm run start-dev
+      - ./server/dev/api.conf:/etc/nginx/conf.d/api.conf
+      - ./server/dev/ssl:/etc/ssl
 
   database:
     environment:
@@ -17,11 +19,11 @@ services:
       - APP_ENV=development
     volumes:
       - ./api-v1:/app
-    command: npm run start-dev
+    command: ./wait-for.sh config:3000 -t 10 -- npm run start-dev
 
-  server:
+  config:
     environment:
       - APP_ENV=development
     volumes:
-      - ./server/dev/api.conf:/etc/nginx/conf.d/api.conf
-      - ./server/dev/ssl:/etc/ssl
+      - ./config/:/app
+    command: npm run start-dev

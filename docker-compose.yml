@@ -1,53 +1,43 @@
 version: '3'
 
 services:
-  config:
-    build: ./config
-    environment:
-      - GOOGLE_CLIENT_EMAIL
-      - GOOGLE_PRIVATE_KEY
+  server:
+    build: ./server
+    image: geki_server:latest
+    ports:
+      - "80:80"
+      - "443:443"
     networks:
-      - config-database
-      - config-api-v1
-      - config-server
+      - frontend
+
+  api-v1:
+    build: ./api-v1
+    image: geki_api-v1:latest
+    networks:
+      - backend
+      - frontend
 
   database:
     build: ./database
-    depends_on:
-      - config
+    image: geki_database:latest
     environment:
-      - POSTGRES_DB
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - DB_USER_API_NAME
-      - DB_USER_API_PASSWORD
+      - POSTGRES_PASSWORD=password # This gets changed in an init script but a value is needed here so Postgres authenticates users
     volumes:
       - geki-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
       - backend
-      - config-database
-  
-  api-v1:
-    build: ./api-v1
-    depends_on:
-      - config
+
+  config:
+    build: ./config
+    image: geki_config:latest
+    environment:
+      - GOOGLE_CLIENT_EMAIL
+      - GOOGLE_PRIVATE_KEY
     networks:
       - backend
       - frontend
-      - config-api-v1
-
-  server:
-    build: ./server
-    depends_on:
-      - config
-    ports:
-      - "80:80"
-      - "443:443"
-    networks:
-      - frontend
-      - config-server
 
 volumes:
   geki-data:
@@ -55,6 +45,3 @@ volumes:
 networks:
   backend:
   frontend:
-  config-database:
-  config-api-v1:
-  config-server:
