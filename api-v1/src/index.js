@@ -1,9 +1,4 @@
-async function init() {
-    // MUST LOAD CONFIG BEFORE DOING ANYTHING ELSE
-    const config = require('./common/config');
-    await config.init();
-
-    // Start server
+async function start() {
     const server = require('./server');
     await server.start();
 }
@@ -13,4 +8,4 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
 });
 
-init();
+start();

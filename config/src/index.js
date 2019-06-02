@@ -4,7 +4,7 @@ const routes = require('./routes');
 // Set up server configuration
 const startServer = async function () {
     const server = Hapi.server({
-        port: 80,
+        port: 3000,
         host: '0.0.0.0'
     });
 

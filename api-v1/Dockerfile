@@ -16,8 +16,10 @@ RUN npm install --production
 # the cache.
 COPY src/ src/
 
-# # Not needed because it's on the same network as other containers
-# EXPOSE 3000
+# Create a group and user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
 
-# Default command to run if not overridden in docker-compose.yml
-CMD ["npm", "run", "start"]
+# This command will wait for the config service to be ready before starting.
+COPY wait-for.sh ./
+CMD ["./wait-for.sh", "config:3000", "-t", "60", "--", "npm", "run", "start"]

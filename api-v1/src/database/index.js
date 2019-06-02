@@ -4,8 +4,8 @@ const pool = new Pool({
     host: config.vars.database.HOST,
     port: config.vars.database.PORT,
     database: config.vars.database.DATABASE,
-    user: config.vars.database.USER,
-    password: config.vars.database.PASSWORD
+    user: config.vars.database.users.api.NAME,
+    password: config.vars.database.users.api.PASSWORD
 });
 
 /**

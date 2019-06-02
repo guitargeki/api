@@ -1,22 +1,25 @@
-const Hapi = require('hapi');
-const Boom = require('@hapi/boom');
-const Inert = require('inert');
-const Vision = require('vision');
-const HapiSwagger = require('hapi-swagger');
-const Good = require('@hapi/good');
-const jwt = require('hapi-auth-jwt2');
-const jwksRsa = require('jwks-rsa');
-const rateLimiter = require('hapi-rate-limit');
-const Logger = require('../common/logger');
-const swaggerOptions = require('../swagger');
-const routes = require('../resources');
-const codes = require('../common/routes/http-codes');
-const config = require('../common/config');
-
-// Set up server configuration
 async function start() {
+    // MUST LOAD CONFIG BEFORE DOING ANYTHING ELSE
+    const config = require('../common/config');
+    await config.init();
+
+    // Set up server configuration
+    const Hapi = require('hapi');
+    const Boom = require('@hapi/boom');
+    const Inert = require('inert');
+    const Vision = require('vision');
+    const HapiSwagger = require('hapi-swagger');
+    const Good = require('@hapi/good');
+    const jwt = require('hapi-auth-jwt2');
+    const jwksRsa = require('jwks-rsa');
+    const rateLimiter = require('hapi-rate-limit');
+    const Logger = require('../common/logger');
+    const swaggerOptions = require('../swagger');
+    const routes = require('../resources');
+    const codes = require('../common/routes/http-codes');
+
     const server = Hapi.server({
-        port: 80,
+        port: 3000,
         host: '0.0.0.0',
         routes: {
             validate: {
