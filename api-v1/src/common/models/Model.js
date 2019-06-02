@@ -1,8 +1,9 @@
 const Joi = require('joi');
 const db = require('../../database');
 const commonSchemas = require('./schemas').schemas;
-const dbDataSchema = process.env.DB_DATA_SCHEMA;
-const dbViewSchema = process.env.DB_VIEW_SCHEMA;
+const config = require('../config');
+const dbDataSchema = config.vars.database.SCHEMA_DATA;
+const dbViewSchema = config.vars.database.SCHEMA_VIEW;
 
 // Default query settings
 const queryDefaults = {

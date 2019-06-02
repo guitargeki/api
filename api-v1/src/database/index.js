@@ -1,5 +1,12 @@
+const config = require('../common/config');
 const { Pool } = require('pg');
-const pool = new Pool();
+const pool = new Pool({
+    host: config.vars.database.HOST,
+    port: config.vars.database.PORT,
+    database: config.vars.database.DATABASE,
+    user: config.vars.database.USER,
+    password: config.vars.database.PASSWORD
+});
 
 /**
  * Executes a parameterized query using a random client from the connection pool.
