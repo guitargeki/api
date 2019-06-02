@@ -1,8 +1,20 @@
 version: '3'
 
 services:
+  config:
+    build: ./config
+    environment:
+      - GOOGLE_CLIENT_EMAIL
+      - GOOGLE_PRIVATE_KEY
+    networks:
+      - config-database
+      - config-api-v1
+      - config-server
+
   database:
     build: ./database
+    depends_on:
+      - config
     environment:
       - POSTGRES_DB
       - POSTGRES_USER
@@ -15,31 +27,27 @@ services:
       - "5432:5432"
     networks:
       - backend
+      - config-database
   
   api-v1:
     build: ./api-v1
-    environment:
-      - PGHOST
-      - PGPORT
-      - PGDATABASE=${POSTGRES_DB}
-      - PGUSER=${DB_USER_API_NAME}
-      - PGPASSWORD=${DB_USER_API_PASSWORD}
-      - DB_DATA_SCHEMA
-      - DB_VIEW_SCHEMA
-      - API_AUTH_HOST
-      - API_LOG_URL
-      - API_ERROR_URL
+    depends_on:
+      - config
     networks:
       - backend
       - frontend
+      - config-api-v1
 
   server:
     build: ./server
+    depends_on:
+      - config
     ports:
       - "80:80"
       - "443:443"
     networks:
       - frontend
+      - config-server
 
 volumes:
   geki-data:
@@ -47,3 +55,6 @@ volumes:
 networks:
   backend:
   frontend:
+  config-database:
+  config-api-v1:
+  config-server:
