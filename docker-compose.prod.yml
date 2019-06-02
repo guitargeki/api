@@ -7,6 +7,8 @@ services:
       args:
         - ADMIN_EMAIL=${ADMIN_EMAIL}
         - BACKUP_REPO=${DB_BACKUP_URL}
+    depends_on:
+      - config
     environment:
       - PGHOST
       - PGPORT
@@ -18,4 +20,4 @@ services:
   
   api-v1:
     environment:
-      - NODE_ENV=production
+      - APP_ENV=production

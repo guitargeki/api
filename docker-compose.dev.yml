@@ -1,18 +1,27 @@
 version: '3'
 
 services:
+  config:
+    volumes:
+      - ./config/:/app
+    command: npm run start-dev
+
   database:
+    environment:
+      - APP_ENV=development
     volumes:
       - ./database/dev/scripts:/docker-entrypoint-initdb.d
 
   api-v1:
     environment:
-      - NODE_ENV=development
+      - APP_ENV=development
     volumes:
       - ./api-v1:/app
     command: npm run start-dev
 
   server:
+    environment:
+      - APP_ENV=development
     volumes:
       - ./server/dev/api.conf:/etc/nginx/conf.d/api.conf
       - ./server/dev/ssl:/etc/ssl
