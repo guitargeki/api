@@ -29,16 +29,6 @@ services:
     networks:
       - backend
 
-  config:
-    build: ./config
-    image: geki_config:latest
-    environment:
-      - GOOGLE_CLIENT_EMAIL
-      - GOOGLE_PRIVATE_KEY
-    networks:
-      - backend
-      - frontend
-
 volumes:
   geki-data:
 
