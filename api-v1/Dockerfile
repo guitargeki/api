@@ -21,5 +21,4 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 
 # This command will wait for the config service to be ready before starting.
-COPY wait-for.sh ./
-CMD ["./wait-for.sh", "config:3000", "-t", "60", "--", "npm", "run", "start"]
+CMD ["npm", "run", "start"]

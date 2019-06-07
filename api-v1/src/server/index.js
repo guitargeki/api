@@ -1,7 +1,11 @@
 async function start() {
     // MUST LOAD CONFIG BEFORE DOING ANYTHING ELSE
     const config = require('../common/config');
-    await config.init();
+    try {
+        await config.init();
+    } catch (error) {
+        throw error;
+    }
 
     // Set up server configuration
     const Hapi = require('hapi');

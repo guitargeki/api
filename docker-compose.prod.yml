@@ -29,7 +29,3 @@ services:
   api-v1:
     environment:
       - APP_ENV=production
-
-  config:
-    environment:
-      - APP_ENV=production

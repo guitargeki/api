@@ -4,6 +4,8 @@ services:
   server:
     environment:
       - APP_ENV=development
+      - CONFIGS_URL
+      - CONFIGS_PASSWORD
     volumes:
       - ./server/dev/api.conf:/etc/nginx/conf.d/api.conf
       - ./server/dev/ssl:/etc/ssl
@@ -11,19 +13,16 @@ services:
   database:
     environment:
       - APP_ENV=development
+      - CONFIGS_URL
+      - CONFIGS_PASSWORD
     volumes:
       - ./database/dev/scripts:/docker-entrypoint-initdb.d
 
   api-v1:
     environment:
       - APP_ENV=development
+      - CONFIGS_URL
+      - CONFIGS_PASSWORD
     volumes:
       - ./api-v1:/app
-    command: ./wait-for.sh config:3000 -t 10 -- npm run start-dev
-
-  config:
-    environment:
-      - APP_ENV=development
-    volumes:
-      - ./config/:/app
     command: npm run start-dev
