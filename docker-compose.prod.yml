@@ -2,19 +2,10 @@ version: '3'
 
 services:
   backup:
-    build:
-      context: ./backup
-      args:
-        - ADMIN_EMAIL=${ADMIN_EMAIL}
-        - BACKUP_REPO=${DB_BACKUP_URL}
+    build: ./backup
     image: geki_backup:latest
     environment:
       - APP_ENV=production
-      - PGHOST
-      - PGPORT
-      - PGDATABASE=${POSTGRES_DB}
-      - PGUSER=${POSTGRES_USER}
-      - PGPASSWORD=${POSTGRES_PASSWORD}
     networks:
       - backend
   
