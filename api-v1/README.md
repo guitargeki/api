@@ -1,25 +1,19 @@
 # Overview
 
-The Guitargeki API uses Node.js running the hapi framework.
+The Guitargeki V1 API uses Node.js running the hapi framework.
 
-All POST and PATCH endpoints are secured using JWTs, which can be obtained using the appropriate Auth0 URL.
+All endpoints are secured using JWTs, which can be obtained using the appropriate Auth0 URL. There are separate Auth0 URLs for regular users (read-only access) and admins (read and write access).
 
-Endpoint documentation for each API version can be found at `/vX/docs` where `X` is the version number.
-
-## Folder Structure
-
- - `/lib` - Non version-specific modules.
- - `/versions` - Directory containing separate folders for each API version. Each version should contain a top-level `index.js` file which exports its hapi routes and base Swagger object.
-
-# V1
+Auto-generated Swagger documentation can be found at `/v1/docs`.
 
 ## Folder Structure
 
- - `/common` - Common code between any files.
+ - `/common` - Modules and code that is common between multiple files.
  - `/common/models` - Common code between the `Model` class and `model.js` files.
  - `/common/routes` - Common code between the `Resource` class and `resource.js` files.
  - `/database` - Code related to database functionality such as querying.
  - `/resources` - Each folder here represents a REST resource. Each resource exports its routes and Model instance.
+ - `/server` - Code to start the hapi server.
  - `/swagger` - Contains the base Swagger definition (stored in an object).
 
 ## Code Structure
