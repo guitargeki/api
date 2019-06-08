@@ -4,6 +4,8 @@ services:
   server:
     build: ./server
     image: geki_server:latest
+    depends_on:
+      - api-v1
     ports:
       - "80:80"
       - "443:443"
