@@ -9,16 +9,16 @@ const schema = {};
 
 schema.input = {
     title: Joi.string().max(200),
-    date_start: Joi.date().iso(),
-    date_end: Joi.date().iso()
+    datetime_start: Joi.date().iso(),
+    datetime_end: Joi.date().iso()
 };
 
 schema.output = {
     id: commonSchemas.id,
     title: schema.input.title,
     matches: Joi.number().integer(),
-    date_start: schema.input.date_start,
-    date_end: schema.input.date_end
+    datetime_start: schema.input.datetime_start,
+    datetime_end: schema.input.datetime_end
 };
 
 const modelInstance = new Model(tableName, tableName, schema);
