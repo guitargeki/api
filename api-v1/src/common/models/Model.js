@@ -79,20 +79,20 @@ class Model {
         const schema = this.schema.output;
         let columns = Object.keys(schema).toString();
         columns = columns.replace(/,/g, '|');
-        const regex = `^(${columns}) *(LIKE|>=|<=|<>|!=|=|>|<) *(.+)$`;
+        const regex = `^(${columns}) *(ILIKE|LIKE|>=|<=|<>|!=|=|>|<) *(.+?) *(AND|NOT|OR)?$`;
 
         // Extend Joi to add a custom validator
         const customJoi = Joi.extend((joi) => ({
             base: joi.array(),
             name: 'array',
             language: {
-                whereQueryCoerce: 'one or more queries are improperly formatted',
-                whereQueryValidate: 'one or more queries have invalid values',
-                whereQueryLike: 'one or more queries use the LIKE operator but are not strings'
+                whereQueryCoerce: 'one or more conditions are improperly formatted',
+                whereQueryValidate: 'one or more conditions have invalid values',
+                whereQueryLike: 'one or more conditions use the LIKE operator but are not strings'
             },
 
             coerce: function (value, state, options) {
-                const queries = [];
+                const conditions = [];
 
                 // Always make the where parameter an array
                 if (value) {
@@ -103,21 +103,28 @@ class Model {
                     value = [];
                 }
 
-                // Split each query into an object with the following keys: column, operator, value
+                // Split each condition into an object with the following keys: column, operator, value and logicalOperator
                 for (let i = 0; i < value.length; i++) {
                     const matchResult = value[i].match(regex);
                     if (!matchResult) {
                         return this.createError('array.whereQueryCoerce', {}, state, options);
                     }
 
-                    queries.push({
+                    // Don't add logical operator for the last condition
+                    let logicalOperator = '';
+                    if (i < value.length - 1) {
+                        logicalOperator = matchResult[4];
+                    }
+
+                    conditions.push({
                         column: matchResult[1],
                         operator: matchResult[2],
-                        value: matchResult[3]
+                        value: matchResult[3],
+                        logicalOperator: logicalOperator
                     });
                 }
 
-                return queries;
+                return conditions;
             },
 
             rules: [
@@ -126,11 +133,12 @@ class Model {
                     validate: function (params, value, state, options) {
                         for (let i = 0; i < value.length; i++) {
                             const columnSchema = schema[value[i].column];
+                            const operator = value[i].operator;
 
-                            // Check if query contains LIKE operator and column uses a string schema
-                            if (value[i].operator === 'LIKE') {
+                            // Check if query contains LIKE/ILIKE operator
+                            if (operator === 'LIKE' || operator === 'ILIKE') {
                                 // Check if column uses a string schema. This check is required because we
-                                // only want to perform LIKE queries on columns explicitly marked as string
+                                // only want to perform LIKE/ILIKE queries on columns explicitly marked as string
                                 // types since non-string types (such as date) are also passed as strings.
                                 if (columnSchema._type === 'string') {
                                     // Check the value is a string
@@ -158,9 +166,11 @@ class Model {
             ]
         }));
 
-        const description = 'Conditionals to apply to the query. Each conditional must be on its own line. ' +
-            'Format each conditional as: `column operator value`. Example: `id = 5`. ' +
-            'Supported operators are **LIKE**, **>=**, **<=**, **<>**, **!=**, **=**, **>** and **<**.';
+        const description = 'Conditions to apply to the query. Each condition must be on its own line. ' +
+            'Format each condition as: `column operator value`. Example: `id = 5`. ' +
+            'Supported operators are **ILIKE**, **LIKE**, **>=**, **<=**, **<>**, **!=**, **=**, **>** and **<**. ' +
+            'You can also use the logical operators **AND**, **NOT** and **OR** at the end of each condition ' +
+            'to combine conditions.';
         return customJoi.array().whereQuery().description(description);
     }
 
@@ -245,7 +255,7 @@ class Model {
         const conditions = [];
         let valuesIndex = values.length + 1; // Needed to set the starting index because indices 1 and 2 are reserved for the LIMIT and OFFSET clauses
         for (let i = 0; i < where.length; i++) {
-            const condition = `${where[i].column} ${where[i].operator} $${valuesIndex}`;
+            const condition = `${where[i].column} ${where[i].operator} $${valuesIndex} ${where[i].logicalOperator}`;
             conditions.push(condition);
             values.push(where[i].value);
             valuesIndex++;
@@ -254,9 +264,8 @@ class Model {
         // Only create the WHERE clause if there are entries
         let whereClause = '';
         if (conditions.length > 0) {
-            // Easy way to insert AND statements between each condition
             let tmp = conditions.toString();
-            tmp = tmp.replace(/,/g, ' AND ');
+            tmp = tmp.replace(/,/g, ' ');
             whereClause = `WHERE ${tmp}`;
         }
 
@@ -266,7 +275,7 @@ class Model {
             ORDER BY
             ${sort} ${order}
             LIMIT $1 OFFSET $2;`;
-
+        
         const data = await db.query(sql, values);
         return data.rows;
     }

@@ -58,6 +58,8 @@ This will clone the repo into `database/dev/scripts`. Docker Compose will automa
 
 When the database container starts, it will execute the restore script if the database doesn't already contain data. If it does have existing data, you can remove it using `docker volume prune`. Note that this will prune other volumes as well!
 
+If you receive a `bad interpreter: No such file or directory` error, make sure the init script uses LF line endings.
+
 ### Start Project
 
 To start the project, use one of the following commands:
