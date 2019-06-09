@@ -37,7 +37,8 @@ class Model {
      * @param {number} defaultValue 
      */
     getLimitSchema(max = queryDefaults.limitMax, defaultValue = queryDefaults.limit) {
-        return Joi.number().integer().min(1).max(max).default(defaultValue);
+        const description = `Maximum amount of rows to return. Maximum value for this endpoint is **${max}**.`;
+        return Joi.number().integer().min(1).max(max).default(defaultValue).description(description);
     }
 
     /**
@@ -45,7 +46,8 @@ class Model {
      * @param {number} defaultValue 
      */
     getOffsetSchema(defaultValue = queryDefaults.offset) {
-        return Joi.number().integer().min(0).default(defaultValue);
+        const description = 'Number of rows to skip before returning the results.';
+        return Joi.number().integer().min(0).default(defaultValue).description(description);
     }
 
     /**
@@ -53,8 +55,9 @@ class Model {
      * the output schema passed in at construction.
      */
     getSortSchema() {
+        const description = 'Column to sort the results by.';
         const validColumns = Object.keys(this.schema.output);
-        return Joi.string().valid(validColumns).default(validColumns[0]);
+        return Joi.string().valid(validColumns).default(validColumns[0]).description(description);
     }
 
     /**
@@ -62,7 +65,8 @@ class Model {
      * @param {number} defaultValue 
      */
     getReverseSchema(defaultValue = queryDefaults.reverse) {
-        return Joi.boolean().default(defaultValue);
+        const description = 'Whether to reverse the sort order.';
+        return Joi.boolean().default(defaultValue).description(description);
     }
 
     /**
@@ -75,7 +79,7 @@ class Model {
         const schema = this.schema.output;
         let columns = Object.keys(schema).toString();
         columns = columns.replace(/,/g, '|');
-        const regex = `^(${columns}) *(>=|<=|<>|!=|=|>|<) *(.+)$`;
+        const regex = `^(${columns}) *(LIKE|>=|<=|<>|!=|=|>|<) *(.+)$`;
 
         // Extend Joi to add a custom validator
         const customJoi = Joi.extend((joi) => ({
@@ -83,7 +87,8 @@ class Model {
             name: 'array',
             language: {
                 whereQueryCoerce: 'one or more queries are improperly formatted',
-                whereQueryValidate: 'one or more queries have invalid values'
+                whereQueryValidate: 'one or more queries have invalid values',
+                whereQueryLike: 'one or more queries use the LIKE operator but are not strings'
             },
 
             coerce: function (value, state, options) {
@@ -120,9 +125,31 @@ class Model {
                     name: 'whereQuery',
                     validate: function (params, value, state, options) {
                         for (let i = 0; i < value.length; i++) {
-                            const result = Joi.validate(value[i].value, schema[value[i].column]);
-                            if (result.error) {
-                                return this.createError('array.whereQueryValidate', {}, state, options);
+                            const columnSchema = schema[value[i].column];
+
+                            // Check if query contains LIKE operator and column uses a string schema
+                            if (value[i].operator === 'LIKE') {
+                                // Check if column uses a string schema. This check is required because we
+                                // only want to perform LIKE queries on columns explicitly marked as string
+                                // types since non-string types (such as date) are also passed as strings.
+                                if (columnSchema._type === 'string') {
+                                    // Check the value is a string
+                                    const result = Joi.validate(value[i].value, Joi.string());
+                                    if (result.error) {
+                                        return this.createError('array.whereQueryLike', {}, state, options);
+                                    }
+
+                                    // Encapsulate value in % signs which means this pattern can match anywhere
+                                    value[i].value = `%${value[i].value}%`;
+                                } else {
+                                    return this.createError('array.whereQueryLike', {}, state, options);
+                                }
+                            } else {
+                                // Validate the value
+                                const result = Joi.validate(value[i].value, columnSchema);
+                                if (result.error) {
+                                    return this.createError('array.whereQueryValidate', {}, state, options);
+                                }
                             }
                         }
                         return value;
@@ -131,7 +158,10 @@ class Model {
             ]
         }));
 
-        return customJoi.array().whereQuery();
+        const description = 'Conditionals to apply to the query. Each conditional must be on its own line. ' +
+            'Format each conditional as: `column operator value`. Example: `id = 5`. ' +
+            'Supported operators are **LIKE**, **>=**, **<=**, **<>**, **!=**, **=**, **>** and **<**.';
+        return customJoi.array().whereQuery().description(description);
     }
 
     /**
@@ -212,28 +242,27 @@ class Model {
         const values = [limit, offset];
 
         // Create WHERE clause
-        const whereClauses = [];
-        let valuesIndex = values.length + 1;
+        const conditions = [];
+        let valuesIndex = values.length + 1; // Needed to set the starting index because indices 1 and 2 are reserved for the LIMIT and OFFSET clauses
         for (let i = 0; i < where.length; i++) {
-            const clause = `${where[i].column} ${where[i].operator} $${valuesIndex}`;
+            const condition = `${where[i].column} ${where[i].operator} $${valuesIndex}`;
+            conditions.push(condition);
             values.push(where[i].value);
             valuesIndex++;
-            whereClauses.push(clause);
         }
 
-        // Only create the WHERE claus if there are entries
-        let whereClausString = '';
-        if (whereClauses.length > 0) {
+        // Only create the WHERE clause if there are entries
+        let whereClause = '';
+        if (conditions.length > 0) {
             // Easy way to insert AND statements between each condition
-            let temp = whereClauses.toString();
-            temp = temp.replace(/,/g, ' AND ');
-
-            whereClausString = `WHERE ${temp}`;
+            let tmp = conditions.toString();
+            tmp = tmp.replace(/,/g, ' AND ');
+            whereClause = `WHERE ${tmp}`;
         }
 
         const sql = `
             SELECT * FROM ${this.readTable}
-            ${whereClausString}
+            ${whereClause}
             ORDER BY
             ${sort} ${order}
             LIMIT $1 OFFSET $2;`;
@@ -283,7 +312,7 @@ class Model {
     async update(id, params, client = db) {
         const values = [id];
         const columns = [];
-        let i = 2;
+        let i = 2; // Must start from 2 because 1 is reserved for the WHERE claus
 
         // Update only the included columns
         for (const key in params) {
