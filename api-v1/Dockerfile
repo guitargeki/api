@@ -10,14 +10,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install production dependencies. Will only run if the package files were changed.
-RUN npm install --production
+RUN npm install --production && \
+    addgroup -S appgroup && adduser -S appuser -G appgroup
 
 # Bundle app source. This should be done as late as possible as it will invalidate
 # the cache.
 COPY src/ src/
 
-# Create a group and user
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 
 # This command will wait for the config service to be ready before starting.
