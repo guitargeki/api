@@ -73,6 +73,24 @@ async function updateElo(winner_id, loser_id, client) {
 }
 
 /**
+ * Set match's status to Completed and update its end date.
+ * @param {*} id 
+ * @param {*} datetime_end 
+ * @param {*} client - Client to use when executing queries.
+ */
+async function updateMatch(id, datetime_end, client) {
+    const values = [id, 4, datetime_end];
+
+    const sql = `
+        UPDATE ${matchModel.writeTable}
+        SET match_status_id=$2,
+            datetime_end=$3
+        WHERE id=$1;`;
+    
+    await client.query(sql, values);
+}
+
+/**
  * Updates Elos for both participants, creates a new ranked result and marks the match as Completed.
  */
 modelInstance.submitResult = async function ({ match_id, winner_id, loser_id, datetime_submitted }) {
@@ -104,13 +122,9 @@ modelInstance.submitResult = async function ({ match_id, winner_id, loser_id, da
             datetime_submitted
         };
         const rankedResultId = await modelInstance.create(data, client);
-
-        // Mark match as Completed
-        sql = `
-            UPDATE ${matchModel.writeTable}
-            SET match_status_id=4
-            WHERE id=${match_id};`;
-        await client.query(sql);
+        
+        // Mark match as Completed and update its end date
+        await updateMatch(match_id, datetime_submitted, client);
 
         await client.query('COMMIT;');
         const results = await modelInstance.getOne(rankedResultId);
@@ -169,12 +183,8 @@ modelInstance.recalculateAllElos = async function () {
             // Update ranked result row
             await modelInstance.update(result.id, data, client);
 
-            // Mark match as Completed
-            sql = `
-                UPDATE ${matchModel.writeTable}
-                SET match_status_id=4
-                WHERE id=${result.match_id};`;
-            await client.query(sql);
+            // Mark match as Completed and update its end date
+            await updateMatch(result.match_id, result.datetime_submitted, client);
         }
 
         await client.query('COMMIT;');
