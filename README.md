@@ -56,7 +56,7 @@ git clone --depth 1 <insert repo> scripts
 
 This will clone the repo into `database/dev/scripts`. Docker Compose will automatically copy files in this folder into the database container.
 
-When the database container starts, it will execute the restore script if the database doesn't already contain data. If it does have existing data, you can remove it using `docker volume prune`. Note that this will prune other volumes as well!
+When the database container starts, it will execute the restore script if the database doesn't already contain data. If it does have existing data, you can remove it using `docker volume rm <volume name>`.
 
 If you receive a `bad interpreter: No such file or directory` error, make sure the init script uses LF line endings.
 
@@ -72,4 +72,26 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 ```
 
-## Deploying
+## Production
+
+### Setting Up
+
+First, you will need to set up the production server. The first step is to install [Docker CE for Debian](https://docs.docker.com/install/linux/docker-ce/debian/).
+
+Since this project uses GitLab for CI/CD, you will need to set up a GitLab Runner. For this project, [set up the runner in a container](https://docs.gitlab.com/runner/install/docker.html). Use `gitlab/gitlab-runner:alpine` instead of `gitlab/gitlab-runner:latest` for a smaller image size.
+
+The next step is to register the runner. For this project, we will use the [Docker executor with socket binding](https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-socket-binding).
+
+>**Note:** This set up will also work for testing deployments locally (even on Windows machines).
+
+Finally, make sure the following variables are set in the GitLab CI/CD options:
+
+ - COMPOSE_PROJECT_NAME=geki
+ - CONFIGS_URL
+ - CONFIGS_PASSWORD
+
+You can also optionally set a RESET_DATA variable set to 'true' (without quotes) to delete the current data and restore from the latest backup.
+
+### Deploying
+
+To deploy, simply push 

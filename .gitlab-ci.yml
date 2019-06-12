@@ -1,18 +1,34 @@
-image: docker:stable
-
-before_script:
-  - docker info
+image: tiangolo/docker-with-compose
 
 stages:
   - build
   - test
   - deploy
 
-deploy_test:
+deploy-to-staging:
   stage: deploy
   script:
-    - docker-compose -f docker-compose.yml -f down
-    - docker-compose -f docker-compose.yml -f up -d --build
+    - docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+    - apk --no-cache add git
+    - apk --no-cache add jq
+    - apk --no-cache add curl
+    - chmod +x ./reset_data.sh
+    - ./reset_data.sh $RESET_DATA
+    - docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
     - docker system prune -f
   only:
-    - test
+    - staging
+
+deploy-to-prod:
+  stage: deploy
+  script:
+    - docker-compose -f docker-compose.yml down
+    - apk --no-cache add git
+    - apk --no-cache add jq
+    - apk --no-cache add curl
+    - chmod +x ./reset_data.sh
+    - ./reset_data.sh $RESET_DATA
+    - docker-compose -f docker-compose.yml up -d --build
+    - docker system prune -f
+  only:
+    - production
