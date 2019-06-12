@@ -13,7 +13,7 @@ deploy-to-server:
     - apk --no-cache add jq
     - apk --no-cache add curl
     - chmod +x ./reset_data.sh
-    - ./reset_data.sh $RESET_DATA
+    - ./reset_data.sh staging
     - docker-compose -f docker-compose.yml -f docker-compose.staging.yml up -d --build
     - docker system prune -f
   only:

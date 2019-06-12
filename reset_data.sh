@@ -4,10 +4,14 @@
 set -e
 
 # Script to remove current data and restore from the latest backup.
-# Must pass 'true' as the first argument to execute the script.
+# First argument is the app stage i.e 'staging', 'production' etc.
+
+# If testing locally, remember to use 'export CONFIGS_URL=<url here>' and 'export CONFIGS_PASSWORD=<password>'.
 
 if [ -n "$1" ]; then
-    if [ $1 == "true" ]; then
+    export RESET_DATA=$(curl -s -H "Authorization: $CONFIGS_PASSWORD" $CONFIGS_URL/database/$1 | jq -r .RESET_DATA)
+
+    if [ $RESET_DATA == "true" ]; then
         # Store config so we don't have to re-fetch
         echo "Fetching config..."
         export BACKUP_CONFIG=$(curl -s -H "Authorization: $CONFIGS_PASSWORD" $CONFIGS_URL/backup/production)
