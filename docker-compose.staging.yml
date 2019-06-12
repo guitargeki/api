@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  backup:
+    environment:
+      - APP_ENV=staging
+    command: echo Backup service started in staging mode. Exiting...
