@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  server:
+    environment:
+      - APP_ENV=staging
+
+  api-v1:
+    environment:
+      - APP_ENV=staging
+
+  database:
+    environment:
+      - APP_ENV=staging
+
+  backup:
+    environment:
+      - APP_ENV=staging
+    command: echo Backup service started in staging mode. Exiting...
