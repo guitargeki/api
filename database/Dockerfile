@@ -4,4 +4,6 @@ FROM postgres:11.2-alpine
 RUN apk --no-cache add curl && \
     apk --no-cache add jq
 
+COPY scripts/ /docker-entrypoint-initdb.d
+
 USER postgres
