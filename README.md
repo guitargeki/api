@@ -27,7 +27,7 @@ CONFIGS_URL=https://example.cloudfunctions.net/configs
 CONFIGS_PASSWORD=password_to_access_configs
 ```
 
-Replace `example` with the appropriate Firebase server and project ID.
+Replace `example` with the appropriate Firebase server and project ID. You can also find the appropriate values by looking at the GitLab CI variables.
 
 ### Generate Self-Signed TLS Certificate
 

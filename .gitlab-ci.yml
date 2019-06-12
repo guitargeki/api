@@ -1,3 +1,8 @@
+image: docker:stable
+
+before_script:
+  - docker info
+
 stages:
   - build
   - test
@@ -6,8 +11,8 @@ stages:
 deploy_test:
   stage: deploy
   script:
-    - docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
-    - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+    - docker-compose -f docker-compose.yml -f down
+    - docker-compose -f docker-compose.yml -f up -d --build
     - docker system prune -f
   only:
     - test

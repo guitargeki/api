@@ -20,12 +20,12 @@
         {
             "label": "Docker Compose Up (Production)",
             "type": "shell",
-            "command": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build"
+            "command": "docker-compose -f docker-compose.yml up -d --build"
         },
         {
             "label": "Docker Compose Down (Production)",
             "type": "shell",
-            "command": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml down"
+            "command": "docker-compose -f docker-compose.yml down"
         }
     ]
 }

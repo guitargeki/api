@@ -4,25 +4,24 @@ services:
   server:
     environment:
       - APP_ENV=development
-      - CONFIGS_URL
-      - CONFIGS_PASSWORD
     volumes:
       - ./server/dev/api.conf:/etc/nginx/conf.d/api.conf
       - ./server/dev/ssl:/etc/ssl
 
-  database:
-    environment:
-      - APP_ENV=development
-      - CONFIGS_URL
-      - CONFIGS_PASSWORD
-    volumes:
-      - ./database/dev/scripts:/docker-entrypoint-initdb.d
-
   api-v1:
     environment:
       - APP_ENV=development
-      - CONFIGS_URL
-      - CONFIGS_PASSWORD
     volumes:
       - ./api-v1:/app
     command: npm run start-dev
+
+  database:
+    environment:
+      - APP_ENV=development
+    volumes:
+      - ./database/dev/scripts:/docker-entrypoint-initdb.d
+
+  backup:
+    environment:
+      - APP_ENV=development
+    command: echo Backup service started in development mode. Exiting...

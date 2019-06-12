@@ -22,3 +22,9 @@ Features:
  - Route auth
  - Logging user requests and internal errors to an external endpoint
  - Auto-generated Swagger documentation
+
+Originally wrote site as a static site with Google Sheets as a database
+Originally wrote Swagger manually to generate endpoints but
+Originally used Express framework but
+Originally used GitLab CI but 
+Secrets originally stored as plaintext then encrypted in repo
