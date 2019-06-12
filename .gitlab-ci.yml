@@ -1,0 +1,20 @@
+image: tiangolo/docker-with-compose
+
+stages:
+  - build
+  - test
+  - deploy
+
+deploy-to-server:
+  stage: deploy
+  script:
+    - docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+    - apk --no-cache add git
+    - apk --no-cache add jq
+    - apk --no-cache add curl
+    - chmod +x ./reset_data.sh
+    - ./reset_data.sh $RESET_DATA
+    - docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+    - docker system prune -f
+  only:
+    - staging
