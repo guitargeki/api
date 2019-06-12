@@ -6,6 +6,10 @@ services:
     image: geki_server:latest
     depends_on:
       - api-v1
+    environment:
+      - APP_ENV=production
+      - CONFIGS_URL
+      - CONFIGS_PASSWORD
     ports:
       - "80:80"
       - "443:443"
@@ -15,6 +19,10 @@ services:
   api-v1:
     build: ./api-v1
     image: geki_api-v1:latest
+    environment:
+      - APP_ENV=production
+      - CONFIGS_URL
+      - CONFIGS_PASSWORD
     networks:
       - backend
       - frontend
@@ -23,11 +31,24 @@ services:
     build: ./database
     image: geki_database:latest
     environment:
+      - APP_ENV=production
+      - CONFIGS_URL
+      - CONFIGS_PASSWORD
       - POSTGRES_PASSWORD=password # This gets changed in an init script but a value is needed here so Postgres authenticates users
     volumes:
       - geki-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - backend
+
+  backup:
+    build: ./backup
+    image: geki_backup:latest
+    environment:
+      - APP_ENV=production
+      - CONFIGS_URL
+      - CONFIGS_PASSWORD
     networks:
       - backend
 
