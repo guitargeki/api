@@ -16,5 +16,6 @@ deploy-to-server:
     - ./reset_data.sh staging
     - docker-compose -f docker-compose.yml -f docker-compose.staging.yml up -d --build
     - docker system prune -f
+  when: manual
   only:
     - staging
