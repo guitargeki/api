@@ -18,7 +18,7 @@ if [ -n "$1" ]; then
 
         # Shallow clone the backup repo
         echo "Retrieving backup data..."
-        git clone --depth 1 https://$GIT_ACCESS_TOKEN:x-oauth-basic@$GIT_REPO ./database/dev/scripts
+        git clone --depth 1 https://$GIT_ACCESS_TOKEN:x-oauth-basic@$GIT_REPO ./database/scripts
 
         # Delete current data. The '|| true' ensures the job doesn't fail if the volume doesn't exist.
         echo "Deleting current data..."
