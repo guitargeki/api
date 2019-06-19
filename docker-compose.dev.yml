@@ -4,9 +4,6 @@ services:
   server:
     environment:
       - APP_ENV=development
-    volumes:
-      - ./server/dev/api.conf:/etc/nginx/conf.d/api.conf
-      - ./server/dev/ssl:/etc/ssl
 
   api-v1:
     environment:

@@ -92,10 +92,6 @@ class Resource {
                 path: this.basePath,
                 handler: this.handlers.getList,
                 options: {
-                    auth: {
-                        strategy: auth.strategy,
-                        scope: auth.scopes.read
-                    },
                     tags: this.tags,
                     validate: {
                         query: {
@@ -136,10 +132,6 @@ class Resource {
                 path: this.basePath + '/{id}',
                 handler: this.handlers.getOne,
                 options: {
-                    auth: {
-                        strategy: auth.strategy,
-                        scope: auth.scopes.read
-                    },
                     tags: this.tags,
                     validate: {
                         params: {
