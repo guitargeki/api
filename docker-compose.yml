@@ -3,11 +3,9 @@ version: '3'
 services:
   server:
     build: ./server
-    image: geki_server:latest
     depends_on:
       - api-v1
     environment:
-      - APP_ENV=production
       - CONFIGS_URL
       - CONFIGS_PASSWORD
     ports:
@@ -18,9 +16,7 @@ services:
 
   api-v1:
     build: ./api-v1
-    image: geki_api-v1:latest
     environment:
-      - APP_ENV=production
       - CONFIGS_URL
       - CONFIGS_PASSWORD
     networks:
@@ -29,9 +25,7 @@ services:
 
   database:
     build: ./database
-    image: geki_database:latest
     environment:
-      - APP_ENV=production
       - CONFIGS_URL
       - CONFIGS_PASSWORD
       - POSTGRES_PASSWORD=password # This gets changed in an init script but a value is needed here so Postgres authenticates users
@@ -41,16 +35,15 @@ services:
       - "5432:5432"
     networks:
       - backend
+      - backup
 
   backup:
     build: ./backup
-    image: geki_backup:latest
     environment:
-      - APP_ENV=production
       - CONFIGS_URL
       - CONFIGS_PASSWORD
     networks:
-      - backend
+      - backup
 
 volumes:
   geki-data:
@@ -58,3 +51,4 @@ volumes:
 networks:
   backend:
   frontend:
+  backup:

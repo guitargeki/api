@@ -1,5 +1,4 @@
 FROM nginx:1.15-alpine
 
 WORKDIR /etc/nginx
-
-COPY prod/ conf.d/
+COPY api.conf conf.d/api.conf

@@ -4,20 +4,19 @@ services:
   server:
     restart: unless-stopped
     environment:
-      - APP_ENV=staging
+      - APP_ENV=production
 
   api-v1:
     restart: unless-stopped
     environment:
-      - APP_ENV=staging
+      - APP_ENV=production
 
   database:
     restart: unless-stopped
     environment:
-      - APP_ENV=staging
+      - APP_ENV=production
 
   backup:
     restart: unless-stopped
     environment:
-      - APP_ENV=staging
-    command: echo Backup service started in staging mode. Exiting...
+      - APP_ENV=production
