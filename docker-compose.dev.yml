@@ -15,8 +15,3 @@ services:
   database:
     environment:
       - APP_ENV=development
-
-  backup:
-    environment:
-      - APP_ENV=development
-    command: echo Backup service started in development mode. Exiting...

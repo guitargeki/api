@@ -37,14 +37,6 @@ services:
       - backend
       - backup
 
-  backup:
-    build: ./backup
-    environment:
-      - CONFIGS_URL
-      - CONFIGS_PASSWORD
-    networks:
-      - backup
-
 volumes:
   geki-data:
 
