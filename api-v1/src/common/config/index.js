@@ -7,10 +7,14 @@ async function init() {
         }
     };
 
-    const fetchUrl = `${process.env.CONFIGS_URL}/api-v1/${process.env.APP_ENV}`;
-    const response = await fetch(fetchUrl, options);
-    const data = await response.json();
-    module.exports.vars = data;
+    const requestedConfigs = [ 'auth0', 'database', 'log' ];
+
+    for (const config of requestedConfigs) {
+        const fetchUrl = `${process.env.CONFIGS_URL}/${config}/${process.env.APP_ENV}`;
+        const response = await fetch(fetchUrl, options);
+        const data = await response.json();
+        module.exports.vars[config] = data;
+    }
 }
 
 module.exports = {

@@ -14,11 +14,11 @@ if [ -n "$1" ]; then
     if [ $RESET_DATA == "true" ]; then
         # Store config so we don't have to re-fetch
         echo "Fetching config..."
-        export BACKUP_CONFIG=$(curl -s -H "Authorization: $CONFIGS_PASSWORD" $CONFIGS_URL/backup/production)
+        export BACKUP_CONFIG=$(curl -s -H "Authorization: $CONFIGS_PASSWORD" $CONFIGS_URL/git-data-backup/production)
 
         # Set up local variables. -r flag required to remove quotes from values.
-        export GIT_REPO=$(echo $BACKUP_CONFIG | jq -r '.git.REPO')
-        export GIT_ACCESS_TOKEN=$(echo $BACKUP_CONFIG | jq -r '.git.ACCESS_TOKEN')
+        export GIT_REPO=$(echo $BACKUP_CONFIG | jq -r '.REPO')
+        export GIT_ACCESS_TOKEN=$(echo $BACKUP_CONFIG | jq -r '.ACCESS_TOKEN')
 
         # Shallow clone the backup repo
         echo "Retrieving backup data..."
