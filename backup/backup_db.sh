@@ -6,18 +6,19 @@ set -e
 
 # Store config so we don't have to re-fetch
 echo "Fetching config..."
-export BACKUP_CONFIG=$(curl -s -H "Authorization: $CONFIGS_PASSWORD" $CONFIGS_URL/backup/production)
+export BACKUP_CONFIG=$(curl -s -H "Authorization: $CONFIGS_PASSWORD" $CONFIGS_URL/git-data-backup/$APP_ENV)
+export DATABASE_CONFIG=$(curl -s -H "Authorization: $CONFIGS_PASSWORD" $CONFIGS_URL/database/$APP_ENV)
 
 # Set up local variables. -r flag required to remove quotes from values.
-export GIT_EMAIL=$(echo $BACKUP_CONFIG | jq -r '.git.EMAIL')
-export GIT_NAME=$(echo $BACKUP_CONFIG | jq -r '.git.NAME')
-export GIT_REPO=$(echo $BACKUP_CONFIG | jq -r '.git.REPO')
-export GIT_ACCESS_TOKEN=$(echo $BACKUP_CONFIG | jq -r '.git.ACCESS_TOKEN')
-export PGHOST=$(echo $BACKUP_CONFIG | jq -r '.database.HOST')
-export PGPORT=$(echo $BACKUP_CONFIG | jq -r '.database.PORT')
-export PGDATABASE=$(echo $BACKUP_CONFIG | jq -r '.database.DATABASE')
-export PGUSER=$(echo $BACKUP_CONFIG | jq -r '.database.users.postgres.NAME')
-export PGPASSWORD=$(echo $BACKUP_CONFIG | jq -r '.database.users.postgres.PASSWORD')
+export GIT_EMAIL=$(echo $BACKUP_CONFIG | jq -r '.EMAIL')
+export GIT_NAME=$(echo $BACKUP_CONFIG | jq -r '.NAME')
+export GIT_REPO=$(echo $BACKUP_CONFIG | jq -r '.REPO')
+export GIT_ACCESS_TOKEN=$(echo $BACKUP_CONFIG | jq -r '.ACCESS_TOKEN')
+export PGHOST=$(echo $DATABASE_CONFIG | jq -r '.HOST')
+export PGPORT=$(echo $DATABASE_CONFIG | jq -r '.PORT')
+export PGDATABASE=$(echo $DATABASE_CONFIG | jq -r '.DATABASE')
+export PGUSER=$(echo $DATABASE_CONFIG | jq -r '.users.postgres.NAME')
+export PGPASSWORD=$(echo $DATABASE_CONFIG | jq -r '.users.postgres.PASSWORD')
 
 # Shallow clone the backup repo
 cd /backup
