@@ -17,6 +17,11 @@ services:
       - APP_ENV=production
 
   backup:
+    build: ./backup
     restart: unless-stopped
     environment:
       - APP_ENV=production
+      - CONFIGS_URL
+      - CONFIGS_PASSWORD
+    networks:
+      - backup
