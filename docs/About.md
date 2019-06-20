@@ -14,6 +14,7 @@ External services:
  - CI/CD: GitLab CI
  - Hosting: DigitalOcean (backend) and Firebase (frontend and secrets database)
  - Database backups: GitHub
+ - CDN: Cloudflare
 
 Features:
  - Elo rating system
