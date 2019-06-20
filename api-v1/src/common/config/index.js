@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const vars = {};
 
 async function init() {
     const options = {
@@ -7,16 +8,18 @@ async function init() {
         }
     };
 
-    const requestedConfigs = [ 'auth0', 'database', 'log' ];
+    const requestedConfigs = [ 'auth', 'database', 'log' ];
+    console.log('Fetching config...');
 
     for (const config of requestedConfigs) {
         const fetchUrl = `${process.env.CONFIGS_URL}/${config}/${process.env.APP_ENV}`;
         const response = await fetch(fetchUrl, options);
         const data = await response.json();
-        module.exports.vars[config] = data;
+        vars[config] = data;
     }
 }
 
 module.exports = {
-    init
+    init,
+    vars
 };
