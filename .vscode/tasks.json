@@ -6,7 +6,7 @@
         {
             "label": "Docker Compose Up (Development)",
             "type": "shell",
-            "command": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build",
+            "command": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up -d --build",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -15,17 +15,7 @@
         {
             "label": "Docker Compose Down (Development)",
             "type": "shell",
-            "command": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml down"
-        },
-        {
-            "label": "Docker Compose Up (Production)",
-            "type": "shell",
-            "command": "docker-compose -f docker-compose.yml up -d --build"
-        },
-        {
-            "label": "Docker Compose Down (Production)",
-            "type": "shell",
-            "command": "docker-compose -f docker-compose.yml down"
+            "command": "docker-compose -f docker-compose.yml -f docker-compose.development.yml down"
         }
     ]
 }
