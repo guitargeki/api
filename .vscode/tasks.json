@@ -15,17 +15,17 @@
         {
             "label": "Docker Compose Down (Development)",
             "type": "shell",
-            "command": "docker-compose -f docker-compose.yml -f docker-compose.development.yml down"
+            "command": "docker-compose -f docker-compose.yml -f docker-compose.development.yml down --remove-orphans"
         },
         {
             "label": "Start GitLab Runner",
             "type": "shell",
-            "command": "docker-compose -f ./gitlab-runner/docker-compose.yml up -d --build"
+            "command": "docker-compose -f ./gitlab-runner/docker-compose.yml --project-name runner up -d --build"
         },
         {
             "label": "Stop GitLab Runner",
             "type": "shell",
-            "command": "docker-compose -f ./gitlab-runner/docker-compose.yml down"
+            "command": "docker-compose -f ./gitlab-runner/docker-compose.yml --project-name runner down"
         }
     ]
 }

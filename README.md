@@ -60,7 +60,7 @@ First, you will need to set up the production server. Create a new server with y
 
 Next, install [Docker CE for Debian](https://docs.docker.com/install/linux/docker-ce/debian/).
 
-Since this project uses GitLab for CI/CD, you will need to set up a GitLab Runner. For this project, [set up the runner in a container](https://docs.gitlab.com/runner/install/docker.html). Use `gitlab/gitlab-runner:alpine` instead of `gitlab/gitlab-runner:latest` for a smaller image size.
+Since this project uses GitLab for CI/CD, you will need to set up a GitLab Runner. For this project, [set up the runner in a container](https://docs.gitlab.com/runner/install/docker.html). Use `gitlab/gitlab-runner:alpine` instead of `gitlab/gitlab-runner:latest` for a smaller image size. If you are testing deployments locally, set the project name for the runner's Docker Compose to be different from the app's project name. This will ensure that the deployment script does not incorrectly identify the runner container as an orphan and remove it.
 
 The next step is to register the runner. For this project, we will use the [Docker executor with socket binding](https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-socket-binding). The key here is to have the `/var/run/docker.sock:/var/run/docker.sock` in the config file so that containers are created using the host's Docker daemon.
 

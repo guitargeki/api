@@ -11,7 +11,7 @@ if [ -n "$1" ]; then
     apk --no-cache add jq
     apk --no-cache add curl
 
-    # 
+    # Remove containers (including orphans)
     docker-compose -f docker-compose.yml -f docker-compose.$1.yml down --remove-orphans || true
 
     # Remove current data and restore from the latest backup.

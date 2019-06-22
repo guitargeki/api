@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  gitlab-runner:
+  local:
     image: gitlab/gitlab-runner:alpine
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
