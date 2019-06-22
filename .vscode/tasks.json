@@ -1,0 +1,31 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Docker Compose Up (Development)",
+            "type": "shell",
+            "command": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up -d --build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Docker Compose Down (Development)",
+            "type": "shell",
+            "command": "docker-compose -f docker-compose.yml -f docker-compose.development.yml down --remove-orphans"
+        },
+        {
+            "label": "Start GitLab Runner",
+            "type": "shell",
+            "command": "docker-compose -f ./gitlab-runner/docker-compose.yml --project-name runner up -d --build"
+        },
+        {
+            "label": "Stop GitLab Runner",
+            "type": "shell",
+            "command": "docker-compose -f ./gitlab-runner/docker-compose.yml --project-name runner down"
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  server:
+    restart: unless-stopped
+    environment:
+      - APP_ENV=staging
+
+  api-v1:
+    restart: unless-stopped
+    environment:
+      - APP_ENV=staging
+
+  database:
+    restart: unless-stopped
+    environment:
+      - APP_ENV=staging
