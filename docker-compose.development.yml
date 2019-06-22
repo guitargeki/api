@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  server:
+    environment:
+      - APP_ENV=development
+
+  api-v1:
+    environment:
+      - APP_ENV=development
+    volumes:
+      - ./api-v1:/app
+    command: npm run start-dev
+
+  database:
+    environment:
+      - APP_ENV=development
