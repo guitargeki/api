@@ -62,7 +62,7 @@ Next, install [Docker CE for Debian](https://docs.docker.com/install/linux/docke
 
 Since this project uses GitLab for CI/CD, you will need to set up a GitLab Runner. For this project, [set up the runner in a container](https://docs.gitlab.com/runner/install/docker.html). Use `gitlab/gitlab-runner:alpine` instead of `gitlab/gitlab-runner:latest` for a smaller image size.
 
-The next step is to register the runner. For this project, we will use the [Docker executor with socket binding](https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-socket-binding).
+The next step is to register the runner. For this project, we will use the [Docker executor with socket binding](https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-socket-binding). The key here is to have the `/var/run/docker.sock:/var/run/docker.sock` in the config file so that containers are created using the host's Docker daemon.
 
 >**Note:** This set up will also work for testing deployments locally (even on Windows machines).
 
@@ -72,7 +72,7 @@ Finally, make sure the following variables are set in the GitLab CI/CD options:
  - CONFIGS_URL
  - CONFIGS_PASSWORD
 
-You can also optionally choose to reset the database's data to the latest backup. To do this, set a RESET_DATA variable (in the config database, not Gitlab) to 'true' (without quotes). You can then run the `reset_data.sh` script when deploying which will clone the backup repo to the appropriate folder.
+You can also optionally choose to reset the database's data to the latest backup. To do this, set a RESET_DATA variable (in the config database, not Gitlab) to 'true' (without quotes).
 
 ### Restrict Incoming IPs
 
@@ -82,20 +82,16 @@ To do this, create a firewall at the VPS level or at the server level if the VPS
 
 ### Deploy to Staging/Production
 
-It's a good idea to deploy to a staging server first to make sure everything works. Create a staging server by following the same steps outlined in the **Set Up** section. 
+It's a good idea to deploy to a staging server first to make sure everything works. Create a staging server by following the same steps outlined in the **Set Up** section. Afterwards, push your changes to the remote **develop** branch and then execute the job manually in GitLab.
 
-Next, make sure you are in the local **develop** branch and then pull to get the latest changes. Next, switch to the **staging** branch and merge in the **develop** branch.
+If the job failed, make your fixes, push and execute the job again. If the job succeeded, go to the staging website and make sure everything is working.
 
-Before you push to the remote staging branch, make any required changes to the ` .gitlab-ci.yml` file. Once you're done, push to the remote repo. This will trigger Gitlab's CI/CD pipeline and run the jobs outlined in the ` .gitlab-ci.yml` file.
+Once you have verified everything is working correctly, switch to the **production** branch and merge in the **develop** branch. Next, push to the remote and manually start the deployment job.
 
-If the job failed, make your fixes in the staging branch and push again. If the job succeeded, go to the staging website and make sure everything is working.
-
-Once you have verified everything is working correctly, switch to the **production** branch and merge in the **staging** branch. **No further work should occur in this branch**. Simply push to the remote to deploy to the production server.
-
-Finally, merge **production** into **master** and **develop**.
+Finally, merge **production** into **master**.
 
 ### Fix Bugs
 
-If bugs come up after you have deployed to production, create a branch off the **production** branch and make your fixes. Afterwards, merge the bugfix branch back into **production** so that the CI deploys the fixes.
+If bugs come up after you have deployed to production, create a branch off the **production** branch and make your fixes. Afterwards, merge the bugfix branch back into **production** and deploy.
 
 Once you have verified everything is working, merge **production** into **master** and **develop**.
