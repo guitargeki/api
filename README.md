@@ -49,16 +49,18 @@ If you receive a `bad interpreter: No such file or directory` error, make sure t
 To start the project, use the following:
 
 ```sh
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+docker-compose -f docker-compose.yml -f docker-compose.development.yml up -d --build
 ```
 
 ## Production
 
 ### Set Up
 
-First, you will need to set up the production server. Create a new server with your VPS provider and then SSH into it. 
+First, you will need to set up the production server. Create a new server with your VPS provider and then SSH into it.
 
-Next, install [Docker CE for Debian](https://docs.docker.com/install/linux/docker-ce/debian/).
+Before you install anything, you should [set up a new sudo user](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-debian-9) and [disable root login and password authentication](https://bobcares.com/blog/digitalocean-disable-root-login/). Once you have done that, restart the SSH service using `service sshd restart` and log in using the new user.
+
+Next, install [Docker CE for Debian](https://docs.docker.com/install/linux/docker-ce/debian/). Afterwards, add your user to the `docker` group using `    sudo usermod -a -G docker $USER`.
 
 Since this project uses GitLab for CI/CD, you will need to set up a GitLab Runner. For this project, [set up the runner in a container](https://docs.gitlab.com/runner/install/docker.html). Use `gitlab/gitlab-runner:alpine` instead of `gitlab/gitlab-runner:latest` for a smaller image size. If you are testing deployments locally, set the project name for the runner's Docker Compose to be different from the app's project name. This will ensure that the deployment script does not incorrectly identify the runner container as an orphan and remove it.
 
