@@ -1,0 +1,25 @@
+image: tiangolo/docker-with-compose
+
+stages:
+  - build
+  - test
+  - deploy
+
+before_script:
+  - chmod +x ./deploy.sh
+
+deploy-to-staging:
+  stage: deploy
+  script:
+    - ./deploy.sh staging
+  when: manual
+  only:
+    - develop
+
+deploy-to-production:
+  stage: deploy
+  script:
+    - ./deploy.sh production
+  when: manual
+  only:
+    - production
