@@ -82,16 +82,8 @@ To do this, create a firewall at the VPS level or at the server level if the VPS
 
 ### Deploy to Staging/Production
 
-It's a good idea to deploy to a staging server first to make sure everything works. Create a staging server by following the same steps outlined in the **Set Up** section. Afterwards, push your changes to the remote **develop** branch and then execute the job manually in GitLab.
+It's a good idea to deploy to a staging server first to make sure everything works. Create a staging server by following the same steps outlined in the **Set Up** section. Afterwards, push your changes to the remote **develop** branch and then execute the `deploy-to-staging` job manually in GitLab.
 
 If the job failed, make your fixes, push and execute the job again. If the job succeeded, go to the staging website and make sure everything is working.
 
-Once you have verified everything is working correctly, switch to the **production** branch and merge in the **develop** branch. Next, push to the remote and manually start the deployment job.
-
-Finally, merge **production** into **master**.
-
-### Fix Bugs
-
-If bugs come up after you have deployed to production, create a branch off the **production** branch and make your fixes. Afterwards, merge the bugfix branch back into **production** and deploy.
-
-Once you have verified everything is working, merge **production** into **master** and **develop**.
+Once you have verified everything is working correctly, manually execute the `deploy-to-production` job. Finally, merge **develop** into **master**.

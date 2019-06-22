@@ -23,4 +23,4 @@ deploy-to-production:
     - ./deploy.sh production
   when: manual
   only:
-    - production
+    - develop
