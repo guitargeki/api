@@ -16,6 +16,16 @@ Follow the next few sections to start developing locally. You can view developme
  - [Database](./database/README.md)
  - [Server](./server/README.md)
 
+### Clone Repository
+
+First, clone the repository using:
+
+```
+git clone <insert repo> --depth 1 --no-single-branch
+```
+
+This will perform a shallow clone and will also include information about remote branches.
+
 ### Set Up Environment Variables
 
 You will need to provide environment variables that tell each container where to retrieve its config values. To do this, create an `.env` file in the current folder with the following text (replace with the appropriate values):

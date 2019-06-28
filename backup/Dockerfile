@@ -13,6 +13,7 @@ WORKDIR /
 RUN mkdir backup
 WORKDIR /backup
 COPY backup_db.sh .
+RUN chmod +x ./backup_db.sh
 
 # Start cron daemon in the background
 CMD ["crond", "-f"]
