@@ -14,6 +14,7 @@ deploy-to-staging:
   script:
     - ./deploy.sh staging
   when: manual
+  allow_failure: false
   only:
     - develop
 
@@ -22,5 +23,6 @@ deploy-to-production:
   script:
     - ./deploy.sh production
   when: manual
+  allow_failure: false
   only:
     - develop
