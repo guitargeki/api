@@ -34,7 +34,8 @@ async function start() {
                     delete err.output.payload.validation;
                     throw err;
                 }
-            }
+            },
+            cors: true
         }
     });
 
