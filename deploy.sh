@@ -15,6 +15,7 @@ if [ -n "$1" ]; then
     docker-compose -f docker-compose.yml -f docker-compose.$1.yml down --remove-orphans || true
 
     # Remove current data and restore from the latest backup.
+    mkdir database/scripts
     export RESET_DATA=$(curl -s -H "Authorization: $CONFIGS_PASSWORD" $CONFIGS_URL/database/$1 | jq -r .RESET_DATA)
     if [ $RESET_DATA == "true" ]; then
         # Store config so we don't have to re-fetch
