@@ -15,7 +15,7 @@ const schema = {};
 
 schema.input = {
     title: Joi.string().max(200),
-    score_scale: Joi.number().integer().default(-1),
+    score_scale: Joi.number().integer(),
     event_id: customJoi.number().foreignKey(eventModel.tableName),
     match_type_id: customJoi.number().foreignKey(matchTypeModel.tableName),
     match_status_id: customJoi.number().foreignKey(matchStatusModel.tableName),
