@@ -15,8 +15,8 @@ const schemas = {
  * a route pre-handler to perform the actual checking.
  */
 const customJoi = Joi.extend((joi) => ({
-    base: joi.number(),
-    name: 'number',
+    base: schemas.id,
+    name: 'id',
     language: {
         foreignKey: 'there was an error'
     },
@@ -31,7 +31,7 @@ const customJoi = Joi.extend((joi) => ({
                 // Check that ID matches the ID schema
                 const result = Joi.validate(value, schemas.id);
                 if (result.error) {
-                    return this.createError('number.foreignKey', {}, state, options);
+                    return this.createError('id.foreignKey', {}, state, options);
                 }
 
                 
