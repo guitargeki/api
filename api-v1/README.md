@@ -2,7 +2,7 @@
 
 The Guitargeki V1 API uses Node.js running the hapi framework.
 
-All endpoints are secured using JWTs, which can be obtained using the appropriate Auth0 URL. There are separate Auth0 URLs for regular users (read-only access) and admins (read and write access).
+All POST and PATCH are secured using JWTs, which can be obtained using the appropriate Auth0 URL.
 
 Auto-generated Swagger documentation can be found at `/v1/docs`.
 
