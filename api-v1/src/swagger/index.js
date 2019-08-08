@@ -12,6 +12,7 @@ module.exports = {
     swaggerUIPath: `${basePath}/swaggerui/`,
     documentationPath: `${basePath}/docs`,
     grouping: 'tags',
+    tags: [],
 
     securityDefinitions: {
         token: {

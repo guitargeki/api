@@ -73,9 +73,10 @@ class Resource {
         this.handlers.create = async function (request, h) {
             // ID of the new resource
             const id = await model.create(request.payload);
+            const newRow = await model.getOne(id);
 
             // Set 'Location' header to the URL for the new resource
-            const response = h.response().code(201);
+            const response = h.response(newRow).code(201);
             response.header('Location', `${request.path}/${id}`);
             return response;
         };

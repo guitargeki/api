@@ -16,6 +16,16 @@ Follow the next few sections to start developing locally. You can view developme
  - [Database](./database/README.md)
  - [Server](./server/README.md)
 
+### Clone Repository
+
+First, clone the repository using:
+
+```
+git clone <insert repo> --depth 1 --no-single-branch
+```
+
+This will perform a shallow clone and will also include information about remote branches.
+
 ### Set Up Environment Variables
 
 You will need to provide environment variables that tell each container where to retrieve its config values. To do this, create an `.env` file in the current folder with the following text (replace with the appropriate values):
@@ -40,7 +50,7 @@ git clone --depth 1 <insert repo> scripts
 
 This will clone the repo into `database/scripts`. The database's Dockerfile will copy files in this folder into the database image.
 
-When the database container starts, it will execute the restore script if the database doesn't already contain data. If it does have existing data, you can remove it using `docker volume rm geki-data`.
+When the database container starts, it will execute the restore script if the database doesn't already contain data. If it does have existing data, you can remove it using `docker volume rm geki_geki-data`.
 
 If you receive a `bad interpreter: No such file or directory` error, make sure the init script uses LF line endings.
 

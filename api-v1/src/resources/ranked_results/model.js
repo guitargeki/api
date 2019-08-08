@@ -13,9 +13,9 @@ const participantModel = require('../participants').model;
 const tableName = 'ranked_results';
 const schema = {};
 schema.input = {
-    match_id: customJoi.number().foreignKey(matchModel.tableName),
-    winner_id: customJoi.number().foreignKey(participantModel.tableName),
-    loser_id: customJoi.number().foreignKey(participantModel.tableName),
+    match_id: customJoi.id().foreignKey(matchModel.tableName),
+    winner_id: customJoi.id().foreignKey(participantModel.tableName),
+    loser_id: customJoi.id().foreignKey(participantModel.tableName),
     datetime_submitted: Joi.date().iso()
 };
 schema.output = {

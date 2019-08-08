@@ -34,7 +34,8 @@ async function start() {
                     delete err.output.payload.validation;
                     throw err;
                 }
-            }
+            },
+            cors: true
         }
     });
 
@@ -135,11 +136,27 @@ async function start() {
     ]);
 
     // Serve routes and Swagger docs
+    const tags = new Map();
     routes.forEach(route => {
         // Add base path to each route
         route.path = `${swaggerOptions.basePath}${route.path}`;
         server.route(route);
+
+        // Store all tags so we can put it in the swagger file
+        if (route.options.tags) {
+            for (const tag of route.options.tags) {
+                tags.set(tag, true);
+            }
+        }
     });
+
+    for (const tag of tags.keys()) {
+        if (tag !== 'api') {
+            swaggerOptions.tags.push({
+                name: tag
+            });
+        }
+    }
 
     await server.register({ plugin: HapiSwagger, options: swaggerOptions });
 
