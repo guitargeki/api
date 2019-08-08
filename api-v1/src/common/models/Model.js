@@ -77,9 +77,10 @@ class Model {
      */
     getWhereSchema() {
         const schema = this.schema.output;
-        let columns = Object.keys(schema).toString();
-        columns = columns.replace(/,/g, '|');
-        const regex = `^(${columns}) *(ILIKE|LIKE|>=|<=|<>|!=|=|>|<) *(.+?) *(AND|NOT|OR)?$`;
+        const columns = Object.keys(schema);
+        const operators = ['ILIKE', 'LIKE', '>=', '<=', '<>', '!=', '=', '>', '<'];
+        const logicalOperators = ['AND', 'NOT', 'OR'];
+        const regex = `^(${columns.join('|')}) *(${operators.join('|')}) *(.+?) *(${logicalOperators.join('|')})?$`;
 
         // Extend Joi to add a custom validator
         const customJoi = Joi.extend((joi) => ({
@@ -110,11 +111,11 @@ class Model {
                         return this.createError('array.whereQueryCoerce', {}, state, options);
                     }
 
+                    // Default the logical operator to AND if not specified
+                    if (!matchResult[4]) matchResult[4] = logicalOperators[0];
+
                     // Don't add logical operator for the last condition
-                    let logicalOperator = '';
-                    if (i < value.length - 1) {
-                        logicalOperator = matchResult[4];
-                    }
+                    const logicalOperator = (i < value.length - 1) ? matchResult[4] : '';
 
                     conditions.push({
                         column: matchResult[1],
@@ -170,7 +171,7 @@ class Model {
             'Format each condition as: `column operator value`. Example: `id = 5`. ' +
             'Supported operators are **ILIKE**, **LIKE**, **>=**, **<=**, **<>**, **!=**, **=**, **>** and **<**. ' +
             'You can also use the logical operators **AND**, **NOT** and **OR** at the end of each condition ' +
-            'to combine conditions.';
+            'to combine conditions. Defaults to **AND** if not specified.';
         return customJoi.array().whereQuery().description(description);
     }
 
