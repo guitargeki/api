@@ -2,17 +2,19 @@
   "name": "guitargeki-api-v1",
   "version": "1.0.0",
   "description": "API server for guitargeki.com",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/index.js",
-    "start-dev": "npx nodemon ./src/index.js -e js,json,yaml --legacy-watch"
+    "build": "tsc",
+    "watch": "tsc-watch --onSuccess \"node ./build/index.js\" --onFailure \"echo Beep! Compilation Failed\"",
+    "start": "node ./build/index.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^5.15.3",
-    "nodemon": "^1.18.10"
+    "tsc-watch": "^2.4.0",
+    "typescript": "^3.5.3"
   },
   "dependencies": {
     "@hapi/boom": "^7.4.2",
