@@ -37,6 +37,7 @@ const recalculateAllElos = {
         return h.response().code(200);
     },
     options: {
+        description: 'Recalculate all Elos',
         auth: {
             strategy: auth.strategy,
             scope: auth.scopes.update
