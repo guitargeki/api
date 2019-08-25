@@ -62,12 +62,26 @@ async function start() {
         // Omitting this will cause errors when a user sends their token!
         complete: true,
 
-        key: jwksRsa.hapiJwt2KeyAsync({
-            cache: true,
-            rateLimit: true,
-            jwksRequestsPerMinute: 5,
-            jwksUri: config.vars.auth.JWKS_URI
-        }),
+        key: async function (decoded) {
+            // Manually handle any errors from jwks-rsa
+            try {
+                const secretProvider = jwksRsa.hapiJwt2Key({
+                    cache: true,
+                    rateLimit: true,
+                    jwksRequestsPerMinute: 5,
+                    jwksUri: config.vars.auth.JWKS_URI
+                });
+
+                return new Promise(function (resolve, reject) {
+                    const cb = function cb(err, key) {
+                        !key || err ? resolve( { isValid: false }) : resolve({ key: key });
+                    };
+                    secretProvider(decoded, cb);
+                });
+            } catch (error) {
+                return { isValid: false };
+            }
+        },
 
         validate: async function (decoded, request) {
             return {

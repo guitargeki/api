@@ -10,7 +10,7 @@ services:
       - APP_ENV=development
     volumes:
       - ./api-v1:/app
-    command: npm run start-dev
+    command: npm run watch
 
   database:
     environment:
