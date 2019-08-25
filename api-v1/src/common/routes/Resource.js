@@ -94,6 +94,7 @@ class Resource {
                 handler: this.handlers.getList,
                 options: {
                     tags: this.tags,
+                    description: 'Get list',
                     validate: {
                         query: {
                             limit: model.getLimitSchema(),
@@ -114,6 +115,7 @@ class Resource {
                 path: this.basePath,
                 handler: this.handlers.create,
                 options: {
+                    description: 'Create',
                     auth: {
                         strategy: auth.strategy,
                         scope: auth.scopes.create
@@ -133,6 +135,7 @@ class Resource {
                 path: this.basePath + '/{id}',
                 handler: this.handlers.getOne,
                 options: {
+                    description: 'Get by ID',
                     tags: this.tags,
                     validate: {
                         params: {
@@ -153,6 +156,7 @@ class Resource {
                 path: this.basePath + '/{id}',
                 handler: this.handlers.update,
                 options: {
+                    description: 'Update',
                     auth: {
                         strategy: auth.strategy,
                         scope: auth.scopes.update
