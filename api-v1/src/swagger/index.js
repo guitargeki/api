@@ -4,7 +4,7 @@ module.exports = {
     info: {
         title: 'Guitargeki API v1',
         version: '1.0.0',
-        description: 'Documentation has moved over to [https://docs.guitargeki.com](https://docs.guitargeki.com)'
+        description: 'Documentation has moved over to [https://docs.guitargeki.com](https://docs.guitargeki.com).'
     },
 
     basePath: basePath,

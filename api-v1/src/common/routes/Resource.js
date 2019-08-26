@@ -1,4 +1,5 @@
 const Boom = require('@hapi/boom');
+const Joi = require('joi');
 const codes = require('./http-codes');
 const auth = require('./auth');
 
@@ -105,7 +106,9 @@ class Resource {
                         }
                     },
                     response: {
-                        schema: model.getOutputArraySchema()
+                        status: {
+                            200: model.getOutputArraySchema()
+                        }
                     }
                 }
             },
@@ -123,6 +126,11 @@ class Resource {
                     tags: this.tags,
                     validate: {
                         payload: model.getRequiredSchema()
+                    },
+                    response: {
+                        status: {
+                            201: model.getOutputSchema()
+                        }
                     },
                     pre: [
                         this.pre.checkForeignKeysExist
@@ -143,7 +151,9 @@ class Resource {
                         }
                     },
                     response: {
-                        schema: model.getOutputSchema()
+                        status: {
+                            200: model.getOutputSchema()
+                        }
                     },
                     pre: [
                         this.pre.checkResourceExists
@@ -167,6 +177,11 @@ class Resource {
                             id: model.getIdSchema()
                         },
                         payload: model.schema.input
+                    },
+                    response: {
+                        status: {
+                            204: Joi.string().empty('')
+                        }
                     },
                     pre: [
                         this.pre.checkResourceExists,

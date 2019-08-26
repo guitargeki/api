@@ -1,5 +1,6 @@
 const path = require('path');
 const Boom = require('@hapi/boom');
+const Joi = require('joi');
 const auth = require('../../common/routes/auth');
 const Resource = require('../../common/routes/Resource');
 const model = require('./model');
@@ -42,7 +43,12 @@ const recalculateAllElos = {
             strategy: auth.strategy,
             scope: auth.scopes.update
         },
-        tags: resrc.tags
+        tags: resrc.tags,
+        response: {
+            status: {
+                204: Joi.string().empty('')
+            }
+        },
     }
 };
 
