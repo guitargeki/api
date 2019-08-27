@@ -79,7 +79,7 @@ class Model {
         const schema = this.schema.output;
         const columns = Object.keys(schema);
         const operators = ['ILIKE', 'LIKE', '>=', '<=', '<>', '!=', '=', '>', '<'];
-        const logicalOperators = ['AND', 'NOT', 'OR'];
+        const logicalOperators = ['AND', 'OR'];
         const regex = `^(${columns.join('|')}) *(${operators.join('|')}) *(.+?) *(${logicalOperators.join('|')})?$`;
 
         // Extend Joi to add a custom validator
