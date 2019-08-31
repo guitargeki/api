@@ -178,11 +178,6 @@ class Resource {
                         },
                         payload: model.schema.input
                     },
-                    response: {
-                        status: {
-                            204: Joi.string().empty('')
-                        }
-                    },
                     pre: [
                         this.pre.checkResourceExists,
                         this.pre.checkForeignKeysExist
