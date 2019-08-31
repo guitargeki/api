@@ -14,9 +14,9 @@ const tableName = 'submissions';
 const schema = {};
 
 schema.input = {
-    match_id: customJoi.id().foreignKey(matchModel.tableName),
-    participant_id: customJoi.id().foreignKey(participantModel.tableName),
-    series_id: customJoi.id().foreignKey(seriesModel.tableName),
+    match_id: customJoi.number().foreignKey(matchModel.tableName),
+    participant_id: customJoi.number().foreignKey(participantModel.tableName),
+    series_id: customJoi.number().foreignKey(seriesModel.tableName),
     title: Joi.string().max(200),
     description: Joi.string().max(2000).allow(''),
     submission_url: Joi.string().uri().max(300),

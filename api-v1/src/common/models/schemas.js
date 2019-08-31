@@ -16,7 +16,7 @@ const schemas = {
  */
 const customJoi = Joi.extend((joi) => ({
     base: schemas.id,
-    name: 'id',
+    name: 'number',
     language: {
         foreignKey: 'there was an error'
     },

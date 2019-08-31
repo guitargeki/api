@@ -13,8 +13,8 @@ const tableName = 'scored_results';
 const schema = {};
 
 schema.input = {
-    match_id: customJoi.id().foreignKey(matchModel.tableName),
-    participant_id: customJoi.id().foreignKey(participantModel.tableName),
+    match_id: customJoi.number().foreignKey(matchModel.tableName),
+    participant_id: customJoi.number().foreignKey(participantModel.tableName),
     score: Joi.number(),
     datetime_submitted: Joi.date().iso()
 };
